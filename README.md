@@ -54,5 +54,16 @@ core的时序由流水线寄存器控制
 时序逻辑即，每个车间按照时间安排完成自己的任务，更有序
 
 
-问题：
-ALUCtrl应该为几位，根据指令怎么分类
+8.ALUCtrl应该为几位，根据指令怎么分类
+由opcode分出类型
+每个类型由func3（大多），少数由func7决定出ALU操作
+ALU操作可分为ADD、SUB、NOTEQ、XOR、OR、AND
+SLT：Set Less Than 左小于右则置位
+SLTU：无符号比较
+SGE：反SLT
+SGEU
+SLL：Shift Left Logical 逻辑左移
+SRL：Shift Right Logical
+SRA：Shift Right Arithmatic
+JUMP
+
