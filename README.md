@@ -67,3 +67,7 @@ SRL：Shift Right Logical
 SRA：Shift Right Arithmatic
 JUMP
 
+9.如果寄存器组是读写时序逻辑，就会延迟
+如果寄存器组读是组合，写是时序，则不会延迟
+
+但是为什么通常写逻辑应该是时序逻辑？

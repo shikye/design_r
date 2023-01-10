@@ -6,7 +6,9 @@ module regs(
     input   wire            [4:0]   id_reg2_raddr_i,  
     //to id_stage
     output  wire            [31:0]  regs_reg1_rdata_o,
-    output  wire            [31:0]  regs_reg2_rdata_o
+    output  wire            [31:0]  regs_reg2_rdata_o,
+    //from wb_stage         
+    input   wire            [31:0]  wb_op_c_o
 );
 
     reg [31:0]  regs[0:31]; //先不初始化全为0试一试
