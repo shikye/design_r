@@ -10,6 +10,8 @@ module cu (
     input   wire            [6:0]   id_func7_i,
     //to id_ex_reg
     output  wire            [4:0]   cu_ALUctrl_o
+    output  wire                    cu_reg_we_o
+    
 );                                                         //CU应该是组合逻辑
 
 
@@ -24,10 +26,12 @@ wire [6:0]  func7   = id_func7_i;
         case(op_code)
             `Itype_J:begin
                 cu_ALUctrl_o = `ADD;
+                cu_reg_we_o = 1'b1;
             end
 
             `Itype_L:begin
-                cu_ALUctrl_o = `NO_OP;
+                cu_ALUctrl_o = `ADD;
+                cu_reg_we_o = 1'b1;
             end
 
             `Itype_A:begin
@@ -46,8 +50,35 @@ wire [6:0]  func7   = id_func7_i;
                             defualt:cu_ALUctrl_o = `NO_OP;
                         endcase
                     end
-                    defualt:    cu_ALUctrl_o = `NO_OP;
+                    default:    cu_ALUctrl_o = `NO_OP;
                 endcase
+
+                cu_reg_we_o = 1'b1;
+            end
+
+            `Itype_F:begin
+                cu_ALUctrl_o = `NO_OP;
+                cu_reg_we_o = 1'b0;
+            end
+
+            `Itype_C:begin
+                cu_ALUctrl_o = `NO_OP;
+                cu_reg_we_o = 1'b0;
+            end
+
+            `Utype_L:begin
+                cu_ALUctrl_o = `ADD;
+                cu_reg_we_o = 1'b1;
+            end
+
+            `Utype_A:begin
+                cu_ALUctrl_o = `ADD;
+                cu_reg_we_o = 1'b1;
+            end
+
+            `Jtype_J:begin
+                cu_ALUctrl_o = `ADD;
+                cu_reg_we_o = 1'b1;
             end
 
             `Btype:begin
@@ -58,8 +89,15 @@ wire [6:0]  func7   = id_func7_i;
                     `BGE:       cu_ALUctrl_o = `SGE;
                     `BLTU:      cu_ALUctrl_o = `SLTU;
                     `BGEU:      cu_ALUctrl_o = `SGEU;
-                    defualt:    cu_ALUctrl_o = `NO_OP;
+                    default:    cu_ALUctrl_o = `NO_OP;
                 endcase
+
+                cu_reg_we_o = 1'b0;
+            end
+
+            `Stype:begin
+                cu_ALUctrl_o = `ADD;
+                cu_reg_we_o = 1'b0;
             end
 
             `Rtype:begin
@@ -68,7 +106,7 @@ wire [6:0]  func7   = id_func7_i;
                         case(func7)
                             `ADD:  cu_ALUctrl_o = `ADD;
                             `SUB:  cu_ALUctrl_o = `SUB;
-                            defualt:cu_ALUctrl_o = `NO_OP;
+                            default:cu_ALUctrl_o = `NO_OP;
                         endcase
                     end
 
@@ -80,17 +118,22 @@ wire [6:0]  func7   = id_func7_i;
                         case(func7)
                             `SRLI:  cu_ALUctrl_o = `SRL;
                             `SRAI:  cu_ALUctrl_o = `SRA;
-                            defualt:cu_ALUctrl_o = `NO_OP;
+                            default:cu_ALUctrl_o = `NO_OP;
                         endcase
                     end
 
-                    `OR:      cu_ALUctrl_o = `OR;
+                    `OR:        cu_ALUctrl_o = `OR;
                     `AND:       cu_ALUctrl_o = `AND;
-                    defualt:    cu_ALUctrl_o = `NO_OP;
+                    default:    cu_ALUctrl_o = `NO_OP;
                 endcase
+
+                cu_reg_we_o = 1'b1;
             end
 
-
+        default:begin
+            cu_ALUctrl_o = `NO_OP;
+            cu_reg_we_o  = 1'b0;
+        end
         endcase
     end
 

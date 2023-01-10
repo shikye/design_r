@@ -79,5 +79,3 @@ JUMP
 
 10.写寄存器的指令包含（RV32I）
 Itype_J、Itype_L、Itype_A、Utype_L、Utype_A、Jtype_J、Rtype
-
-

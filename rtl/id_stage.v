@@ -15,7 +15,8 @@ module id_stage (
     output  wire            [31:0]  id_op_b_o,
     output  wire            [4:0]   id_reg_waddr_o,
 
-    output  wire            [4:0]   id_ALUctrl_o
+    output  wire            [4:0]   id_ALUctrl_o,
+    output  wire                    id_reg_we_o
 );
 
     wire [6:0]  opcode = if_id_reg_inst_i[6:0];
@@ -51,7 +52,8 @@ module id_stage (
         .id_opcode_i(opcode),
         .id_func3_i(func3),
         .id_func7_i(func7),
-        .cu_ALUctrl_o(id_ALUctrl_o)
+        .cu_ALUctrl_o(id_ALUctrl_o),
+        .cu_reg_we_o(id_reg_we_o)
     );
 
 
