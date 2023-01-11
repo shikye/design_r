@@ -31,9 +31,10 @@ module ex_stage (
             `OR:    ex_op_c_o = op_a | op_b;
             `SLL:   ex_op_c_o = op_a << op_b[4:0];
             `SRL:   ex_op_c_o = op_a >> op_b[4:0];
-            `SRA:   ex_op_c_o = op_a >>> op_b[4:0];            
+            `SRA:   ex_op_c_o = op_a >>> op_b[4:0];   
+            `AND:   ex_op_c_o = op_a & op_b;         
             `NO_OP: ex_op_c_o = 32'h0;
-            defualt:ex_op_c_o = 32'h0;
+            default:ex_op_c_o = 32'h0;
         endcase
     end
 

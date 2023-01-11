@@ -1,6 +1,6 @@
 module ex_mem_reg (
-    input   wire                    clk;
-    input   wire                    rst_n;
+    input   wire                    clk,
+    input   wire                    rst_n,
     //from ex
     input   wire            [31:0]  ex_op_c_i,
     input   wire            [4:0]   ex_reg_waddr_i,

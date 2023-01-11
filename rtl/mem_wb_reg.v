@@ -1,6 +1,6 @@
 module mem_wb_reg (
-    input   wire                    clk;
-    input   wire                    rst_n;
+    input   wire                    clk,
+    input   wire                    rst_n,
     //from mem
     input   wire            [31:0]  mem_op_c_i,
     input   wire            [4:0]   mem_reg_waddr_i,

@@ -1,6 +1,6 @@
 module wb_stage (
-    input   wire                    clk;
-    output  wire                    rst_n;
+    input   wire                    clk,
+    output  wire                    rst_n,
     //from mem_wb_reg
     input   wire            [31:0]  mem_wb_reg_op_c_i,
     input   wire            [4:0]   mem_wb_reg_reg_waddr_i,

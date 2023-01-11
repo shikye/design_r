@@ -2,7 +2,7 @@ module id_ex_reg (
     input   wire                    clk,
     input   wire                    rst_n,
     //from cu
-    input   wire            [4:0]   cu_ALUCtrl_i,
+    input   wire            [4:0]   cu_ALUctrl_i,
     //from id
     input   wire            [31:0]  id_op_a_i,
     input   wire            [31:0]  id_op_b_i,

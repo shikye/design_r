@@ -9,7 +9,7 @@ module id_stage (
     input   wire            [31:0]  regs_reg2_rdata_i,
     //to regs
     output  wire            [4:0]   id_reg1_raddr_o,
-    output  wire            [4:0]   id_reg2_raddr_o
+    output  wire            [4:0]   id_reg2_raddr_o,
     //to id_ex_reg
     output  wire            [31:0]  id_op_a_o,
     output  wire            [31:0]  id_op_b_o,

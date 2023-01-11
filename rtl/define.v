@@ -35,64 +35,65 @@
 `define SLL     5'd13
 `define SRL     5'd14
 `define SRA     5'd15
+`define AND     5'd16
 `define NO_OP   5'd31
 //-------------------------------------------------
 
 //RV32I/Itype_J - ALU_operation according to func3 
-`define JALR    3'b000
+`define I_JALR    3'b000
 
 //RV32I/Itype_L - ALU_operation according to func3 
-`define LB      3'b000  //Load Byte 读取一个字节，经符号位扩展后写入寄存器
-`define LH      3'b001
-`define LW      3'b010
-`define LBU     3'b100  //Load Byte， Unsigned 读取一个字节，经零扩展后写入寄存器
-`define LHU     3'b101
+`define I_LB      3'b000  //Load Byte 读取�?个字节，经符号位扩展后写入寄存器
+`define I_LH      3'b001
+`define I_LW      3'b010
+`define I_LBU     3'b100  //Load Byte�? Unsigned 读取�?个字节，经零扩展后写入寄存器
+`define I_LHU     3'b101
 
 //RV32I/Itype_A - ALU_operation according to func3 
-`define ADDI    3'b000
-`define SLTI    3'b010
-`define SLTIU   3'b011
-`define XORI    3'b100
-`define ORI     3'b110
-`define ANDI    3'b111
-`define SLLI    3'b001
-`define SRLI_SRAI    3'b101
+`define I_ADDI    3'b000
+`define I_SLTI    3'b010
+`define I_SLTIU   3'b011
+`define I_XORI    3'b100
+`define I_ORI     3'b110
+`define I_ANDI    3'b111
+`define I_SLLI    3'b001
+`define I_SRLI_SRAI    3'b101
 
 //-----according to func7
-`define SRLI    7'b0000000
-`define SRAI    7'b0100000 
+`define I_SRLI    7'b0000000
+`define I_SRAI    7'b0100000 
 
 //-------------------------------------------------
 
 //RV32I/Btype - ALU_operation according to func3 
-`define BEQ     3'b000
-`define BNE     3'b001
-`define BLT     3'b100
-`define BGE     3'b101
-`define BLTU    3'b110
-`define BGEU    3'b111
+`define B_BEQ     3'b000
+`define B_BNE     3'b001
+`define B_BLT     3'b100
+`define B_BGE     3'b101
+`define B_BLTU    3'b110
+`define B_BGEU    3'b111
 
 //-------------------------------------------------
 
 //RV32I/Stype - ALU_operation according to func3 
-`define SB      3'b000  
-`define SH      3'b001
-`define SW      3'b010
+`define S_SB      3'b000  
+`define S_SH      3'b001
+`define S_SW      3'b010
 
 //-------------------------------------------------
 
 //RV32I/Rtype - ALU_operation according to func3 
-`define ADD_SUB     3'b000
-`define SLL     3'b001
-`define SLT     3'b010
-`define SLTU    3'b011
-`define XOR     3'b100
-`define SRL_SRA     3'b101
-`define OR      3'b110
-`define AND     3'b111
+`define R_ADD_SUB     3'b000
+`define R_SLL     3'b001
+`define R_SLT     3'b010
+`define R_SLTU    3'b011
+`define R_XOR     3'b100
+`define R_SRL_SRA     3'b101
+`define R_OR      3'b110
+`define R_AND     3'b111
 
 //-----according to func7
-`define ADD    7'b0000000
-`define SUB    7'b0100000
-`define SRL    7'b0000000
-`define SRA    7'b0100000
+`define R_ADD    7'b0000000
+`define R_SUB    7'b0100000
+`define R_SRL    7'b0000000
+`define R_SRA    7'b0100000
