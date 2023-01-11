@@ -16,7 +16,9 @@ module id_stage (
     output  wire            [4:0]   id_reg_waddr_o,
 
     output  wire            [4:0]   id_ALUctrl_o,
-    output  wire                    id_reg_we_o
+    output  wire                    id_reg_we_o,
+    //to eximm
+    output  wire            [31:0]  id_inst_o
 );
 
     wire [6:0]  opcode = if_id_reg_inst_i[6:0];
@@ -44,6 +46,8 @@ module id_stage (
 
     assign id_op_a_o = regs_reg1_rdata_i;
     assign id_op_b_o = regs_reg2_rdata_i;
+
+    assign id_inst_o = if_id_reg_inst_i;
 
 
     cu ins_cu(

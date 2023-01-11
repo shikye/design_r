@@ -1,6 +1,8 @@
-src = $(wildcard ~/design_r/rtl/*.v)
+src = $(wildcard ../rtl/*.v)
+rtl_dir = ../rtl
 
-dir = ~/design_r/rtl
+compile_tb:
+	iverilog -s tb -o out.vvp -I $(rtl_dir)  $(src) 
 
-out.vvp:
-	iverilog -s soc -o out.vvp -I $(dir) -L $(dir) $(src) 
+
+.PHONY: compile_tb

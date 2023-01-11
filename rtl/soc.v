@@ -10,7 +10,7 @@ module soc(
     //rv32core
     wire    [31:0]  rv32core_pc_o;
     
-    rom rom_inst(
+    rom rom_ins(
         .clk(clk),
         .rst_n(rst_n),
         .rv32core_pc_i(rv32core_pc_o),

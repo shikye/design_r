@@ -85,7 +85,7 @@ module rv32core(
         .id_reg_we_o(id_reg_we_o)
     );
 
-    regs regs_inst(
+    regs regs_ins(
         .clk(clk),
         .rst_n(rst_n),
         .id_reg1_raddr_i(id_reg1_raddr_o),
