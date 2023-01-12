@@ -10,7 +10,10 @@ module cu (
     output  reg             [4:0]   cu_ALUctrl_o,
     output  reg                     cu_reg_we_o,
     //to id
-    output  reg                     cu_op_b_sel_o
+    output  reg                     cu_op_b_sel_o,
+    //to dhnf
+    output  reg                     cu_reg1_RE_o,
+    output  reg                     cu_reg2_RE_o
 );                                                      
 
 
@@ -153,6 +156,29 @@ wire [6:0]  func7   = id_func7_i;
     end
 
 
+//cu_reg1_RE_o cu_reg2_RE_o 1-RE, 0-NRE
+
+    always @(*) begin
+        case(op_code)
+
+            `Itype_J,`Itype_L,`Itype_A,`Btype,`Stype,`Rtype:begin
+                cu_reg1_RE_o = 1'b1;
+            end
+            
+            default:cu_reg1_RE_o = 1'b0;
+        endcase
+    end
+
+    always @(*) begin
+        case(op_code)
+
+            `Btype,`Stype,`Rtype:begin
+                cu_reg2_RE_o = 1'b1;
+            end
+            
+            default:cu_reg2_RE_o = 1'b0;
+        endcase
+    end
 
 
 

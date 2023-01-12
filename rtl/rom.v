@@ -3,7 +3,7 @@ module rom (
     input   wire                    rst_n,
     //from rv32core
     input   wire            [31:0]  rv32core_pc_i,
-    //to if_id_reg
+    //to id
     output  reg             [31:0]  rom_inst_o
 );
 

@@ -11,6 +11,8 @@ module ex_mem_reg (
     output  reg                     ex_mem_reg_reg_we_o
 );
 
+    
+
     always @(posedge clk or negedge rst_n)begin
         if(rst_n == 1'b0)begin
             ex_mem_reg_op_c_o <= 32'h0;

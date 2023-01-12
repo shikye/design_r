@@ -9,8 +9,8 @@ module ex_stage (
     input   wire                    id_ex_reg_reg_we_i,
     //to ex_mem_reg
     output  reg             [31:0]  ex_op_c_o,
-    output  reg             [4:0]   ex_reg_waddr_o,
-    output  reg                     ex_reg_we_o
+    output  wire            [4:0]   ex_reg_waddr_o,
+    output  wire                    ex_reg_we_o
 );
 
     wire [31:0] op_a = id_ex_reg_op_a_i;
@@ -38,23 +38,26 @@ module ex_stage (
         endcase
     end
 
+    assign ex_reg_waddr_o = id_ex_reg_reg_waddr_i;
 
-    always @(posedge clk or negedge rst_n)begin
-        if(rst_n == 1'b0)begin
-            ex_reg_waddr_o <= 5'h0;
-        end
-        else begin
-            ex_reg_waddr_o <= id_ex_reg_reg_waddr_i;
-        end
-    end
+    assign ex_reg_we_o = id_ex_reg_reg_we_i;
 
-    always @(posedge clk or negedge rst_n)begin
-        if(rst_n == 1'b0)begin
-            ex_reg_we_o <= 1'b0;
-        end
-        else begin
-            ex_reg_we_o <= id_ex_reg_reg_we_i;
-        end
-    end
+    // always @(posedge clk or negedge rst_n)begin
+    //     if(rst_n == 1'b0)begin
+    //         ex_reg_waddr_o <= 5'h0;
+    //     end
+    //     else begin
+    //         ex_reg_waddr_o <= id_ex_reg_reg_waddr_i;
+    //     end
+    // end
+
+    // always @(posedge clk or negedge rst_n)begin
+    //     if(rst_n == 1'b0)begin
+    //         ex_reg_we_o <= 1'b0;
+    //     end
+    //     else begin
+    //         ex_reg_we_o <= id_ex_reg_reg_we_i;
+    //     end
+    // end
 
 endmodule
