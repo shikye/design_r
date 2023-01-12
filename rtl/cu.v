@@ -8,8 +8,9 @@ module cu (
     input   wire            [6:0]   id_func7_i,
     //to id_ex_reg
     output  reg             [4:0]   cu_ALUctrl_o,
-    output  reg                     cu_reg_we_o
-    
+    output  reg                     cu_reg_we_o,
+    //to id
+    output  reg                     cu_op_b_sel_o
 );                                                      
 
 
@@ -134,5 +135,27 @@ wire [6:0]  func7   = id_func7_i;
         end
         endcase
     end
+
+
+
+
+//op_b_sel 0-reg, 1-imm
+
+    always @(*) begin
+        case(op_code)
+            
+            `Itype_J,`Itype_L,`Itype_A,`Utype_A,`Utype_L,`Jtype_J,`Btype,`Stype:begin
+                cu_op_b_sel_o = 1'b1;
+            end
+            
+            default:cu_op_b_sel_o = 1'b0;
+        endcase
+    end
+
+
+
+
+
+
 
 endmodule

@@ -16,9 +16,7 @@ module id_stage (
     output  wire            [4:0]   id_reg_waddr_o,
 
     output  wire            [4:0]   id_ALUctrl_o,
-    output  wire                    id_reg_we_o,
-    //to eximm
-    output  wire            [31:0]  id_inst_o
+    output  wire                    id_reg_we_o
 );
 
     wire [6:0]  opcode = if_id_reg_inst_i[6:0];
@@ -27,6 +25,16 @@ module id_stage (
     wire [4:0]  rs1    = if_id_reg_inst_i[19:15];
     wire [4:0]  rs2    = if_id_reg_inst_i[24:20];
     wire [6:0]  func7  = if_id_reg_inst_i[31:25];
+
+    //to eximm
+    wire [31:0] id_inst_o = if_id_reg_inst_i;
+    //from eximm
+    wire [31:0] eximm_eximm_i;
+
+    //from cu
+    wire        cu_op_b_sel_o;
+
+
 
     //I-type
     wire [11:0] imm_itype = if_id_reg_inst_i[31:20];
@@ -45,19 +53,25 @@ module id_stage (
 
 
     assign id_op_a_o = regs_reg1_rdata_i;
-    assign id_op_b_o = regs_reg2_rdata_i;
+    assign id_op_b_o = cu_op_b_sel_o ? eximm_eximm_i : regs_reg2_rdata_i;
 
-    assign id_inst_o = if_id_reg_inst_i;
+    
 
 
-    cu ins_cu(
+    cu cu_ins(
         .clk(clk),
         .rst_n(rst_n),
         .id_opcode_i(opcode),
         .id_func3_i(func3),
         .id_func7_i(func7),
         .cu_ALUctrl_o(id_ALUctrl_o),
-        .cu_reg_we_o(id_reg_we_o)
+        .cu_reg_we_o(id_reg_we_o),
+        .cu_op_b_sel_o(cu_op_b_sel_o)
+    );
+
+    eximm eximm_ins(
+        .id_inst_i(id_inst_o),
+        .eximm_eximm_o(eximm_eximm_i)
     );
 
 
