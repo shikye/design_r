@@ -28,26 +28,26 @@ module Data_Hazard_N_Forward(
 
 
     //1-hazard 0-nohazard
-    wire    reg1_id_ex_hazard = cu_reg1_RE_i && ex_reg_we_i &&    
+    wire    reg1_id_ex_hazard = (id_reg1_raddr_i != 5'b0) && cu_reg1_RE_i && ex_reg_we_i &&    
         (id_reg1_raddr_i == ex_reg_waddr_i);
 
 
-    wire    reg2_id_ex_hazard = cu_reg2_RE_i && ex_reg_we_i && 
+    wire    reg2_id_ex_hazard = (id_reg2_raddr_i != 5'b0) && cu_reg2_RE_i && ex_reg_we_i && 
         (id_reg2_raddr_i == ex_reg_waddr_i);
 
     
-    wire    reg1_id_mem_hazard = cu_reg1_RE_i && mem_reg_we_i &&    
+    wire    reg1_id_mem_hazard = (id_reg1_raddr_i != 5'b0) && cu_reg1_RE_i && mem_reg_we_i &&    
         (id_reg1_raddr_i == mem_reg_waddr_i);
 
 
-    wire    reg2_id_mem_hazard = cu_reg2_RE_i && mem_reg_we_i && 
+    wire    reg2_id_mem_hazard = (id_reg2_raddr_i != 5'b0) && cu_reg2_RE_i && mem_reg_we_i && 
         (id_reg2_raddr_i == mem_reg_waddr_i);
 
-    wire    reg1_id_wb_hazard = cu_reg1_RE_i && wb_reg_we_i &&    
+    wire    reg1_id_wb_hazard = (id_reg1_raddr_i != 5'b0) && cu_reg1_RE_i && wb_reg_we_i &&    
         (id_reg1_raddr_i == wb_reg_waddr_i);
 
 
-    wire    reg2_id_wb_hazard = cu_reg2_RE_i && wb_reg_we_i && 
+    wire    reg2_id_wb_hazard = (id_reg2_raddr_i != 5'b0) && cu_reg2_RE_i && wb_reg_we_i && 
         (id_reg2_raddr_i == wb_reg_waddr_i);
 
     

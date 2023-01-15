@@ -7,15 +7,23 @@ module ex_stage (
     input   wire            [4:0]   id_ex_reg_ALUctrl_i,
     input   wire            [4:0]   id_ex_reg_reg_waddr_i,
     input   wire                    id_ex_reg_reg_we_i,
+
+    input   wire                    id_ex_reg_btype_i,
+    input   wire            [31:0]  id_ex_reg_next_pc_i,
     //to ex_mem_reg
     output  reg             [31:0]  ex_op_c_o,
     output  wire            [4:0]   ex_reg_waddr_o,
-    output  wire                    ex_reg_we_o
+    output  wire                    ex_reg_we_o,
+    //to fnb
+    output  wire                    ex_branch_o,
+    //to pc
+    output  wire            [31:0]  ex_next_pc_o,
+    //to id
+    output  wire                    ex_ins_flush_o
 );
 
     wire [31:0] op_a = id_ex_reg_op_a_i;
     wire [31:0] op_b = id_ex_reg_op_b_i;
-
 
     always @(*) begin
         case(id_ex_reg_ALUctrl_i)
@@ -42,22 +50,12 @@ module ex_stage (
 
     assign ex_reg_we_o = id_ex_reg_reg_we_i;
 
-    // always @(posedge clk or negedge rst_n)begin
-    //     if(rst_n == 1'b0)begin
-    //         ex_reg_waddr_o <= 5'h0;
-    //     end
-    //     else begin
-    //         ex_reg_waddr_o <= id_ex_reg_reg_waddr_i;
-    //     end
-    // end
+    assign ex_branch_o = ex_op_c_o && id_ex_reg_btype_i; 
+    //when op == 1 && is a branch inst
+    assign ex_ins_flush_o = ex_op_c_o && id_ex_reg_btype_i; 
 
-    // always @(posedge clk or negedge rst_n)begin
-    //     if(rst_n == 1'b0)begin
-    //         ex_reg_we_o <= 1'b0;
-    //     end
-    //     else begin
-    //         ex_reg_we_o <= id_ex_reg_reg_we_i;
-    //     end
-    // end
+    assign ex_next_pc_o = id_ex_reg_next_pc_i;
+    
+    
 
 endmodule

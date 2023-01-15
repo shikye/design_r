@@ -24,6 +24,8 @@ module rv32core(
     wire    [4:0]   id_reg_waddr_o;
     wire    [4:0]   id_ALUctrl_o;
     wire            id_reg_we_o;
+    wire            id_btype_o;
+    wire    [31:0]  id_next_pc_o;
     wire            id_reg1_RE_o;
     wire            id_reg2_RE_o;
     //id_ex_reg
@@ -32,10 +34,15 @@ module rv32core(
     wire    [4:0]   id_ex_reg_ALUctrl_o;
     wire    [4:0]   id_ex_reg_reg_waddr_o;
     wire            id_ex_reg_reg_we_o;
+    wire            id_ex_reg_btype_o;
+    wire    [31:0]  id_ex_reg_next_pc_o;
     //ex
     wire    [31:0]  ex_op_c_o;
     wire    [4:0]   ex_reg_waddr_o;
     wire            ex_reg_we_o;
+    wire            ex_branch_o;
+    wire    [31:0]  ex_next_pc_o;
+    wire            ex_ins_flush_o;
     //ex_mem_reg
     wire    [31:0]  ex_mem_reg_op_c_o;
     wire    [4:0]   ex_mem_reg_reg_waddr_o;
@@ -57,20 +64,26 @@ module rv32core(
     wire            dhnf_harzard_sel2_o;
     wire    [31:0]  dhnf_forward_data1_o;
     wire    [31:0]  dhnf_forward_data2_o;
+    //fnb
+    wire            fnb_flush_o;
+    wire            fnb_jump_o;
 
 
 
     if_stage if_stage_ins(
         .clk(clk),
         .rst_n(rst_n),
-        .if_pc_o(rv32core_pc_o)
+        .if_pc_o(rv32core_pc_o),
+        .fnb_jump_i(fnb_jump_o),
+        .ex_next_pc_i(ex_next_pc_o)
     );
 
     if_id_reg if_id_reg_ins(
         .clk(clk),
         .rst_n(rst_n),
         .if_pc_i(rv32core_pc_o),
-        .if_id_reg_pc_o(if_id_reg_pc_o)
+        .if_id_reg_pc_o(if_id_reg_pc_o),
+        .fnb_flush_i(fnb_flush_o)
     );
 
     id_stage id_stage_ins(
@@ -86,13 +99,16 @@ module rv32core(
         .id_reg_waddr_o(id_reg_waddr_o),
         .id_ALUctrl_o(id_ALUctrl_o),
         .id_reg_we_o(id_reg_we_o),
+        .id_btype_o(id_btype_o),
+        .id_next_pc_o(id_next_pc_o),
         .dhnf_harzard_sel1_i(dhnf_harzard_sel1_o),
         .dhnf_harzard_sel2_i(dhnf_harzard_sel2_o),
         .dhnf_forward_data1_i(dhnf_forward_data1_o),
         .dhnf_forward_data2_i(dhnf_forward_data2_o),
         .id_reg1_RE_o(id_reg1_RE_o),
         .id_reg2_RE_o(id_reg2_RE_o),
-        .rom_inst_i(rom_inst_i)
+        .rom_inst_i(rom_inst_i),
+        .ex_ins_flush_i(ex_ins_flush_o)
     );
 
     regs regs_ins(
@@ -115,11 +131,16 @@ module rv32core(
         .id_op_b_i(id_op_b_o),
         .id_reg_waddr_i(id_reg_waddr_o),
         .id_reg_we_i(id_reg_we_o),
+        .id_btype_i(id_btype_o),
+        .id_next_pc_i(id_next_pc_o),
         .id_ex_reg_op_a_o(id_ex_reg_op_a_o),
         .id_ex_reg_op_b_o(id_ex_reg_op_b_o),
         .id_ex_reg_ALUctrl_o(id_ex_reg_ALUctrl_o),
         .id_ex_reg_reg_waddr_o(id_ex_reg_reg_waddr_o),
-        .id_ex_reg_reg_we_o(id_ex_reg_reg_we_o)
+        .id_ex_reg_reg_we_o(id_ex_reg_reg_we_o),
+        .id_ex_reg_btype_o(id_ex_reg_btype_o),
+        .id_ex_reg_next_pc_o(id_ex_reg_next_pc_o),
+        .fnb_flush_i(fnb_flush_o)
     );
 
     ex_stage ex_stage_ins(
@@ -130,9 +151,14 @@ module rv32core(
         .id_ex_reg_ALUctrl_i(id_ex_reg_ALUctrl_o),
         .id_ex_reg_reg_waddr_i(id_ex_reg_reg_waddr_o),
         .id_ex_reg_reg_we_i(id_ex_reg_reg_we_o),
+        .id_ex_reg_btype_i(id_ex_reg_btype_o),
+        .id_ex_reg_next_pc_i(id_ex_reg_next_pc_o),
         .ex_op_c_o(ex_op_c_o),
         .ex_reg_waddr_o(ex_reg_waddr_o),
-        .ex_reg_we_o(ex_reg_we_o)
+        .ex_reg_we_o(ex_reg_we_o),
+        .ex_branch_o(ex_branch_o),
+        .ex_next_pc_o(ex_next_pc_o),
+        .ex_ins_flush_o(ex_ins_flush_o)
     );
 
     ex_mem_reg ex_mem_reg_ins(
@@ -201,6 +227,12 @@ module rv32core(
         .dhnf_harzard_sel2_o(dhnf_harzard_sel2_o),
         .dhnf_forward_data1_o(dhnf_forward_data1_o),
         .dhnf_forward_data2_o(dhnf_forward_data2_o)
+    );
+
+    Flush_N_Branch fnb_ins(
+        .ex_branch_i(ex_branch_o),
+        .fnb_flush_o(fnb_flush_o),
+        .fnb_jump_o(fnb_jump_o)
     );
 
 endmodule

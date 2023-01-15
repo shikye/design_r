@@ -1,3 +1,4 @@
+`include "define.v"
 module id_stage (
     input   wire                    clk,
     input   wire                    rst_n,
@@ -16,6 +17,9 @@ module id_stage (
 
     output  wire            [4:0]   id_ALUctrl_o,
     output  wire                    id_reg_we_o,
+
+    output  wire                    id_btype_o,
+    output  wire            [31:0]  id_next_pc_o,
     //from dhnf
     input   wire                    dhnf_harzard_sel1_i,
     input   wire                    dhnf_harzard_sel2_i,
@@ -25,35 +29,48 @@ module id_stage (
     output  wire                    id_reg1_RE_o,
     output  wire                    id_reg2_RE_o,
     //from rom
-    input   wire            [31:0]  rom_inst_i
+    input   wire            [31:0]  rom_inst_i,
+    //from ex
+    input   wire                    ex_ins_flush_i
 );
 
-    wire [6:0]  opcode = rom_inst_i[6:0];
-    wire [4:0]  rd     = rom_inst_i[11:7];
-    wire [2:0]  func3  = rom_inst_i[14:12];
-    wire [4:0]  rs1    = rom_inst_i[19:15];
-    wire [4:0]  rs2    = rom_inst_i[24:20];
-    wire [6:0]  func7  = rom_inst_i[31:25];
+
+    wire [31:0] inst = delay_flush ? 32'h0 : rom_inst_i;
+
+    reg delay_flush;
+
+    always @(posedge clk or negedge rst_n) begin
+        if(rst_n == 1'b0)
+            delay_flush <= 1'b0;
+        else if((ex_ins_flush_i == 1'b1) || (j_jump == 1'b1))
+            delay_flush <= 1'b1;
+        else
+            delay_flush <= 1'b0;
+    end
+
+    
+
+    wire        j_jump = (opcode == `Jtype_J) ? 1'b1 : 1'b0;
+
+
+    wire [6:0]  opcode = inst[6:0];
+    wire [4:0]  rd     = inst[11:7];
+    wire [2:0]  func3  = inst[14:12];
+    wire [4:0]  rs1    = inst[19:15];
+    wire [4:0]  rs2    = inst[24:20];
+    wire [6:0]  func7  = inst[31:25];
 
     //to eximm
-    wire [31:0] id_inst_o = rom_inst_i;
+    wire [31:0] id_inst_o = inst;
     //from eximm
     wire [31:0] eximm_eximm_i;
 
     //from cu
     wire        cu_op_b_sel_o;
 
-
-
-    //I-type
-    wire [11:0] imm_itype = rom_inst_i[31:20];
-
-    //S-type
-    wire [11:0] imm_stype = {rom_inst_i[31:25],rom_inst_i[11:7]};
-
-    //U-type
-    wire [19:0] imm_utype = rom_inst_i[31:12];
-
+    
+    assign id_btype_o = (opcode == `Btype) ? 1'b1 : 1'b0;
+    assign id_next_pc_o = if_id_reg_pc_i + eximm_eximm_i;  //only btype
 
 
     assign id_reg1_raddr_o = rs1;
