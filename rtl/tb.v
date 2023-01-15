@@ -14,7 +14,7 @@ module tb;
     end
 
     initial begin
-        $readmemb("../sim/inst",tb.soc_ins.rom_ins.rom_mem);
+        $readmemh("../sim/inst",tb.soc_ins.rom_ins.rom_mem);
     end
 
 
@@ -24,10 +24,11 @@ module tb;
     end
 
 
-    always @(posedge clk) begin
-        $display("x27 is %d", tb.soc_ins.rv32core_ins.regs_ins.regs[27]);
-        $display("x28 is %d", tb.soc_ins.rv32core_ins.regs_ins.regs[28]);
-        $display("x29 is %d", tb.soc_ins.rv32core_ins.regs_ins.regs[29]);
+    initial begin
+        wait(tb.soc_ins.rv32core_ins.regs_ins.regs[26] == 32'd1) begin
+            $display("PASS");
+            $finish;
+        end
     end
 
     soc soc_ins(
