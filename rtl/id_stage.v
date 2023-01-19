@@ -59,6 +59,7 @@ module id_stage (
     wire [4:0]  rs1    = inst[19:15];
     wire [4:0]  rs2    = inst[24:20];
     wire [6:0]  func7  = inst[31:25];
+    wire [5:0]  shamt  = inst[25:20];
 
     //to eximm
     wire [31:0] id_inst_o = inst;
@@ -95,6 +96,7 @@ module id_stage (
                         rd1_after_hazard;
 
     assign id_op_b_o = (opcode == `Jtype_J || opcode == `Itype_J) ? 32'd4 :
+                        (opcode == `Itype_A && (func3 == `I_SLLI || func3 == `I_SRLI_SRAI) ) ? shamt :
                         cu_op_b_sel_o ? eximm_eximm_i :
                         rd2_after_hazard; 
 

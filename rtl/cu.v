@@ -40,7 +40,7 @@ wire [6:0]  func7   = id_func7_i;
                 case(func3)
                     `I_ADDI:      cu_ALUctrl_o = `ADD;
                     `I_SLTI:      cu_ALUctrl_o = `SLT;
-                    `I_SLTIU:     cu_ALUctrl_o = `SLT;
+                    `I_SLTIU:     cu_ALUctrl_o = `SLTU;
                     `I_XORI:      cu_ALUctrl_o = `XOR;
                     `I_ORI:       cu_ALUctrl_o = `OR;
                     `I_ANDI:      cu_ALUctrl_o = `AND;
@@ -114,7 +114,7 @@ wire [6:0]  func7   = id_func7_i;
 
                     `R_SLL:      cu_ALUctrl_o = `SLL;
                     `R_SLT:     cu_ALUctrl_o = `SLT;
-                    `R_SLTU:      cu_ALUctrl_o = `SLT;
+                    `R_SLTU:      cu_ALUctrl_o = `SLTU;
                     `R_XOR:       cu_ALUctrl_o = `XOR;
                     `R_SRL_SRA: begin
                         case(func7)
