@@ -28,6 +28,8 @@ module rv32core(
     wire    [31:0]  id_next_pc_o;
     wire            id_reg1_RE_o;
     wire            id_reg2_RE_o;
+    wire    [31:0]  id_jump_pc_o;
+    wire            id_jump_en_o;
     //id_ex_reg
     wire    [31:0]  id_ex_reg_op_a_o;
     wire    [31:0]  id_ex_reg_op_b_o;
@@ -75,7 +77,9 @@ module rv32core(
         .rst_n(rst_n),
         .if_pc_o(rv32core_pc_o),
         .fnb_jump_i(fnb_jump_o),
-        .ex_next_pc_i(ex_next_pc_o)
+        .ex_next_pc_i(ex_next_pc_o),
+        .id_jump_pc_i(id_jump_pc_o),
+        .id_jump_en_i(id_jump_en_o)
     );
 
     if_id_reg if_id_reg_ins(
@@ -108,7 +112,9 @@ module rv32core(
         .id_reg1_RE_o(id_reg1_RE_o),
         .id_reg2_RE_o(id_reg2_RE_o),
         .rom_inst_i(rom_inst_i),
-        .ex_ins_flush_i(ex_ins_flush_o)
+        .ex_ins_flush_i(ex_ins_flush_o),
+        .id_jump_en_o(id_jump_en_o),
+        .id_jump_pc_o(id_jump_pc_o)
     );
 
     regs regs_ins(

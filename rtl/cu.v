@@ -147,7 +147,7 @@ wire [6:0]  func7   = id_func7_i;
     always @(*) begin
         case(op_code)
             
-            `Itype_J,`Itype_L,`Itype_A,`Utype_A,`Utype_L,`Jtype_J,`Btype,`Stype:begin
+            `Itype_J,`Itype_L,`Itype_A,`Utype_A,`Utype_L,`Jtype_J,`Stype:begin
                 cu_op_b_sel_o = 1'b1;
             end
             

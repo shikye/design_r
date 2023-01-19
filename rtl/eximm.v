@@ -20,8 +20,8 @@ module eximm(                                                         //one of c
             end
 
             `Jtype_J:begin
-                eximm_eximm_o = { {12{id_inst_i[31]}}, id_inst_i[31], 
-                                    id_inst_i[19:12], id_inst_i[20], id_inst_i[30:21] };    
+                eximm_eximm_o = { {11{id_inst_i[31]}}, id_inst_i[31], 
+                                    id_inst_i[19:12], id_inst_i[20], id_inst_i[30:21], {1'b0} };    
             end
 
             `Btype:begin

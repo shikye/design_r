@@ -9,8 +9,8 @@ module if_stage (
     //from ex
     input   wire            [31:0]  ex_next_pc_i,
     //from id
-    input   wire            [31:0]  id_jtype_pc_i,
-    input   wire                    id_jtype_jump
+    input   wire            [31:0]  id_jump_pc_i,
+    input   wire                    id_jump_en_i
     
 );
 
@@ -19,8 +19,8 @@ module if_stage (
         if(rst_n == 1'b0)begin
             if_pc_o <= 32'h0;
         end
-        else if(id_jtype_jump == 1'b1) begin
-            if_pc_o <= id_jtype_pc_i;
+        else if(id_jump_en_i == 1'b1) begin
+            if_pc_o <= id_jump_pc_i;
         end
         else if(fnb_jump_i == 1'b1) begin
             if_pc_o <= ex_next_pc_i;

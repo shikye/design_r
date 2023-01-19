@@ -31,7 +31,10 @@ module id_stage (
     //from rom
     input   wire            [31:0]  rom_inst_i,
     //from ex
-    input   wire                    ex_ins_flush_i
+    input   wire                    ex_ins_flush_i,
+    //to if
+    output  wire                    id_jump_en_o,
+    output  wire            [31:0]  id_jump_pc_o
 );
 
 
@@ -42,15 +45,12 @@ module id_stage (
     always @(posedge clk or negedge rst_n) begin
         if(rst_n == 1'b0)
             delay_flush <= 1'b0;
-        else if((ex_ins_flush_i == 1'b1) || (j_jump == 1'b1))
+        else if((ex_ins_flush_i == 1'b1) || (id_jump_en_o == 1'b1))
             delay_flush <= 1'b1;
         else
             delay_flush <= 1'b0;
     end
 
-    
-
-    wire        j_jump = (opcode == `Jtype_J) ? 1'b1 : 1'b0;
 
 
     wire [6:0]  opcode = inst[6:0];
@@ -68,6 +68,10 @@ module id_stage (
     //from cu
     wire        cu_op_b_sel_o;
 
+    //from regs
+    wire [31:0] rd1_after_hazard = dhnf_harzard_sel1_i ? dhnf_forward_data1_i : regs_reg1_rdata_i;
+    wire [31:0] rd2_after_hazard = dhnf_harzard_sel2_i ? dhnf_forward_data2_i : regs_reg2_rdata_i;
+
     
     assign id_btype_o = (opcode == `Btype) ? 1'b1 : 1'b0;
     assign id_next_pc_o = if_id_reg_pc_i + eximm_eximm_i;  //only btype
@@ -78,9 +82,30 @@ module id_stage (
     assign id_reg_waddr_o  = rd;
 
 
-    assign id_op_a_o = dhnf_harzard_sel1_i ? dhnf_forward_data1_i : regs_reg1_rdata_i;
-    assign id_op_b_o = dhnf_harzard_sel2_i ? dhnf_forward_data2_i : 
-        cu_op_b_sel_o ? eximm_eximm_i : regs_reg2_rdata_i;
+    //need to be modify
+
+    // assign id_op_a_o = dhnf_harzard_sel1_i ? dhnf_forward_data1_i : 
+    //     (opcode == `Utype_L) ? 32'h0 : (opcode == `Utype_A) ? if_id_reg_pc_i : 
+    //         (opcode == `Jtype_J) ? 32'd0 : regs_reg1_rdata_i;        //from reg
+
+
+    assign id_op_a_o = (opcode == `Utype_L) ? 32'h0 : 
+                        (opcode == `Utype_A) ? if_id_reg_pc_i :
+                        (opcode == `Jtype_J || opcode == `Itype_J) ? if_id_reg_pc_i :
+                        rd1_after_hazard;
+
+    assign id_op_b_o = (opcode == `Jtype_J || opcode == `Itype_J) ? 32'd4 :
+                        cu_op_b_sel_o ? eximm_eximm_i :
+                        rd2_after_hazard; 
+
+
+    // assign id_op_b_o = dhnf_harzard_sel2_i ? dhnf_forward_data2_i :  //from reg or imm
+    //     (opcode == `Jtype_J) ? if_id_reg_pc_i + 32'd4 :
+    //     cu_op_b_sel_o ? eximm_eximm_i : regs_reg2_rdata_i;
+
+    
+    assign id_jump_en_o = (opcode == `Jtype_J || opcode == `Itype_J) ? 1'b1 : 1'b0;   //jal and jalr
+    assign id_jump_pc_o   = (opcode == `Jtype_J ) ? (if_id_reg_pc_i + eximm_eximm_i) : (rd1_after_hazard + eximm_eximm_i);
 
     
 

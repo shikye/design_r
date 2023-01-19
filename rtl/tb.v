@@ -30,22 +30,40 @@ module tb;
             #100
             if(tb.soc_ins.rv32core_ins.regs_ins.regs[27] == 32'd1) begin
                 $display("PASS");
-                $display("t4 = %d",tb.soc_ins.rv32core_ins.regs_ins.regs[29]);
                 $display("gp = %d",tb.soc_ins.rv32core_ins.regs_ins.regs[3]);
                 $display("pc = %x",tb.soc_ins.rv32core_ins.if_stage_ins.if_pc_o);
 
             end
             else begin
                 $display("test %d fail",tb.soc_ins.rv32core_ins.regs_ins.regs[3]);
-                $display("t4 = %d",tb.soc_ins.rv32core_ins.regs_ins.regs[29]);
-                $display("ra = %d",tb.soc_ins.rv32core_ins.regs_ins.regs[1]);
+                $display("gp = %d",tb.soc_ins.rv32core_ins.regs_ins.regs[3]);
                 $display("pc = %x",tb.soc_ins.rv32core_ins.if_stage_ins.if_pc_o);
+                $display("t4 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[29]);
+                $display("t5 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[30]);
+                $display("sp = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[2]);
+
             end
             $finish;
         end
 
+        // wait(tb.soc_ins.rv32core_ins.regs_ins.regs[3] == 32'd2)begin
+        //     $display("t5 = %d",tb.soc_ins.rv32core_ins.regs_ins.regs[30]);
+        // end
+
 
     end
+
+
+
+
+    initial begin
+        #100000
+        $display("timeout");
+        $finish;
+    
+    end
+
+
 
     soc soc_ins(
         .clk(clk),

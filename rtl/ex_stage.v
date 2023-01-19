@@ -25,12 +25,14 @@ module ex_stage (
     wire [31:0] op_a = id_ex_reg_op_a_i;
     wire [31:0] op_b = id_ex_reg_op_b_i;
 
+    reg  [31:0] op_c_buff;
+
     always @(*) begin
         case(id_ex_reg_ALUctrl_i)
             `ADD:   ex_op_c_o = op_a + op_b;
             `SUB:   ex_op_c_o = op_a - op_b;
-            `EQU:   ex_op_c_o = (op_a ^ op_b == 32'h0) ? 32'b1 : 32'b0;
-            `NEQ:   ex_op_c_o = (op_a ^ op_b == 32'h0) ? 32'b0 : 32'b1;
+            `EQU:   ex_op_c_o = ((op_a ^ op_b) == 32'h0) ? 32'b1 : 32'b0;
+            `NEQ:   ex_op_c_o = ((op_a ^ op_b) == 32'h0) ? 32'b0 : 32'b1;
             `SLT:   ex_op_c_o = ($signed(op_a) < $signed(op_b)) ? 32'b1 : 32'b0;
             `SGE:   ex_op_c_o = ($signed(op_a) < $signed(op_b)) ? 32'b0 : 32'b1;
             `SLTU:  ex_op_c_o = ($unsigned(op_a) < $unsigned(op_b)) ? 32'b1 : 32'b0;
