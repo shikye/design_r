@@ -56,7 +56,7 @@ localparam Replace          = 27;
 
 //Data_Block and Tag_Array
 reg [127:0] ICache_Data_Block [0:15];
-reg [29:0]  ICache_Tag_Array  [0:15];
+reg [28:0]  ICache_Tag_Array  [0:15];
 
 //Mapping Decord
 wire [26:0] Icache_tag   = core_inst_addr_i[31:5];
@@ -70,7 +70,7 @@ reg [127:0] Mem_Data_Buffer_i;
 //hit --regardless of ready
 wire [1:0] ICache_Tag_hit;
 assign ICache_Tag_hit[0] = ( (Icache_tag == ICache_Tag_Array[Icache_index << 1][Tag_Width:0]) && ICache_Tag_Array[Icache_index << 1][Valid] == 1'b1 );
-assign ICache_Tag_hit[1] = ( (Icache_tag == ICache_Tag_Array[Icache_index << 1 + 1][Tag_Width:0]) && ICache_Tag_Array[Icache_index << 1 + 1][Valid] == 1'b1 );
+assign ICache_Tag_hit[1] = ( (Icache_tag == ICache_Tag_Array[(Icache_index << 1) + 1][Tag_Width:0]) && ICache_Tag_Array[(Icache_index << 1) + 1][Valid] == 1'b1 );
 
 assign hit              = (ICache_Tag_hit != 2'b00);
 
@@ -155,30 +155,30 @@ always @(*) begin
 
                     if(ICache_Tag_Array[Icache_index << 1][Replace] == 1'b1) begin
                         ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                        ICache_Tag_Array[Icache_index << 1 + 1][Replace] = 1'b1;
+                        ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
                     end
                     else begin
                         ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                        ICache_Tag_Array[Icache_index << 1 + 1][Replace] = 1'b1;
+                        ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
                     end
                 end
 
                 else begin
 
                     case(Icache_off)
-                        2'b00:Icache_inst_o = ICache_Data_Block[Icache_index << 1 + 1][31:0];
-                        2'b01:Icache_inst_o = ICache_Data_Block[Icache_index << 1 + 1][63:32];
-                        2'b10:Icache_inst_o = ICache_Data_Block[Icache_index << 1 + 1][95:64];
-                        2'b11:Icache_inst_o = ICache_Data_Block[Icache_index << 1 + 1][127:96];
+                        2'b00:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + 1][31:0];
+                        2'b01:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + 1][63:32];
+                        2'b10:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + 1][95:64];
+                        2'b11:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + 1][127:96];
                         default:Icache_inst_o = 32'h0;
                     endcase
 
-                    if(ICache_Tag_Array[Icache_index << 1 + 1][Replace] == 1'b1) begin
-                        ICache_Tag_Array[Icache_index << 1 + 1][Replace] = 1'b0;
+                    if(ICache_Tag_Array[(Icache_index << 1) + 1][Replace] == 1'b1) begin
+                        ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
                         ICache_Tag_Array[Icache_index << 1][Replace] = 1'b1;
                     end
                     else begin
-                        ICache_Tag_Array[Icache_index << 1 + 1][Replace] = 1'b0;
+                        ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
                         ICache_Tag_Array[Icache_index << 1][Replace] = 1'b1;
                     end
                 end
@@ -187,26 +187,26 @@ always @(*) begin
             else begin                    //Cache Miss
                 pipe_stall = 1'b1;
 
-                case( {ICache_Tag_Array[Icache_index << 1 + 1][Replace],ICache_Tag_Array[Icache_index << 1][Replace]} )
+                case( {ICache_Tag_Array[(Icache_index << 1) + 1][Replace],ICache_Tag_Array[Icache_index << 1][Replace]} )
                     2'b00:begin
                         victim_number = 1'b0;
                         ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                        ICache_Tag_Array[Icache_index << 1 + 1][Replace] = 1'b1;
+                        ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
                     end
                     2'b01:begin
-                        victim_number = 1'b1;
-                        ICache_Tag_Array[Icache_index << 1][Replace] = 1'b1;
-                        ICache_Tag_Array[Icache_index << 1 + 1][Replace] = 1'b0;
-                    end
-                    2'b10:begin
                         victim_number = 1'b0;
                         ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                        ICache_Tag_Array[Icache_index << 1 + 1][Replace] = 1'b1;
+                        ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
+                    end
+                    2'b10:begin
+                        victim_number = 1'b1;
+                        ICache_Tag_Array[Icache_index << 1][Replace] = 1'b1;
+                        ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
                     end
                     default:begin
                         victim_number = 1'b0;
                         ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                        ICache_Tag_Array[Icache_index << 1 + 1][Replace] = 1'b0;
+                        ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
                     end
                 endcase
 
@@ -222,14 +222,14 @@ always @(*) begin
 
 
             if(mem_ready_i == 1'b1) begin
-                ICache_Data_Block[Icache_index << 1 + victim_number] = Mem_Data_Buffer_i;
+                ICache_Data_Block[(Icache_index << 1) + victim_number] = Mem_Data_Buffer_i;
                 Icache_ready_o = 1'b1;
 
                 case(Icache_off)
-                    2'b00:Icache_inst_o = ICache_Data_Block[Icache_index << 1 + victim_number][31:0];
-                    2'b01:Icache_inst_o = ICache_Data_Block[Icache_index << 1 + victim_number][63:32];
-                    2'b10:Icache_inst_o = ICache_Data_Block[Icache_index << 1 + victim_number][95:64];
-                    2'b11:Icache_inst_o = ICache_Data_Block[Icache_index << 1 + victim_number][127:96];
+                    2'b00:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + victim_number][31:0];
+                    2'b01:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + victim_number][63:32];
+                    2'b10:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + victim_number][95:64];
+                    2'b11:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + victim_number][127:96];
                     default:Icache_inst_o = 32'h0;
                 endcase
 

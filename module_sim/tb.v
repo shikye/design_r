@@ -31,18 +31,40 @@ initial begin
     #10
     rst_n <= 1'b1;
     #10
+
+    @(posedge clk) begin
     core_inst_addr_i <= 32'h0000_0001;
     core_valid_req_i <= 1'b1;
-    #40
+    end
+    @(posedge clk)
+    core_valid_req_i <= 1'b0;
+    #30
+    @(posedge clk)begin
     mem_ready_i <= 1'b1;
     mem_data_i <= 128'h1111_0000_1111_0000_1011_0000_1111_0000;
+    end
+    @(posedge clk)
+    mem_ready_i <= 1'b0;
+    #30
+    @(posedge clk)begin
+    core_inst_addr_i <= 32'h0000_0021;
+    core_valid_req_i <= 1'b1;
+    end
+    @(posedge clk)
+    core_valid_req_i <= 1'b0;
     #40
+    @(posedge clk)begin
+    mem_ready_i <= 1'b1;
+    mem_data_i <= 128'h1111_0000_1111_0000_1011_0010_1111_0000;
+    end
+    @(posedge clk)
+    mem_ready_i <= 1'b0;
     $finish;
 end
 
 initial begin
     $dumpfile("dump.vcd");
-    $dumpvars(0,tb.Icache_ins,tb.Icache_ins.ICache_Tag_Array);
+    $dumpvars(0,tb.Icache_ins,tb.Icache_ins.ICache_Tag_Array[0],tb.Icache_ins.ICache_Tag_Array[1]);
 end
 
 
