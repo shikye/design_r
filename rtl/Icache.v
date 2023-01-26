@@ -116,7 +116,7 @@ always @(posedge clk or negedge rst_n) begin
 end
 
 
-always @(cur_state,Icache_index,if_valid_req_i,mem_ready_i) begin   //used to be *
+always @(cur_state,Icache_index,if_valid_req_i,mem_ready_i,if_pc_i,Icache_off,if_valid_req_i,ICache_Tag_hit) begin   //used to be * //no use if_pc_i //matters a lot
     //avoid latch
     //Replace 
     //victim_number = 1'b0;
@@ -192,11 +192,6 @@ always @(cur_state,Icache_index,if_valid_req_i,mem_ready_i) begin   //used to be
                     
                     Icache_pipe_stall_o = 1'b1;
 
-                    // $display("index is %d",tb.soc_ins.rv32core_ins.Icache_ins.Icache_index);
-                    // $display($time);
-                    // $display("replace bits is %d,%d",tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3][25],
-                    // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2][25] );
-
                     case( {ICache_Tag_Array[(Icache_index << 1) + 1][Replace],ICache_Tag_Array[Icache_index << 1][Replace]} )
                         2'b00:begin
                             victim_number = 1'b0;
@@ -209,14 +204,9 @@ always @(cur_state,Icache_index,if_valid_req_i,mem_ready_i) begin   //used to be
                             ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
                         end
                         2'b10:begin
-                            // $display($time);
                             victim_number = 1'b1;
                             ICache_Tag_Array[Icache_index << 1][Replace] = 1'b1;
                             ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
-                    //         $display($time);
-                    //         $display("replace bits is %d,%d",tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3][25],
-                    // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2][25] );
-
                         end
                         default:begin
                             victim_number = 1'b0;

@@ -1,57 +1,5248 @@
 vvp out.vvp
 WARNING: ../rtl/tb.v:17: $readmemh(../sim/inst): Not enough words in the file for the requested range [0:4095].
 VCD info: dumpfile dump.vcd opened for output.
-VCD warning: array word tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[0] will conflict with an escaped identifier.
-VCD warning: array word tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[1] will conflict with an escaped identifier.
-VCD warning: array word tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2] will conflict with an escaped identifier.
-VCD warning: array word tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3] will conflict with an escaped identifier.
-VCD warning: ../rtl/tb.v:27: $dumpfile called after $dumpvars started,
+VCD warning: ../rtl/tb.v:29: $dumpfile called after $dumpvars started,
                              using existing file (dump.vcd).
 in test          0
 pc = 00000000
 t4 = 00000000
 t5 = 00000000
 sp = 00000000
-in test          0
-pc = 00000000
-t4 = 00000000
-t5 = 00000000
-sp = 00000000
-in test          0
-pc = 00000000
-t4 = 00000000
-t5 = 00000000
-sp = 00000000
-index is  0
-                  50
 replace bits is 0,0
 in test          0
 pc = 00000000
 t4 = 00000000
 t5 = 00000000
 sp = 00000000
+replace bits is 0,0
 in test          0
 pc = 00000000
 t4 = 00000000
 t5 = 00000000
 sp = 00000000
+replace bits is 0,0
+in test          0
+pc = 00000000
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,0
+in test          0
+pc = 00000000
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,0
 in test          0
 pc = 00000004
 t4 = 00000000
 t5 = 00000000
 sp = 00000000
+replace bits is 0,0
 in test          0
 pc = 00000008
 t4 = 00000000
 t5 = 00000000
 sp = 00000000
+replace bits is 0,0
 in test          0
 pc = 0000000c
 t4 = 00000000
 t5 = 00000000
 sp = 00000000
-change time is                  150
-index is  1
-                 150
-replace bits is 1,0
+replace bits is 0,0
 in test          0
+pc = 00000010
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          0
+pc = 00000010
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          0
+pc = 00000014
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          0
+pc = 00000018
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          0
+pc = 0000001c
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          0
+pc = 00000020
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          0
+pc = 00000020
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          0
+pc = 00000024
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          2
+pc = 00000028
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          2
+pc = 0000002c
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          2
+pc = 00000030
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          2
+pc = 00000030
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+replace bits is 0,1
+in test          2
+pc = 00000034
+t4 = 00000000
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test          2
+pc = 00000038
+t4 = 00000000
+t5 = 00000002
+sp = 00000001
+replace bits is 0,1
+in test          2
+pc = 0000003c
+t4 = 00000002
+t5 = 00000002
+sp = 00000001
+replace bits is 0,1
+in test          2
+pc = 00000040
+t4 = 00000002
+t5 = 00000002
+sp = 00000001
+replace bits is 0,1
+in test          3
+pc = 00000040
+t4 = 00000002
+t5 = 00000002
+sp = 00000001
+replace bits is 0,1
+in test          3
+pc = 00000044
+t4 = 00000002
+t5 = 00000002
+sp = 00000001
+replace bits is 0,1
+in test          3
+pc = 00000048
+t4 = 00000002
+t5 = 00000002
+sp = 00000001
+replace bits is 0,1
+in test          3
+pc = 0000004c
+t4 = 00000002
+t5 = 00000002
+sp = 00000007
+replace bits is 0,1
+in test          3
+pc = 00000050
+t4 = 00000002
+t5 = 00000002
+sp = 00000007
+replace bits is 0,1
+in test          3
+pc = 00000050
+t4 = 00000002
+t5 = 0000000a
+sp = 00000007
+replace bits is 0,1
+in test          3
+pc = 00000054
+t4 = 0000000a
+t5 = 0000000a
+sp = 00000007
+replace bits is 0,1
+in test          4
+pc = 00000058
+t4 = 0000000a
+t5 = 0000000a
+sp = 00000007
+replace bits is 0,1
+in test          4
+pc = 0000005c
+t4 = 0000000a
+t5 = 0000000a
+sp = 00000007
+replace bits is 0,1
+in test          4
+pc = 00000060
+t4 = 0000000a
+t5 = 0000000a
+sp = 00000007
+replace bits is 0,1
+in test          4
+pc = 00000060
+t4 = 0000000a
+t5 = 0000000a
+sp = 00000007
+replace bits is 0,1
+in test          4
+pc = 00000064
+t4 = 0000000a
+t5 = 0000000a
+sp = ffff8000
+replace bits is 0,1
+in test          4
+pc = 00000068
+t4 = 0000000a
+t5 = ffff8000
+sp = ffff8000
+replace bits is 0,1
+in test          4
+pc = 0000006c
+t4 = ffff8000
+t5 = ffff8000
+sp = ffff8000
+replace bits is 0,1
+in test          4
+pc = 00000070
+t4 = ffff8000
+t5 = ffff8000
+sp = ffff8000
+replace bits is 0,1
+in test          5
+pc = 00000070
+t4 = ffff8000
+t5 = ffff8000
+sp = ffff8000
+replace bits is 0,1
+in test          5
+pc = 00000074
+t4 = ffff8000
+t5 = ffff8000
+sp = ffff8000
+replace bits is 0,1
+in test          5
+pc = 00000078
+t4 = ffff8000
+t5 = ffff8000
+sp = ffff8000
+replace bits is 0,1
+in test          5
+pc = 0000007c
+t4 = ffff8000
+t5 = ffff8000
+sp = 00000000
+replace bits is 0,1
+in test          5
+pc = 00000080
+t4 = ffff8000
+t5 = ffff8000
+sp = 00000000
+replace bits is 0,1
+in test          5
+pc = 00000080
+t4 = ffff8000
+t5 = 80000000
+sp = 00000000
+replace bits is 0,1
+in test          5
+pc = 00000084
+t4 = 80000000
+t5 = 80000000
+sp = 00000000
+replace bits is 0,1
+in test          6
+pc = 00000084
+t4 = 80000000
+t5 = 80000000
+sp = 00000000
+replace bits is 0,1
+in test          6
+pc = 00000088
+t4 = 80000000
+t5 = 80000000
+sp = 00000000
+replace bits is 0,1
+in test          6
+pc = 00000088
+t4 = 80000000
+t5 = 80000000
+sp = 00000000
+replace bits is 0,1
+in test          6
+pc = 0000008c
+t4 = 80000000
+t5 = 80000000
+sp = 00000000
+replace bits is 0,1
+in test          6
+pc = 0000008c
+t4 = 80000000
+t5 = 80000000
+sp = 00000000
+replace bits is 0,1
+in test          6
+pc = 00000090
+t4 = 80000000
+t5 = 80000000
+sp = ffff8000
+replace bits is 1,0
+in test          6
+pc = 00000090
+t4 = 80000000
+t5 = 80000000
+sp = ffff8000
+replace bits is 1,0
+in test          6
+pc = 00000094
+t4 = 80000000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 1,0
+in test          6
+pc = 00000094
+t4 = 80000000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 1,0
+in test          6
+pc = 00000098
+t4 = 7fff8000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 1,0
+in test          6
+pc = 00000098
+t4 = 7fff8000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 1,0
+in test          7
+pc = 0000009c
+t4 = 7fff8000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 1,0
+in test          7
+pc = 0000009c
+t4 = 7fff8000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 1,0
+in test          7
+pc = 000000a0
+t4 = 7fff8000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 0,1
+in test          7
+pc = 000000a0
+t4 = 7fff8000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 0,1
+in test          7
+pc = 000000a4
+t4 = 7fff8000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 0,1
+in test          7
+pc = 000000a4
+t4 = 7fff8000
+t5 = 7fff8000
+sp = ffff8000
+replace bits is 0,1
+in test          7
+pc = 000000a8
+t4 = 7fff8000
+t5 = 7fff8000
+sp = 00008000
+replace bits is 0,1
+in test          7
+pc = 000000a8
+t4 = 7fff8000
+t5 = 7fff8000
+sp = 00008000
+replace bits is 0,1
+in test          7
+pc = 000000ac
+t4 = 7fff8000
+t5 = 7fff8000
+sp = 00007fff
+replace bits is 0,1
+in test          7
+pc = 000000ac
+t4 = 7fff8000
+t5 = 7fff8000
+sp = 00007fff
+replace bits is 0,1
+in test          7
+pc = 000000b0
+t4 = 7fff8000
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          7
+pc = 000000b0
+t4 = 7fff8000
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          7
+pc = 000000b4
+t4 = 00008000
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          7
+pc = 000000b4
+t4 = 00008000
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          7
+pc = 000000b8
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          7
+pc = 000000b8
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          8
+pc = 000000bc
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          8
+pc = 000000bc
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          8
+pc = 000000c0
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          8
+pc = 000000c0
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          8
+pc = 000000c4
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          8
+pc = 000000c4
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          8
+pc = 000000c8
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          8
+pc = 000000c8
+t4 = 00007fff
+t5 = 00007fff
+sp = 00007fff
+replace bits is 0,1
+in test          8
+pc = 000000cc
+t4 = 00007fff
+t5 = 00007fff
+sp = 00000000
+replace bits is 0,1
+in test          8
+pc = 000000cc
+t4 = 00007fff
+t5 = 00007fff
+sp = 00000000
+replace bits is 0,1
+in test          8
+pc = 000000d0
+t4 = 00007fff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          8
+pc = 000000d0
+t4 = 00007fff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          8
+pc = 000000d4
+t4 = 80000000
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          8
+pc = 000000d4
+t4 = 80000000
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          8
+pc = 000000d8
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          8
+pc = 000000d8
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          9
+pc = 000000dc
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          9
+pc = 000000dc
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          9
+pc = 000000e0
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          9
+pc = 000000e0
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          9
+pc = 000000e4
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          9
+pc = 000000e4
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          9
+pc = 000000e8
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          9
+pc = 000000e8
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00000000
+replace bits is 0,1
+in test          9
+pc = 000000ec
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00008000
+replace bits is 0,1
+in test          9
+pc = 000000ec
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00008000
+replace bits is 0,1
+in test          9
+pc = 000000f0
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00007fff
+replace bits is 0,1
+in test          9
+pc = 000000f0
+t4 = 7fffffff
+t5 = 7fffffff
+sp = 00007fff
+replace bits is 0,1
+in test          9
+pc = 000000f4
+t4 = 7fffffff
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test          9
+pc = 000000f4
+t4 = 7fffffff
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test          9
+pc = 000000f8
+t4 = 80008000
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test          9
+pc = 000000f8
+t4 = 80008000
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test          9
+pc = 000000fc
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test          9
+pc = 000000fc
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test         10
+pc = 00000100
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test         10
+pc = 00000100
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test         10
+pc = 00000104
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test         10
+pc = 00000104
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test         10
+pc = 00000108
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test         10
+pc = 00000108
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 0,1
+in test         10
+pc = 0000010c
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00008000
+replace bits is 0,1
+in test         10
+pc = 0000010c
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00008000
+replace bits is 0,1
+in test         10
+pc = 00000110
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 1,0
+in test         10
+pc = 00000110
+t4 = 80007ffe
+t5 = 80007ffe
+sp = 00007fff
+replace bits is 1,0
+in test         10
+pc = 00000114
+t4 = 80007ffe
+t5 = 80007fff
+sp = 00007fff
+replace bits is 1,0
+in test         10
+pc = 00000114
+t4 = 80007ffe
+t5 = 80007fff
+sp = 00007fff
+replace bits is 1,0
+in test         10
+pc = 00000118
+t4 = 80008000
+t5 = 80007fff
+sp = 00007fff
+replace bits is 1,0
+in test         10
+pc = 00000118
+t4 = 80008000
+t5 = 80007fff
+sp = 00007fff
+replace bits is 1,0
+in test         10
+pc = 0000011c
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 1,0
+in test         10
+pc = 0000011c
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 1,0
+in test         11
+pc = 00000120
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 0,1
+in test         11
+pc = 00000120
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 0,1
+in test         11
+pc = 00000124
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 0,1
+in test         11
+pc = 00000124
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 0,1
+in test         11
+pc = 00000128
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 0,1
+in test         11
+pc = 00000128
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 0,1
+in test         11
+pc = 0000012c
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 0,1
+in test         11
+pc = 0000012c
+t4 = 80007fff
+t5 = 80007fff
+sp = 00007fff
+replace bits is 0,1
+in test         11
+pc = 00000130
+t4 = 80007fff
+t5 = 80007fff
+sp = ffff8000
+replace bits is 0,1
+in test         11
+pc = 00000130
+t4 = 80007fff
+t5 = 80007fff
+sp = ffff8000
+replace bits is 0,1
+in test         11
+pc = 00000134
+t4 = 80007fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         11
+pc = 00000134
+t4 = 80007fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         11
+pc = 00000138
+t4 = 7fff8000
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         11
+pc = 00000138
+t4 = 7fff8000
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         11
+pc = 0000013c
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         11
+pc = 0000013c
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         12
+pc = 00000140
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         12
+pc = 00000140
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         12
+pc = 00000144
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         12
+pc = 00000144
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         12
+pc = 00000148
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         12
+pc = 00000148
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffff8000
+replace bits is 0,1
+in test         12
+pc = 0000014c
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffffffff
+replace bits is 0,1
+in test         12
+pc = 0000014c
+t4 = 7fff7fff
+t5 = 7fff7fff
+sp = ffffffff
+replace bits is 0,1
+in test         12
+pc = 00000150
+t4 = 7fff7fff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         12
+pc = 00000150
+t4 = 7fff7fff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         12
+pc = 00000154
+t4 = ffffffff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         12
+pc = 00000154
+t4 = ffffffff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         13
+pc = 00000158
+t4 = ffffffff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         13
+pc = 00000158
+t4 = ffffffff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         13
+pc = 0000015c
+t4 = ffffffff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         13
+pc = 0000015c
+t4 = ffffffff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         13
+pc = 00000160
+t4 = ffffffff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         13
+pc = 00000160
+t4 = ffffffff
+t5 = ffffffff
+sp = ffffffff
+replace bits is 0,1
+in test         13
+pc = 00000164
+t4 = ffffffff
+t5 = ffffffff
+sp = 00000001
+replace bits is 0,1
+in test         13
+pc = 00000164
+t4 = ffffffff
+t5 = ffffffff
+sp = 00000001
+replace bits is 0,1
+in test         13
+pc = 00000168
+t4 = ffffffff
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         13
+pc = 00000168
+t4 = ffffffff
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         13
+pc = 0000016c
+t4 = 00000000
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         13
+pc = 0000016c
+t4 = 00000000
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         14
+pc = 00000170
+t4 = 00000000
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         14
+pc = 00000170
+t4 = 00000000
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         14
+pc = 00000174
+t4 = 00000000
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         14
+pc = 00000174
+t4 = 00000000
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         14
+pc = 00000178
+t4 = 00000000
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         14
+pc = 00000178
+t4 = 00000000
+t5 = 00000000
+sp = 00000001
+replace bits is 0,1
+in test         14
+pc = 0000017c
+t4 = 00000000
+t5 = 00000000
+sp = ffffffff
+replace bits is 0,1
+in test         14
+pc = 0000017c
+t4 = 00000000
+t5 = 00000000
+sp = ffffffff
+replace bits is 0,1
+in test         14
+pc = 00000180
+t4 = 00000000
+t5 = fffffffe
+sp = ffffffff
+replace bits is 0,1
+in test         14
+pc = 00000180
+t4 = 00000000
+t5 = fffffffe
+sp = ffffffff
+replace bits is 0,1
+in test         14
+pc = 00000184
+t4 = fffffffe
+t5 = fffffffe
+sp = ffffffff
+replace bits is 0,1
+in test         14
+pc = 00000184
+t4 = fffffffe
+t5 = fffffffe
+sp = ffffffff
+replace bits is 0,1
+in test         15
+pc = 00000188
+t4 = fffffffe
+t5 = fffffffe
+sp = ffffffff
+replace bits is 0,1
+in test         15
+pc = 00000188
+t4 = fffffffe
+t5 = fffffffe
+sp = ffffffff
+replace bits is 0,1
+in test         15
+pc = 0000018c
+t4 = fffffffe
+t5 = fffffffe
+sp = ffffffff
+replace bits is 0,1
+in test         15
+pc = 0000018c
+t4 = fffffffe
+t5 = fffffffe
+sp = ffffffff
+replace bits is 0,1
+in test         15
+pc = 00000190
+t4 = fffffffe
+t5 = fffffffe
+sp = ffffffff
+replace bits is 1,0
+in test         15
+pc = 00000190
+t4 = fffffffe
+t5 = fffffffe
+sp = ffffffff
+replace bits is 1,0
+in test         15
+pc = 00000194
+t4 = fffffffe
+t5 = fffffffe
+sp = 80000000
+replace bits is 1,0
+in test         15
+pc = 00000194
+t4 = fffffffe
+t5 = fffffffe
+sp = 80000000
+replace bits is 1,0
+in test         15
+pc = 00000198
+t4 = fffffffe
+t5 = fffffffe
+sp = 7fffffff
+replace bits is 1,0
+in test         15
+pc = 00000198
+t4 = fffffffe
+t5 = fffffffe
+sp = 7fffffff
+replace bits is 1,0
+in test         15
+pc = 0000019c
+t4 = fffffffe
+t5 = 80000000
+sp = 7fffffff
+replace bits is 1,0
+in test         15
+pc = 0000019c
+t4 = fffffffe
+t5 = 80000000
+sp = 7fffffff
+replace bits is 1,0
+in test         15
+pc = 000001a0
+t4 = 80000000
+t5 = 80000000
+sp = 7fffffff
+replace bits is 0,1
+in test         15
+pc = 000001a0
+t4 = 80000000
+t5 = 80000000
+sp = 7fffffff
+replace bits is 0,1
+in test         16
+pc = 000001a4
+t4 = 80000000
+t5 = 80000000
+sp = 7fffffff
+replace bits is 0,1
+in test         16
+pc = 000001a4
+t4 = 80000000
+t5 = 80000000
+sp = 7fffffff
+replace bits is 0,1
+in test         16
+pc = 000001a8
+t4 = 80000000
+t5 = 80000000
+sp = 7fffffff
+replace bits is 0,1
+in test         16
+pc = 000001a8
+t4 = 80000000
+t5 = 80000000
+sp = 7fffffff
+replace bits is 0,1
+in test         16
+pc = 000001ac
+t4 = 80000000
+t5 = 80000000
+sp = 7fffffff
+replace bits is 0,1
+in test         16
+pc = 000001ac
+t4 = 80000000
+t5 = 80000000
+sp = 7fffffff
+replace bits is 0,1
+in test         16
+pc = 000001b0
+t4 = 80000000
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         16
+pc = 000001b0
+t4 = 80000000
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         16
+pc = 000001b4
+t4 = 80000000
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         16
+pc = 000001b4
+t4 = 80000000
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         16
+pc = 000001b8
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         16
+pc = 000001b8
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         17
+pc = 000001bc
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         17
+pc = 000001bc
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         17
+pc = 000001c0
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         17
+pc = 000001c0
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         17
+pc = 000001c4
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         17
+pc = 000001c4
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         17
+pc = 000001c8
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         17
+pc = 000001c8
+t4 = 00000018
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         17
+pc = 000001cc
+t4 = 00000018
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         17
+pc = 000001cc
+t4 = 00000018
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         17
+pc = 000001d0
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         17
+pc = 000001d0
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001d4
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001d4
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001d8
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001d8
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001dc
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001dc
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001e0
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001e0
+t4 = 00000019
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001e4
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         18
+pc = 000001e4
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         19
+pc = 000001e8
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         19
+pc = 000001e8
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         19
+pc = 000001ec
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         19
+pc = 000001ec
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         19
+pc = 000001f0
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         19
+pc = 000001f0
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         19
+pc = 000001f4
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         19
+pc = 000001f4
+t4 = 0000001a
+t5 = 80000000
+sp = 00000019
+replace bits is 0,1
+in test         19
+pc = 000001f8
+t4 = 0000001a
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001f8
+t4 = 0000001a
+t5 = 80000000
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001fc
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001fc
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000200
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000200
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000204
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000204
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001e8
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001e8
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001ec
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001ec
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001f0
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001f0
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001f4
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001f4
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001f8
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001f8
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001fc
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 000001fc
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000200
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000200
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000204
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000204
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000208
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000208
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 0000020c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 0000020c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         19
+pc = 00000210
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         19
+pc = 00000210
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 00000214
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 00000214
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 00000218
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 00000218
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 0000021c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 0000021c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 00000220
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000220
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000224
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000224
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000228
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000228
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 0000022c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 0000022c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000230
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000230
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000234
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000234
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000214
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 00000214
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 00000218
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 00000218
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 0000021c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 0000021c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 1,0
+in test         20
+pc = 00000220
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000220
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000224
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000224
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000228
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000228
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 0000022c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 0000022c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000230
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000230
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000234
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000234
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000238
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000238
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 0000023c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 0000023c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000240
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         20
+pc = 00000240
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000244
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000244
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000248
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000248
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000024c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000024c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000250
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000250
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000254
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000254
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000258
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000258
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000025c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000025c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000260
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000260
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000264
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000264
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000268
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000268
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000244
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000244
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000248
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000248
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000024c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000024c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000250
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000250
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000254
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000254
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000258
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000258
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000025c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000025c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000260
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000260
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000264
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000264
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000268
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000268
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000026c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 0000026c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000270
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000270
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000274
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         21
+pc = 00000274
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000278
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000278
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 0000027c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 0000027c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000280
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000280
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000284
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000284
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000288
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000288
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 0000028c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 0000028c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000290
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         22
+pc = 00000290
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         22
+pc = 00000278
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000278
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 0000027c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 0000027c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000280
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000280
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000284
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000284
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000288
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000288
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 0000028c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 0000028c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         22
+pc = 00000290
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         22
+pc = 00000290
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         22
+pc = 00000294
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         22
+pc = 00000294
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         22
+pc = 00000298
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         22
+pc = 00000298
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         22
+pc = 0000029c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         22
+pc = 0000029c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         23
+pc = 000002a0
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a0
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a4
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a4
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a8
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a8
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002ac
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002ac
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b0
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b0
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b4
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b4
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002bc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002bc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002a8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002ac
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002ac
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002b8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002bc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002bc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002c0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002c0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002c4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002c4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002c8
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         23
+pc = 000002c8
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002cc
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002cc
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d0
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d0
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d4
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d4
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d8
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d8
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002dc
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002dc
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e0
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e0
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e4
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e4
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002ec
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002ec
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002cc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002cc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002d8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002dc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002dc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002e8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002ec
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002ec
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002f0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002f0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002f4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002f4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002f8
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         24
+pc = 000002f8
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 000002fc
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 000002fc
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000300
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000300
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000304
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000304
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000308
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000308
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 0000030c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 0000030c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000310
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000310
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000314
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000314
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000318
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000318
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 000002fc
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 000002fc
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000300
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000300
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000304
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000304
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000308
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000308
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 0000030c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 0000030c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000310
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000310
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000314
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000314
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000318
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000318
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 0000031c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 0000031c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         25
+pc = 00000320
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000320
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000324
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         25
+pc = 00000324
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000328
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000328
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000032c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000032c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000330
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000330
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000334
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000334
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000338
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000338
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000033c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000033c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000340
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000340
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000344
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000344
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000348
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000348
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000328
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000328
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000032c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000032c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000330
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000330
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000334
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000334
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000338
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000338
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000033c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000033c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000340
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000340
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000344
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000344
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000348
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000348
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000034c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 0000034c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000350
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000350
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000354
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         26
+pc = 00000354
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000358
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000358
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000035c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000035c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000360
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000360
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000364
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000364
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000368
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000368
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000036c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000036c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000370
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000370
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000374
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000374
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000378
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000378
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000358
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000358
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000035c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000035c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000360
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000360
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000364
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000364
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000368
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000368
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000036c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000036c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000370
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000370
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000374
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000374
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000378
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000378
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000037c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 0000037c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000380
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000380
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000384
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         27
+pc = 00000384
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 00000388
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 00000388
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 0000038c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 0000038c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 00000390
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000390
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000394
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000394
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000398
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000398
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 0000039c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 0000039c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 000003a0
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 000003a0
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 00000388
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 00000388
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 0000038c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 0000038c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 00000390
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000390
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000394
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000394
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000398
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 00000398
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 0000039c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 0000039c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         28
+pc = 000003a0
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 000003a0
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 000003a4
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 000003a4
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 000003a8
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 000003a8
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 000003ac
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         28
+pc = 000003ac
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b0
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b0
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b4
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b4
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b8
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b8
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003bc
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003bc
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c0
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c0
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c4
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c4
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003cc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003cc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003b8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003bc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003bc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003c8
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003cc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003cc
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003d0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003d0
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003d4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003d4
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003d8
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         29
+pc = 000003d8
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003dc
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003dc
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e0
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e0
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e4
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e4
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e8
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e8
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003ec
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003ec
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f0
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f0
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f4
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f4
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003fc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003fc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003dc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003dc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003e8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003ec
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003ec
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f0
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f4
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003f8
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003fc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 000003fc
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 00000400
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 00000400
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 00000404
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 00000404
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 00000408
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         30
+pc = 00000408
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 0000040c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 0000040c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000410
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000410
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000414
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000414
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000418
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000418
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 0000041c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 0000041c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000420
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000420
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000424
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000424
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000428
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000428
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 0000040c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 0000040c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000410
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000410
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000414
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000414
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000418
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000418
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 0000041c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 0000041c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 1,0
+in test         31
+pc = 00000420
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000420
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000424
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000424
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000428
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000428
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 0000042c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 0000042c
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000430
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000430
+t4 = 0000001a
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000434
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         31
+pc = 00000434
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000438
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000438
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000043c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000043c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000440
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000440
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000444
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000444
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000448
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000448
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000044c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000044c
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000450
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000450
+t4 = 00000018
+t5 = 00000018
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000454
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000454
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000458
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000458
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000438
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000438
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000043c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000043c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000440
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000440
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000444
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000444
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000448
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000448
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000044c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000044c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000450
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000450
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000454
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000454
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000458
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000458
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000045c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 0000045c
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000460
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000460
+t4 = 00000018
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000464
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         32
+pc = 00000464
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000468
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000468
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000046c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000046c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000470
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000470
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000474
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000474
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000478
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000478
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000047c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000047c
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000480
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000480
+t4 = 00000019
+t5 = 00000019
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000484
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000484
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000488
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000488
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000468
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000468
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000046c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000046c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000470
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000470
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000474
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000474
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000478
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000478
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000047c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000047c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000480
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000480
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000484
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000484
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000488
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000488
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000048c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 0000048c
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         33
+pc = 00000490
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         33
+pc = 00000490
+t4 = 00000019
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         33
+pc = 00000494
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         33
+pc = 00000494
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         34
+pc = 00000498
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         34
+pc = 00000498
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         34
+pc = 0000049c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         34
+pc = 0000049c
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 1,0
+in test         34
+pc = 000004a0
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         34
+pc = 000004a0
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000b
+replace bits is 0,1
+in test         34
+pc = 000004a4
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         34
+pc = 000004a4
+t4 = 0000001a
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         34
+pc = 000004a8
+t4 = 0000000f
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         34
+pc = 000004a8
+t4 = 0000000f
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         35
+pc = 000004ac
+t4 = 0000000f
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         35
+pc = 000004ac
+t4 = 0000000f
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         35
+pc = 000004b0
+t4 = 0000000f
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         35
+pc = 000004b0
+t4 = 0000000f
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         35
+pc = 000004b4
+t4 = 0000000f
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         35
+pc = 000004b4
+t4 = 0000000f
+t5 = 0000001a
+sp = 0000000f
+replace bits is 0,1
+in test         35
+pc = 000004b8
+t4 = 0000000f
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         35
+pc = 000004b8
+t4 = 0000000f
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         35
+pc = 000004bc
+t4 = 00000020
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         35
+pc = 000004bc
+t4 = 00000020
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         36
+pc = 000004c0
+t4 = 00000020
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         36
+pc = 000004c0
+t4 = 00000020
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         36
+pc = 000004c4
+t4 = 00000020
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         36
+pc = 000004c4
+t4 = 00000020
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         36
+pc = 000004c8
+t4 = 00000020
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         36
+pc = 000004c8
+t4 = 00000020
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         36
+pc = 000004cc
+t4 = 00000000
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         36
+pc = 000004cc
+t4 = 00000000
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         37
+pc = 000004d0
+t4 = 00000000
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         37
+pc = 000004d0
+t4 = 00000000
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         37
+pc = 000004d4
+t4 = 00000000
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         37
+pc = 000004d4
+t4 = 00000000
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         37
+pc = 000004d8
+t4 = 00000000
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         37
+pc = 000004d8
+t4 = 00000000
+t5 = 0000001a
+sp = 00000020
+replace bits is 0,1
+in test         37
+pc = 000004dc
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         37
+pc = 000004dc
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         37
+pc = 000004e0
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         37
+pc = 000004e0
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         37
+pc = 000004e4
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         37
+pc = 000004e4
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 000004e8
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 000004e8
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 000004f4
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 000004f4
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 000004f8
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 000004f8
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 000004fc
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 000004fc
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 00000500
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 000004fc
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 00000500
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+in test         38
+pc = 00000500
+t4 = 00000000
+t5 = 0000001a
+sp = 0000001e
+replace bits is 0,1
+PASS
+gp =         38
+pc = 00000504
+../rtl/tb.v:50: $finish called at 17470 (1s)
+in test         38
