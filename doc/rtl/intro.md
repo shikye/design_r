@@ -1,1 +1,7 @@
-function and signals
+function and important signals   
+try to describe with cycles   
+
+### 流水线寄存器
+流水线寄存器每个周期从上一个阶段获取值，传递并保持该值到输出端口。  
+流水线寄存器每次获取的值是一条指令在后续阶段需要使用的必要信息，所以流水线寄存器每次传递的值可以抽象地看作一条指令。    
+指令每个周期通过流水线寄存器依次在各个阶段中传递。  
