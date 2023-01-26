@@ -18,8 +18,8 @@ module id_stage (
     output  wire            [4:0]   id_ALUctrl_o,
     output  wire                    id_reg_we_o,
 
-    output  wire                    id_btype_o,
-    output  wire            [31:0]  id_next_pc_o,
+    output  wire                    id_btype_flag_o,
+    output  wire            [31:0]  id_btype_jump_pc_o,
     //from dhnf
     input   wire                    dhnf_harzard_sel1_i,
     input   wire                    dhnf_harzard_sel2_i,
@@ -28,27 +28,43 @@ module id_stage (
     //to dhnf
     output  wire                    id_reg1_RE_o,
     output  wire                    id_reg2_RE_o,
-    //from rom
-    input   wire            [31:0]  rom_inst_i,
-    //from ex
-    input   wire                    ex_ins_flush_i,
-    //to if
-    output  wire                    id_jump_en_o,
+    //from Icache
+    input   wire            [31:0]  Icache_inst_i,
+    input   wire                    Icache_ready_i,
+    //from fc
+    input   wire                    fc_jump_flag_i,
+    input   wire                    fc_stall_flag_i,
+    //to fc
+    output  wire                    id_jump_flag_o,
     output  wire            [31:0]  id_jump_pc_o
 );
 
 
-    wire [31:0] inst = delay_flush ? 32'h0 : rom_inst_i;
+    reg [31:0] Icache_inst_buffer;  //lap for one cycle
 
-    reg delay_flush;
+    always@(posedge clk or negedge rst_n) begin
+        if(rst_n == 1'b0) begin
+            Icache_inst_buffer <= 32'h0;
+        end 
+        else if(Icache_ready_i == 1'b1) begin
+            Icache_inst_buffer <= Icache_inst_i;
+        end
+        else 
+            Icache_inst_buffer <= 32'h0;
+    end
+
+
+    wire [31:0] inst = delay_flag ? 32'h0 : Icache_inst_buffer;
+
+    reg delay_flag;
 
     always @(posedge clk or negedge rst_n) begin
         if(rst_n == 1'b0)
-            delay_flush <= 1'b0;
-        else if((ex_ins_flush_i == 1'b1) || (id_jump_en_o == 1'b1))
-            delay_flush <= 1'b1;
+            delay_flag <= 1'b0;
+        else if(fc_jump_flag_i)
+            delay_flag <= 1'b1;
         else
-            delay_flush <= 1'b0;
+            delay_flag <= 1'b0;
     end
 
 
@@ -74,8 +90,8 @@ module id_stage (
     wire [31:0] rd2_after_hazard = dhnf_harzard_sel2_i ? dhnf_forward_data2_i : regs_reg2_rdata_i;
 
     
-    assign id_btype_o = (opcode == `Btype) ? 1'b1 : 1'b0;
-    assign id_next_pc_o = if_id_reg_pc_i + eximm_eximm_i;  //only btype
+    assign id_btype_flag_o = (opcode == `Btype) ? 1'b1 : 1'b0;
+    assign id_btype_jump_pc_o = if_id_reg_pc_i + eximm_eximm_i;  //only btype
 
 
     assign id_reg1_raddr_o = rs1;
@@ -106,7 +122,7 @@ module id_stage (
     //     cu_op_b_sel_o ? eximm_eximm_i : regs_reg2_rdata_i;
 
     
-    assign id_jump_en_o = (opcode == `Jtype_J || opcode == `Itype_J) ? 1'b1 : 1'b0;   //jal and jalr
+    assign id_jump_flag_o = (opcode == `Jtype_J || opcode == `Itype_J) ? 1'b1 : 1'b0;   //jal and jalr
     assign id_jump_pc_o   = (opcode == `Jtype_J ) ? (if_id_reg_pc_i + eximm_eximm_i) : (rd1_after_hazard + eximm_eximm_i);
 
     

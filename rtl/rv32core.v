@@ -4,13 +4,18 @@ module rv32core(
     input   wire                    rst_n,
 
     //to rom
-    output  wire            [31:0]  rv32core_pc_o,
+    output  wire            [31:0]  rv32core_addr_o,
+    output  wire                    rv32core_valid_req_o,
     //from rom
-    input   wire            [31:0]  rom_inst_i
+    input   wire                    rom_ready_i,
+    input   wire            [127:0] rom_data_i    //to Icache
 
 );
 
     //source
+    //if
+    wire    [31:0]  if_pc_o;
+    wire            if_valid_req_o;
     //if_id_reg
     wire    [31:0]  if_id_reg_pc_o;
     //regs
@@ -24,27 +29,26 @@ module rv32core(
     wire    [4:0]   id_reg_waddr_o;
     wire    [4:0]   id_ALUctrl_o;
     wire            id_reg_we_o;
-    wire            id_btype_o;
-    wire    [31:0]  id_next_pc_o;
+    wire            id_btype_flag_o;
+    wire    [31:0]  id_btype_jump_pc_o;
     wire            id_reg1_RE_o;
     wire            id_reg2_RE_o;
     wire    [31:0]  id_jump_pc_o;
-    wire            id_jump_en_o;
+    wire            id_jump_flag_o;
     //id_ex_reg
     wire    [31:0]  id_ex_reg_op_a_o;
     wire    [31:0]  id_ex_reg_op_b_o;
     wire    [4:0]   id_ex_reg_ALUctrl_o;
     wire    [4:0]   id_ex_reg_reg_waddr_o;
     wire            id_ex_reg_reg_we_o;
-    wire            id_ex_reg_btype_o;
-    wire    [31:0]  id_ex_reg_next_pc_o;
+    wire            id_ex_reg_btype_flag_o;
+    wire    [31:0]  id_ex_reg_btype_jump_pc_o;
     //ex
     wire    [31:0]  ex_op_c_o;
     wire    [4:0]   ex_reg_waddr_o;
     wire            ex_reg_we_o;
-    wire            ex_branch_o;
-    wire    [31:0]  ex_next_pc_o;
-    wire            ex_ins_flush_o;
+    wire            ex_branch_flag_o;
+    wire    [31:0]  ex_jump_pc_o;
     //ex_mem_reg
     wire    [31:0]  ex_mem_reg_op_c_o;
     wire    [4:0]   ex_mem_reg_reg_waddr_o;
@@ -66,28 +70,40 @@ module rv32core(
     wire            dhnf_harzard_sel2_o;
     wire    [31:0]  dhnf_forward_data1_o;
     wire    [31:0]  dhnf_forward_data2_o;
-    //fnb
-    wire            fnb_flush_o;
-    wire            fnb_jump_o;
+    //fc
+    wire            fc_flush_btype_flag_o;
+    wire            fc_flush_jtype_flag_o;
+    wire            fc_stall_flag_o;
+    wire            fc_jump_flag_o;
+    wire    [31:0]  fc_jump_pc_o;
+    //Icache
+    wire            Icache_ready_o;
+    wire    [31:0]  Icache_inst_o;
+    wire            Icache_pipe_stall_o;
+    wire            hit;
+    wire    [31:0]  Icache_addr_o;
+    wire            Icache_valid_req_o;
 
 
 
     if_stage if_stage_ins(
         .clk(clk),
         .rst_n(rst_n),
-        .if_pc_o(rv32core_pc_o),
-        .fnb_jump_i(fnb_jump_o),
-        .ex_next_pc_i(ex_next_pc_o),
-        .id_jump_pc_i(id_jump_pc_o),
-        .id_jump_en_i(id_jump_en_o)
+        .if_pc_o(if_pc_o),
+        .if_valid_req_o(if_valid_req_o),
+        .fc_stall_flag_i(fc_stall_flag_o),
+        .fc_jump_pc_i(fc_jump_pc_o),
+        .fc_jump_flag_i(fc_jump_flag_o)
     );
 
     if_id_reg if_id_reg_ins(
         .clk(clk),
         .rst_n(rst_n),
-        .if_pc_i(rv32core_pc_o),
+        .if_pc_i(if_pc_o),
         .if_id_reg_pc_o(if_id_reg_pc_o),
-        .fnb_flush_i(fnb_flush_o)
+        .fc_flush_btype_flag_i(fc_flush_btype_flag_o),
+        .fc_flush_jtype_flag_i(fc_flush_jtype_flag_o),
+        .fc_stall_flag_i(fc_stall_flag_o)
     );
 
     id_stage id_stage_ins(
@@ -103,17 +119,19 @@ module rv32core(
         .id_reg_waddr_o(id_reg_waddr_o),
         .id_ALUctrl_o(id_ALUctrl_o),
         .id_reg_we_o(id_reg_we_o),
-        .id_btype_o(id_btype_o),
-        .id_next_pc_o(id_next_pc_o),
+        .id_btype_flag_o(id_btype_flag_o),
+        .id_btype_jump_pc_o(id_btype_jump_pc_o),
         .dhnf_harzard_sel1_i(dhnf_harzard_sel1_o),
         .dhnf_harzard_sel2_i(dhnf_harzard_sel2_o),
         .dhnf_forward_data1_i(dhnf_forward_data1_o),
         .dhnf_forward_data2_i(dhnf_forward_data2_o),
         .id_reg1_RE_o(id_reg1_RE_o),
         .id_reg2_RE_o(id_reg2_RE_o),
-        .rom_inst_i(rom_inst_i),
-        .ex_ins_flush_i(ex_ins_flush_o),
-        .id_jump_en_o(id_jump_en_o),
+        .Icache_inst_i(Icache_inst_o),
+        .Icache_ready_i(Icache_ready_o),
+        .fc_jump_flag_i(fc_jump_flag_o),
+        .fc_stall_flag_i(fc_stall_flag_o),
+        .id_jump_flag_o(id_jump_flag_o),
         .id_jump_pc_o(id_jump_pc_o)
     );
 
@@ -137,16 +155,17 @@ module rv32core(
         .id_op_b_i(id_op_b_o),
         .id_reg_waddr_i(id_reg_waddr_o),
         .id_reg_we_i(id_reg_we_o),
-        .id_btype_i(id_btype_o),
-        .id_next_pc_i(id_next_pc_o),
+        .id_btype_flag_i(id_btype_flag_o),
+        .id_btype_jump_pc_i(id_btype_jump_pc_o),
         .id_ex_reg_op_a_o(id_ex_reg_op_a_o),
         .id_ex_reg_op_b_o(id_ex_reg_op_b_o),
         .id_ex_reg_ALUctrl_o(id_ex_reg_ALUctrl_o),
         .id_ex_reg_reg_waddr_o(id_ex_reg_reg_waddr_o),
         .id_ex_reg_reg_we_o(id_ex_reg_reg_we_o),
-        .id_ex_reg_btype_o(id_ex_reg_btype_o),
-        .id_ex_reg_next_pc_o(id_ex_reg_next_pc_o),
-        .fnb_flush_i(fnb_flush_o)
+        .id_ex_reg_btype_flag_o(id_ex_reg_btype_flag_o),
+        .id_ex_reg_btype_jump_pc_o(id_ex_reg_btype_jump_pc_o),
+        .fc_flush_btype_flag_i(fc_flush_btype_flag_o),
+        .fc_flush_jtype_flag_i(fc_flush_jtype_flag_o)
     );
 
     ex_stage ex_stage_ins(
@@ -157,14 +176,13 @@ module rv32core(
         .id_ex_reg_ALUctrl_i(id_ex_reg_ALUctrl_o),
         .id_ex_reg_reg_waddr_i(id_ex_reg_reg_waddr_o),
         .id_ex_reg_reg_we_i(id_ex_reg_reg_we_o),
-        .id_ex_reg_btype_i(id_ex_reg_btype_o),
-        .id_ex_reg_next_pc_i(id_ex_reg_next_pc_o),
+        .id_ex_reg_btype_flag_i(id_ex_reg_btype_flag_o),
+        .id_ex_reg_btype_jump_pc_i(id_ex_reg_btype_jump_pc_o),
         .ex_op_c_o(ex_op_c_o),
         .ex_reg_waddr_o(ex_reg_waddr_o),
         .ex_reg_we_o(ex_reg_we_o),
-        .ex_branch_o(ex_branch_o),
-        .ex_next_pc_o(ex_next_pc_o),
-        .ex_ins_flush_o(ex_ins_flush_o)
+        .ex_branch_flag_o(ex_branch_flag_o),
+        .ex_jump_pc_o(ex_jump_pc_o)
     );
 
     ex_mem_reg ex_mem_reg_ins(
@@ -235,10 +253,33 @@ module rv32core(
         .dhnf_forward_data2_o(dhnf_forward_data2_o)
     );
 
-    Flush_N_Branch fnb_ins(
-        .ex_branch_i(ex_branch_o),
-        .fnb_flush_o(fnb_flush_o),
-        .fnb_jump_o(fnb_jump_o)
+    Flow_Ctrl fc_ins(
+        .ex_branch_flag_i(ex_branch_flag_o),
+        .ex_jump_pc_i(ex_jump_pc_o),
+        .id_jump_pc_i(id_jump_pc_o),
+        .id_jump_flag_i(id_jump_flag_o),
+        .Icache_ready_i(Icache_ready_o),
+        .Icache_pipe_stall_i(Icache_pipe_stall_o),
+        .fc_flush_btype_flag_o(fc_flush_btype_flag_o),
+        .fc_flush_jtype_flag_o(fc_flush_jtype_flag_o),
+        .fc_stall_flag_o(fc_stall_flag_o),
+        .fc_jump_flag_o(fc_jump_flag_o),
+        .fc_jump_pc_o(fc_jump_pc_o)
+    );
+
+    ICache Icache_ins(
+        .clk(clk),
+        .rst_n(rst_n),
+        .if_pc_i(if_pc_o),
+        .if_valid_req_i(if_valid_req_o),
+        .Icache_ready_o(Icache_ready_o),
+        .Icache_inst_o(Icache_inst_o),
+        .Icache_pipe_stall_o(Icache_pipe_stall_o),
+        .hit(hit),
+        .Icache_addr_o(rv32core_addr_o),
+        .Icache_valid_req_o(rv32core_valid_req_o),
+        .mem_ready_i(rom_ready_i),
+        .mem_data_i(rom_data_i)
     );
 
 endmodule

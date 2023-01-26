@@ -17,15 +17,14 @@ module ICache (
     input   wire                    clk,
     input   wire                    rst_n,
 
-    //from core
-    input   wire            [31:0]  core_inst_addr_i, //from core
-    input   wire                    core_valid_req_i,
-    //to core
+    //from if
+    input   wire            [31:0]  if_inst_addr_i, //from if
+    input   wire                    if_valid_req_i,
+    //to if
     output  reg                     Icache_ready_o,
     output  reg             [31:0]  Icache_inst_o,
 
     output  wire                    hit,
-    output  reg                     pipe_stall,
     
     //to mem
     output  reg             [31:0]  Icache_addr_o,
@@ -59,9 +58,9 @@ reg [127:0] ICache_Data_Block [0:15];
 reg [28:0]  ICache_Tag_Array  [0:15];
 
 //Mapping Decord
-wire [26:0] Icache_tag   = core_inst_addr_i[31:5];
-wire [2:0]  Icache_index = core_inst_addr_i[4:2];
-wire [1:0]  Icache_off   = core_inst_addr_i[1:0];
+wire [26:0] Icache_tag   = if_inst_addr_i[31:5];
+wire [2:0]  Icache_index = if_inst_addr_i[4:2];
+wire [1:0]  Icache_off   = if_inst_addr_i[1:0];
 
 //Buffer
 reg [127:0] Mem_Data_Buffer_i;
@@ -132,7 +131,7 @@ always @(*) begin
 
     case(cur_state)
         Idle:begin
-            if(core_valid_req_i == 1'b1)
+            if(if_valid_req_i == 1'b1)
                 next_state = Compare_Tag;
             else 
                 next_state = Idle;
@@ -217,7 +216,7 @@ always @(*) begin
 
         Read_from_Mem:begin
             Icache_valid_req_o = 1'b1;
-            Icache_addr_o = (core_inst_addr_i >> 4) << 4;
+            Icache_addr_o = (if_inst_addr_i >> 4) << 4;
             Mem_Data_Buffer_i = mem_data_i;
 
 

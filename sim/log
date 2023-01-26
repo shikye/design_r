@@ -1,0 +1,57 @@
+vvp out.vvp
+WARNING: ../rtl/tb.v:17: $readmemh(../sim/inst): Not enough words in the file for the requested range [0:4095].
+VCD info: dumpfile dump.vcd opened for output.
+VCD warning: array word tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[0] will conflict with an escaped identifier.
+VCD warning: array word tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[1] will conflict with an escaped identifier.
+VCD warning: array word tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2] will conflict with an escaped identifier.
+VCD warning: array word tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3] will conflict with an escaped identifier.
+VCD warning: ../rtl/tb.v:27: $dumpfile called after $dumpvars started,
+                             using existing file (dump.vcd).
+in test          0
+pc = 00000000
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+in test          0
+pc = 00000000
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+in test          0
+pc = 00000000
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+index is  0
+                  50
+replace bits is 0,0
+in test          0
+pc = 00000000
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+in test          0
+pc = 00000000
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+in test          0
+pc = 00000004
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+in test          0
+pc = 00000008
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+in test          0
+pc = 0000000c
+t4 = 00000000
+t5 = 00000000
+sp = 00000000
+change time is                  150
+index is  1
+                 150
+replace bits is 1,0
+in test          0

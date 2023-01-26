@@ -1,3 +1,4 @@
+`include "define.v"
 module ex_stage (
     input   wire                    clk,
     input   wire                    rst_n,
@@ -8,24 +9,19 @@ module ex_stage (
     input   wire            [4:0]   id_ex_reg_reg_waddr_i,
     input   wire                    id_ex_reg_reg_we_i,
 
-    input   wire                    id_ex_reg_btype_i,
-    input   wire            [31:0]  id_ex_reg_next_pc_i,
+    input   wire                    id_ex_reg_btype_flag_i,
+    input   wire            [31:0]  id_ex_reg_btype_jump_pc_i,
     //to ex_mem_reg
     output  reg             [31:0]  ex_op_c_o,
     output  wire            [4:0]   ex_reg_waddr_o,
     output  wire                    ex_reg_we_o,
-    //to fnb
-    output  wire                    ex_branch_o,
-    //to pc
-    output  wire            [31:0]  ex_next_pc_o,
-    //to id
-    output  wire                    ex_ins_flush_o
+    //to fc
+    output  wire                    ex_branch_flag_o,
+    output  wire            [31:0]  ex_jump_pc_o
 );
 
     wire [31:0] op_a = id_ex_reg_op_a_i;
     wire [31:0] op_b = id_ex_reg_op_b_i;
-
-    reg  [31:0] op_c_buff;
 
     always @(*) begin
         case(id_ex_reg_ALUctrl_i)
@@ -52,11 +48,11 @@ module ex_stage (
 
     assign ex_reg_we_o = id_ex_reg_reg_we_i;
 
-    assign ex_branch_o = ex_op_c_o && id_ex_reg_btype_i; 
+    assign ex_branch_flag_o = ex_op_c_o && id_ex_reg_btype_flag_i; 
     //when op == 1 && is a branch inst
-    assign ex_ins_flush_o = ex_op_c_o && id_ex_reg_btype_i; 
+    assign ex_ins_flush_o = ex_op_c_o && id_ex_reg_btype_flag_i; 
 
-    assign ex_next_pc_o = id_ex_reg_next_pc_i;
+    assign ex_jump_pc_o = id_ex_reg_btype_jump_pc_i;
     
     
 

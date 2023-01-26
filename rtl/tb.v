@@ -19,7 +19,11 @@ module tb;
 
 
     initial begin
-        $dumpvars(0,tb.soc_ins);
+        $dumpvars(0,tb.soc_ins,
+        tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[0],
+        tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[1],
+        tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2],
+        tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3]);
         $dumpfile("tb.vcd");
     end
 
@@ -41,7 +45,8 @@ module tb;
                 $display("t4 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[29]);
                 $display("t5 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[30]);
                 $display("sp = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[2]);
-
+                $display("replace bits is %d,%d",tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3][25],
+                    tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2][25] );
             end
             $finish;
         end
@@ -53,7 +58,16 @@ module tb;
 
     end
 
-
+    always@(posedge clk) begin
+        $display("in test %d",tb.soc_ins.rv32core_ins.regs_ins.regs[3]);
+        $display("pc = %x",tb.soc_ins.rv32core_ins.if_stage_ins.if_pc_o);
+        $display("t4 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[29]);
+        $display("t5 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[30]);
+        $display("sp = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[2]);
+        $display("replace bits is %d,%d",tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3][25],
+                    tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2][25] );
+    
+    end
 
 
     initial begin
