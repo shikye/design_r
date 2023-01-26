@@ -19,11 +19,13 @@ module tb;
 
 
     initial begin
-        $dumpvars(0,tb.soc_ins,
-        tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[0],
-        tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[1],
-        tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2],
-        tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3]);
+        $dumpvars(0,tb.soc_ins
+        // ,tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[0],
+        // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[1],
+        // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2],
+        // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3],
+        // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Data_Block[0]
+        );
         $dumpfile("tb.vcd");
     end
 
@@ -40,13 +42,10 @@ module tb;
             end
             else begin
                 $display("test %d fail",tb.soc_ins.rv32core_ins.regs_ins.regs[3]);
-                $display("gp = %d",tb.soc_ins.rv32core_ins.regs_ins.regs[3]);
                 $display("pc = %x",tb.soc_ins.rv32core_ins.if_stage_ins.if_pc_o);
                 $display("t4 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[29]);
                 $display("t5 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[30]);
                 $display("sp = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[2]);
-                $display("replace bits is %d,%d",tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3][25],
-                    tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2][25] );
             end
             $finish;
         end
@@ -74,7 +73,6 @@ module tb;
         #100000
         $display("timeout");
         $finish;
-    
     end
 
 
