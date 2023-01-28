@@ -1,1 +1,3 @@
-1. addi ok, bne need to be done which need flush
+## 后续模块想法
+1. 握手协议用于跨时钟域。
+2. 

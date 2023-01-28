@@ -1,13 +1,13 @@
 //2-way 8-set 
 //Cache_Block:16 Byte,Cache_line:16 line
-//Cache Memory Mapping:| Tag | Index | Block Offset |
-//                       27      3          2  
+//Cache Memory Mapping:| Tag | Index | Block Offset | 2'b00 -- 4bytes each time
+//                       25      3          2  
 //Tag Unit:|Valid|Replace|Tag|
-//            1      1    27
+//            1      1    25
 //Get 4 Btye for each time
 
 
-//write back and write allocate
+//read asy
 
 
 //should be a combination circuit?
@@ -62,7 +62,6 @@ wire [24:0] Icache_tag   = if_pc_i[31:7];
 wire [3:0]  Icache_index = {{1'b0},if_pc_i[6:4]};   // when Icache_index 3bits, if << , will overflow,Icache_index should be 4bits.
 wire [1:0]  Icache_off   = if_pc_i[3:2];     //notice the width!!! [3:2]
 
-wire [3:0]  Icache_line_base = {if_pc_i[6:4],{1'b0}};
 //Buffer
 reg [127:0] Mem_Data_Buffer_i;
 
@@ -141,6 +140,8 @@ always @(cur_state,Icache_index,if_valid_req_i,mem_ready_i,if_pc_i,Icache_off,if
 
                     victim_number = victim_number;
 
+                    next_state = Idle_or_Compare_Tag;
+
 
 
                     if(ICache_Tag_hit[0] == 1'b1) begin
@@ -185,6 +186,9 @@ always @(cur_state,Icache_index,if_valid_req_i,mem_ready_i,if_pc_i,Icache_off,if
                 end
 
                 else begin                    //Cache Miss
+                //1.Replace 2.Change Tag 3.Valid
+
+
 
                     Icache_valid_req_o = 1'b1;
                     Icache_addr_o = (if_pc_i >> 4) << 4;
@@ -192,30 +196,38 @@ always @(cur_state,Icache_index,if_valid_req_i,mem_ready_i,if_pc_i,Icache_off,if
                     
                     Icache_pipe_stall_o = 1'b1;
 
+                    next_state = Read_from_Mem;
+
                     case( {ICache_Tag_Array[(Icache_index << 1) + 1][Replace],ICache_Tag_Array[Icache_index << 1][Replace]} )
                         2'b00:begin
                             victim_number = 1'b0;
                             ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
                             ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
+
+                            ICache_Tag_Array[Icache_index << 1][Tag_Width:0] = Icache_tag;
                         end
                         2'b01:begin
                             victim_number = 1'b0;
                             ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
                             ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
+
+                            ICache_Tag_Array[Icache_index << 1][Tag_Width:0] = Icache_tag;
                         end
                         2'b10:begin
                             victim_number = 1'b1;
                             ICache_Tag_Array[Icache_index << 1][Replace] = 1'b1;
                             ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
+
+                            ICache_Tag_Array[(Icache_index << 1) + 1][Tag_Width:0] = Icache_tag;
                         end
                         default:begin
                             victim_number = 1'b0;
                             ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
                             ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
+
+                            ICache_Tag_Array[Icache_index << 1][Tag_Width:0] = Icache_tag;
                         end
                     endcase
-
-                    next_state = Read_from_Mem;
                 end
             end
 
