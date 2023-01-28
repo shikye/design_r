@@ -1,8 +1,7 @@
 .VSCodeCounter/**
 *.vvp
 *.vcd
-*.dump
 inst_bak
 *.out
 module_sim/**
-!verilog_mem/*.dump
+log
