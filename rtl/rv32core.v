@@ -73,13 +73,13 @@ module rv32core(
     //fc
     wire            fc_flush_btype_flag_o;
     wire            fc_flush_jtype_flag_o;
-    wire            fc_stall_flag_o;
+    wire            fc_Icache_stall_flag_o;
     wire            fc_jump_flag_o;
     wire    [31:0]  fc_jump_pc_o;
+    wire            fc_Icache_data_valid_o;
     //Icache
     wire            Icache_ready_o;
     wire    [31:0]  Icache_inst_o;
-    wire            Icache_pipe_stall_o;
     wire            hit;
     wire    [31:0]  Icache_addr_o;
     wire            Icache_valid_req_o;
@@ -91,7 +91,7 @@ module rv32core(
         .rst_n(rst_n),
         .if_pc_o(if_pc_o),
         .if_valid_req_o(if_valid_req_o),
-        .fc_stall_flag_i(fc_stall_flag_o),
+        .fc_Icache_stall_flag_i(fc_Icache_stall_flag_o),
         .fc_jump_pc_i(fc_jump_pc_o),
         .fc_jump_flag_i(fc_jump_flag_o)
     );
@@ -102,8 +102,7 @@ module rv32core(
         .if_pc_i(if_pc_o),
         .if_id_reg_pc_o(if_id_reg_pc_o),
         .fc_flush_btype_flag_i(fc_flush_btype_flag_o),
-        .fc_flush_jtype_flag_i(fc_flush_jtype_flag_o),
-        .fc_stall_flag_i(fc_stall_flag_o)
+        .fc_flush_jtype_flag_i(fc_flush_jtype_flag_o)
     );
 
     id_stage id_stage_ins(
@@ -128,9 +127,8 @@ module rv32core(
         .id_reg1_RE_o(id_reg1_RE_o),
         .id_reg2_RE_o(id_reg2_RE_o),
         .Icache_inst_i(Icache_inst_o),
-        .Icache_ready_i(Icache_ready_o),
         .fc_jump_flag_i(fc_jump_flag_o),
-        .fc_stall_flag_i(fc_stall_flag_o),
+        .fc_Icache_data_valid_i(fc_Icache_data_valid_o),
         .id_jump_flag_o(id_jump_flag_o),
         .id_jump_pc_o(id_jump_pc_o)
     );
@@ -259,12 +257,13 @@ module rv32core(
         .id_jump_pc_i(id_jump_pc_o),
         .id_jump_flag_i(id_jump_flag_o),
         .Icache_ready_i(Icache_ready_o),
-        .Icache_pipe_stall_i(Icache_pipe_stall_o),
         .fc_flush_btype_flag_o(fc_flush_btype_flag_o),
         .fc_flush_jtype_flag_o(fc_flush_jtype_flag_o),
-        .fc_stall_flag_o(fc_stall_flag_o),
+        .fc_Icache_stall_flag_o(fc_Icache_stall_flag_o),
         .fc_jump_flag_o(fc_jump_flag_o),
-        .fc_jump_pc_o(fc_jump_pc_o)
+        .fc_jump_pc_o(fc_jump_pc_o),
+        .fc_Icache_data_valid_o(fc_Icache_data_valid_o),
+        .rom_ready_i(rom_ready_i)
     );
 
     ICache Icache_ins(
@@ -274,7 +273,6 @@ module rv32core(
         .if_valid_req_i(if_valid_req_o),
         .Icache_ready_o(Icache_ready_o),
         .Icache_inst_o(Icache_inst_o),
-        .Icache_pipe_stall_o(Icache_pipe_stall_o),
         .hit(hit),
         .Icache_addr_o(rv32core_addr_o),
         .Icache_valid_req_o(rv32core_valid_req_o),

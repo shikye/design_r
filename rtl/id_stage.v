@@ -1,4 +1,5 @@
 `include "define.v"
+
 module id_stage (
     input   wire                    clk,
     input   wire                    rst_n,
@@ -30,31 +31,18 @@ module id_stage (
     output  wire                    id_reg2_RE_o,
     //from Icache
     input   wire            [31:0]  Icache_inst_i,
-    input   wire                    Icache_ready_i,
     //from fc
     input   wire                    fc_jump_flag_i,
-    input   wire                    fc_stall_flag_i,
+    input   wire                    fc_Icache_data_valid_i,
     //to fc
     output  wire                    id_jump_flag_o,
     output  wire            [31:0]  id_jump_pc_o
 );
 
 
-    reg [31:0] Icache_inst_buffer;  //lap for one cycle
+    wire [31:0] Icache_inst_buffer_from_Icache = fc_Icache_data_valid_i ? Icache_inst_i : 32'h0;
 
-    always@(posedge clk or negedge rst_n) begin
-        if(rst_n == 1'b0) begin
-            Icache_inst_buffer <= 32'h0;
-        end 
-        else if(Icache_ready_i == 1'b1) begin
-            Icache_inst_buffer <= Icache_inst_i;
-        end
-        else 
-            Icache_inst_buffer <= 32'h0;
-    end
-
-
-    wire [31:0] inst = delay_flag ? 32'h0 : Icache_inst_buffer;
+    wire [31:0] inst = delay_flag ? 32'h0 : Icache_inst_buffer_from_Icache;
 
     reg delay_flag;
 

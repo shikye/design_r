@@ -7,26 +7,24 @@
 //Get 4 Btye for each time
 
 
-//read asy
+//read sy
 
 
-//should be a combination circuit?
-//no, pipeline is a sequence , and sram is sequence
 
 module ICache (
     input   wire                    clk,
     input   wire                    rst_n,
 
     //from if
-    input   wire            [31:0]  if_pc_i, //from if
+    input   wire            [31:0]  if_pc_i, 
     input   wire                    if_valid_req_i,
-    //to if
-    output  reg                     Icache_ready_o,
+    
+    
+    //to id
     output  reg             [31:0]  Icache_inst_o,
 
     //to fc
-
-    output  reg                     Icache_pipe_stall_o,
+    output  reg                     Icache_ready_o,
     output  wire                    hit,
     
     //to mem
@@ -44,7 +42,6 @@ localparam Read_from_Mem        = 1;
 
 
 reg cur_state;
-reg next_state;
 
 
 //function mapping
@@ -61,9 +58,6 @@ reg [26:0]  ICache_Tag_Array  [0:15];
 wire [24:0] Icache_tag   = if_pc_i[31:7];
 wire [3:0]  Icache_index = {{1'b0},if_pc_i[6:4]};   // when Icache_index 3bits, if << , will overflow,Icache_index should be 4bits.
 wire [1:0]  Icache_off   = if_pc_i[3:2];     //notice the width!!! [3:2]
-
-//Buffer
-reg [127:0] Mem_Data_Buffer_i;
 
 
 //hit --regardless of ready
@@ -105,183 +99,144 @@ end
 
 
 //FSM
-always @(posedge clk or negedge rst_n) begin
-    if(rst_n == 1'b0) begin
+always @(posedge clk or negedge rst_n) begin   
+    if(rst_n == 1'b0)begin
+        Icache_inst_o <= 32'h0;
+        
+        Icache_ready_o <= 1'b0;
+        
+        Icache_addr_o <= 32'h0;
+        Icache_valid_req_o <= 1'b0;
+
         cur_state <= Idle_or_Compare_Tag;
-        next_state <= Idle_or_Compare_Tag;
-    end
-    else 
-        cur_state <= next_state;
-end
+    end 
+    else begin
 
+        case(cur_state)
+            Idle_or_Compare_Tag:begin
 
-always @(cur_state,Icache_index,if_valid_req_i,mem_ready_i,if_pc_i,Icache_off,if_valid_req_i,ICache_Tag_hit) begin   //used to be * //no use if_pc_i //matters a lot
-    //avoid latch
-    //Replace 
-    //victim_number = 1'b0;
-    //to core
-    Icache_ready_o = 1'b0;
-    Icache_inst_o  = 32'h0;
+                if(if_valid_req_i == 1'b1)begin
 
-    Icache_pipe_stall_o = 1'b0;
-    //to mem
-    Icache_addr_o  = 32'h0;
-    Icache_valid_req_o = 1'b0;
+                    if(hit == 1'b1)begin   //read hit then change Replace
 
+                        cur_state <= Idle_or_Compare_Tag;
+                        Icache_valid_req_o <= 1'b0;
 
-    case(cur_state)
-        Idle_or_Compare_Tag:begin
+                        if(ICache_Tag_hit[0] == 1'b1) begin
 
-            if(if_valid_req_i == 1'b1)begin
+                            case(Icache_off)
+                                2'b00:Icache_inst_o <= ICache_Data_Block[Icache_index << 1][31:0];
+                                2'b01:Icache_inst_o <= ICache_Data_Block[Icache_index << 1][63:32];
+                                2'b10:Icache_inst_o <= ICache_Data_Block[Icache_index << 1][95:64];
+                                2'b11:Icache_inst_o <= ICache_Data_Block[Icache_index << 1][127:96];
+                                default:Icache_inst_o <= 32'h0;
+                            endcase
 
-                Icache_ready_o = hit;   //need to read then hit
-
-                if(Icache_ready_o == 1'b1)begin   //hit then change Replace
-
-                    victim_number = victim_number;
-
-                    next_state = Idle_or_Compare_Tag;
-
-
-
-                    if(ICache_Tag_hit[0] == 1'b1) begin
-
-                        case(Icache_off)
-                            2'b00:Icache_inst_o = ICache_Data_Block[Icache_index << 1][31:0];
-                            2'b01:Icache_inst_o = ICache_Data_Block[Icache_index << 1][63:32];
-                            2'b10:Icache_inst_o = ICache_Data_Block[Icache_index << 1][95:64];
-                            2'b11:Icache_inst_o = ICache_Data_Block[Icache_index << 1][127:96];
-                            default:Icache_inst_o = 32'h0;
-                        endcase
-
-                        if(ICache_Tag_Array[Icache_index << 1][Replace] == 1'b1) begin
-                            ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
+                            ICache_Tag_Array[Icache_index << 1][Replace] <= 1'b0;
+                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] <= 1'b1;
                         end
+
                         else begin
-                            ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
+
+                            case(Icache_off)
+                                2'b00:Icache_inst_o <= ICache_Data_Block[(Icache_index << 1) + 1][31:0];
+                                2'b01:Icache_inst_o <= ICache_Data_Block[(Icache_index << 1) + 1][63:32];
+                                2'b10:Icache_inst_o <= ICache_Data_Block[(Icache_index << 1) + 1][95:64];
+                                2'b11:Icache_inst_o <= ICache_Data_Block[(Icache_index << 1) + 1][127:96];
+                                default:Icache_inst_o <= 32'h0;
+                            endcase
+                            
+                            ICache_Tag_Array[Icache_index << 1][Replace] <= 1'b1;
+                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] <= 1'b0;
                         end
                     end
 
-                    else begin
+                    else begin                    //Cache Miss
+                    //1.Replace 2.Change Tag
 
-                        case(Icache_off)
-                            2'b00:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + 1][31:0];
-                            2'b01:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + 1][63:32];
-                            2'b10:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + 1][95:64];
-                            2'b11:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + 1][127:96];
-                            default:Icache_inst_o = 32'h0;
+                        Icache_valid_req_o <= 1'b1;
+                        Icache_addr_o <= (if_pc_i >> 4) << 4;
+
+                        Icache_ready_o <= 1'b0;
+
+                        cur_state <= Read_from_Mem;
+
+                        case( {ICache_Tag_Array[(Icache_index << 1) + 1][Replace],ICache_Tag_Array[Icache_index << 1][Replace]} )
+                            2'b00:begin
+                                victim_number <= 1'b0;
+                                ICache_Tag_Array[Icache_index << 1][Replace] <= 1'b0;
+                                ICache_Tag_Array[(Icache_index << 1) + 1][Replace] <= 1'b1;
+
+                                ICache_Tag_Array[Icache_index << 1][Tag_Width:0] <= Icache_tag;
+                            end
+                            2'b01:begin
+                                victim_number <= 1'b0;
+                                ICache_Tag_Array[Icache_index << 1][Replace] <= 1'b0;
+                                ICache_Tag_Array[(Icache_index << 1) + 1][Replace] <= 1'b1;
+
+                                ICache_Tag_Array[Icache_index << 1][Tag_Width:0] <= Icache_tag;
+                            end
+                            2'b10:begin
+                                victim_number <= 1'b1;
+                                ICache_Tag_Array[Icache_index << 1][Replace] <= 1'b1;
+                                ICache_Tag_Array[(Icache_index << 1) + 1][Replace] <= 1'b0;
+
+                                ICache_Tag_Array[(Icache_index << 1) + 1][Tag_Width:0] <= Icache_tag;
+                            end
+                            default:begin
+                                victim_number = 1'b0;
+                                ICache_Tag_Array[Icache_index << 1][Replace] <= 1'b0;
+                                ICache_Tag_Array[(Icache_index << 1) + 1][Replace] <= 1'b0;
+
+                                ICache_Tag_Array[Icache_index << 1][Tag_Width:0] <= Icache_tag;
+                            end
                         endcase
-
-                        if(ICache_Tag_Array[(Icache_index << 1) + 1][Replace] == 1'b1) begin
-                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
-                            ICache_Tag_Array[Icache_index << 1][Replace] = 1'b1;
-                        end
-                        else begin
-                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
-                            ICache_Tag_Array[Icache_index << 1][Replace] = 1'b1;
-                        end
                     end
                 end
 
-                else begin                    //Cache Miss
-                //1.Replace 2.Change Tag 3.Valid
-
-
-
-                    Icache_valid_req_o = 1'b1;
-                    Icache_addr_o = (if_pc_i >> 4) << 4;
-
-                    
-                    Icache_pipe_stall_o = 1'b1;
-
-                    next_state = Read_from_Mem;
-
-                    case( {ICache_Tag_Array[(Icache_index << 1) + 1][Replace],ICache_Tag_Array[Icache_index << 1][Replace]} )
-                        2'b00:begin
-                            victim_number = 1'b0;
-                            ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
-
-                            ICache_Tag_Array[Icache_index << 1][Tag_Width:0] = Icache_tag;
-                        end
-                        2'b01:begin
-                            victim_number = 1'b0;
-                            ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b1;
-
-                            ICache_Tag_Array[Icache_index << 1][Tag_Width:0] = Icache_tag;
-                        end
-                        2'b10:begin
-                            victim_number = 1'b1;
-                            ICache_Tag_Array[Icache_index << 1][Replace] = 1'b1;
-                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
-
-                            ICache_Tag_Array[(Icache_index << 1) + 1][Tag_Width:0] = Icache_tag;
-                        end
-                        default:begin
-                            victim_number = 1'b0;
-                            ICache_Tag_Array[Icache_index << 1][Replace] = 1'b0;
-                            ICache_Tag_Array[(Icache_index << 1) + 1][Replace] = 1'b0;
-
-                            ICache_Tag_Array[Icache_index << 1][Tag_Width:0] = Icache_tag;
-                        end
-                    endcase
+                else begin    //no valid req
+                    cur_state <= Idle_or_Compare_Tag;
                 end
             end
-
-            else begin
-                next_state = Idle_or_Compare_Tag;
-                victim_number = victim_number;
-            end
-        end
 
 
         Read_from_Mem:begin
             // Icache_valid_req_o = 1'b1;            valid should be 1 for only 1 cycle
             // Icache_addr_o = (if_pc_i >> 4) << 4;
-            Mem_Data_Buffer_i = mem_data_i;
 
-            Icache_pipe_stall_o = 1'b1;
+            if(mem_ready_i == 1'b1) begin //set valid
+                ICache_Data_Block[(Icache_index << 1) + victim_number] <= mem_data_i;
+                ICache_Tag_Array[(Icache_index << 1) + victim_number][Valid] <= 1'b1;
 
-            victim_number = victim_number;
+                Icache_ready_o <= 1'b1;
 
-            if(mem_ready_i == 1'b1) begin
-                ICache_Data_Block[(Icache_index << 1) + victim_number] = Mem_Data_Buffer_i;
-                ICache_Tag_Array[(Icache_index << 1) + victim_number][Valid] = 1'b1;
-
-                Icache_ready_o = 1'b1;
-
-                Icache_pipe_stall_o = 1'b0;
-
-                
+                Icache_valid_req_o <= 1'b0;
 
                 case(Icache_off)
-                    2'b00:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + victim_number][31:0];
-                    2'b01:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + victim_number][63:32];
-                    2'b10:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + victim_number][95:64];
-                    2'b11:Icache_inst_o = ICache_Data_Block[(Icache_index << 1) + victim_number][127:96];
-                    default:Icache_inst_o = 32'h0;
+                    2'b00:Icache_inst_o <= mem_data_i[31:0];
+                    2'b01:Icache_inst_o <= mem_data_i[63:32];
+                    2'b10:Icache_inst_o <= mem_data_i[95:64];
+                    2'b11:Icache_inst_o <= mem_data_i[127:96];
+                    default:Icache_inst_o <= 32'h0;
                 endcase
 
-                next_state = Idle_or_Compare_Tag;
+                cur_state <= Idle_or_Compare_Tag;
             end
             else begin
-                Icache_ready_o = 1'b0; 
-                next_state = Read_from_Mem;   
+                Icache_ready_o <= 1'b0; 
+                cur_state <= Read_from_Mem;  
             end
-        
         end
-
 
         default: begin
-            next_state = Idle_or_Compare_Tag;
-            victim_number = victim_number;
+            cur_state <= Idle_or_Compare_Tag;
+            Icache_ready_o <= 1'b0; 
         end
     endcase
+    
+    
+    end
+
 end
-
-
 
 endmodule

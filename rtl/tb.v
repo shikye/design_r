@@ -24,7 +24,7 @@ module tb;
         // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[1],
         // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2],
         // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3],
-        // tb.soc_ins.rv32core_ins.Icache_ins.ICache_Data_Block[0]
+        , tb.soc_ins.rv32core_ins.Icache_ins.ICache_Data_Block[0]
         );
         $dumpfile("tb.vcd");
     end
