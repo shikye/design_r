@@ -714,7 +714,7 @@ always @(cur_state,Dcache_Index,mem_valid_req_i,ram_ready_i)begin   //the key ju
             end
         end
 
-        Write_Back:begin
+        Write_Back:begin   //keep one cycle
             Dcache_pipe_stall_o = 1'b1;
 
             Dcache_wb_req_o = 1'b1;
@@ -726,6 +726,9 @@ always @(cur_state,Dcache_Index,mem_valid_req_i,ram_ready_i)begin   //the key ju
 
         Read_from_Ram:begin
             Dcache_pipe_stall_o = 1'b1;
+
+            Dcache_rd_addr_o = (mem_addr_i >> 4) << 4;    //对齐
+            Dcache_rd_req_o = 1'b1;
 
             if(ram_ready_i == 1'b1)begin
                 Dcache_Data_Block[(Dcache_Index << 1) + victim_number] = ram_data_i;

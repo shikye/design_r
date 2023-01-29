@@ -16,7 +16,7 @@ module rom (
 
     always @(posedge clk or negedge rst_n) begin
         if(rst_n == 1'b0)begin
-            mem_data_o <= 32'h0;
+            mem_data_o <= 128'h0;
             mem_ready_o <= 1'b0;
         end 
         else if(Icache_valid_req_i == 1'b1) begin
