@@ -1,11 +1,18 @@
 ## 端口信号
 ### Input
-1. input wire           fc_stall_flag_i
+1. input wire           fc_Icache_stall_flag_i
    来自Flow_Ctrl模块，控制取指模块的PC值在下一周期保持不变。    
-   且由于PC值保持上一周期的值，上一周期已经申请了Icache，在之后的保持阶段中不再申请。 
+
+
+
+
+
+   
+    
 2. input wire           fc_jump_flag_i
    input wire   [31:0]  fc_jump_pc_i   
    来自Flow_Ctrl模块，控制取值模块的PC值在下一周期跳转，并申请Icache中的指令。
+   
 ### Output
 1. output reg           if_valid_req_o    
    输出到Icache模块，下一周期对Icache中数据进行有效申请。
