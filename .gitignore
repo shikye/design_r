@@ -5,3 +5,4 @@ inst_bak
 *.out
 module_sim/**
 log
+*.swp
