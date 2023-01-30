@@ -39,7 +39,7 @@ module if_stage (
         end 
         else if(fc_jump_flag_i == 1'b1) begin
             if_pc_o <= fc_jump_pc_i;
-            pc_before_stall <= if_pc_o;
+            pc_before_stall <= fc_jump_pc_i;  //notion
             if_valid_req_o <= 1'b1;
             if_jump_stop_Icache_o <= 1'b1;
         end

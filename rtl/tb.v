@@ -62,9 +62,8 @@ module tb;
         $display("pc = %x",tb.soc_ins.rv32core_ins.if_stage_ins.if_pc_o);
         $display("t4 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[29]);
         $display("t5 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[30]);
-        $display("sp = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[2]);
-        $display("replace bits is %d,%d",tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[3][25],
-                    tb.soc_ins.rv32core_ins.Icache_ins.ICache_Tag_Array[2][25] );
+        $display("tp = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[4]);
+        $display("t0 = %x",tb.soc_ins.rv32core_ins.regs_ins.regs[5]);
     
     end
 

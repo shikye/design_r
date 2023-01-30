@@ -262,6 +262,7 @@ module rv32core(
         .id_jump_pc_i(id_jump_pc_o),
         .id_jump_flag_i(id_jump_flag_o),
         .Icache_ready_i(Icache_ready_o),
+        .hit(hit),
         .fc_jump_stop_Icache_o(fc_jump_stop_Icache_o),
         .if_valid_req_i(if_valid_req_o),
         .if_jump_stop_Icache_i(if_jump_stop_Icache_o),
