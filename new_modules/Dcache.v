@@ -28,10 +28,9 @@ module Dcache(
     
     //to mem
     output  reg             [31:0]  Dcache_data_o,   //read:4byte each time
-    output  reg                     Dcache_ready_o,   //read out valid or write over
 
     //to fc
-    output  reg                     Dcache_pipe_stall_o,
+    output  reg                     Dcache_ready_o,   //read out valid or write over
     output  wire                    hit,
 
     //to ram
@@ -55,19 +54,29 @@ localparam Write_Back          = 1;
 localparam Read_from_Ram       = 2;
 //Idle_or_Compare_Tag:
 //1.Idle
-//2.Read Hit:no stall
-//3.Write Hit:no stall, Dirty
-//4.Read Miss:stall and transfer to Read_from_Ram
-//5.Write Miss:stall and transfer to Read_from_Ram, Dirty
+//2.Read Hit:ready
+//3.Write Hit:ready, Dirty
+//4.Read Miss:not ready, choose a victim, and buffer for Block offset、
+//Byte offset、Index、Tag, 
+//set Ram_req <= 1, if has a clean --to Read_from_Ram
+//if no clean --to Write_Back
+//4.Read Miss:not ready, choose a victim, and buffer for Block offset、
+//Byte offset、Index、Tag, 
+//set Ram_req <= 1, if has a clean --to Read_from_Ram
+//if no clean --to Write_Back
+
+
+//Write_Back
+//Write victim back to Ram, and wait for ready, then to Read_from_Mem
 
 //Read_from_Ram
-//1.Read Miss:Read from Ram
+//set valid, change replace
+//1.Read Miss:Read from Ram, set Dirty = 0
 //2.1Write Miss and clean:Read from Ram
 //2.2Write Miss and dirty:Write back and read from ram
 
 
 reg [1:0] cur_state;
-reg [1:0] next_state;
 
 
 //bit position mapping
@@ -87,8 +96,16 @@ wire [1:0]  Dcache_Block_Off      = mem_addr_i[3:2];
 wire [1:0]  Dcache_Byte_Off       = mem_addr_i[1:0];
 
 
+//when in Read_from_Mem, still need old parameter
+reg [24:0]  Tag_Buffer;
+reg [3:0]   Index_Buffer;
+reg [1:0]   Block_Off_Buffer;
+reg [1:0]   Byte_Off_Buffer;
+reg         rw_Buffer;
+
+
 //hit  2ways
-wire [1:0]  Dcache_Tag_Hit;
+wire [1:0]  Dcache_Tag_Hit;   //for right-now inst
 assign Dcache_Tag_Hit[0] = ( (Dcache_Tag == Dcache_Tag_Array[Dcache_Index << 1][Tag_Width:0]) 
                         && Dcache_Tag_Array[Dcache_Index << 1][Valid] == 1'b1 );
 assign Dcache_Tag_Hit[1] = ( (Dcache_Tag == Dcache_Tag_Array[(Dcache_Index << 1) + 1][Tag_Width:0]) 
@@ -126,29 +143,367 @@ end
 
 
 //FSM
-always @(posedge clk or negedge rst_n) begin
+always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
+
     if(rst_n == 1'b0) begin
+        Dcache_data_o <= 32'h0;
+
+        Dcache_ready_o <= 1'b0;
+
+        Dcache_rd_req_o <= 1'b0;
+        Dcache_rd_addr_o <= 32'h0;
+
+        Dcache_wb_req_o <= 1'b0;
+        Dcache_wb_addr_o <= 32'h0;
+        Dcache_data_ram_o <= 128'h0;   
+
+
         cur_state <= Idle_or_Compare_Tag;
-        next_state <= Idle_or_Compare_Tag;
     end
-    else 
-        cur_state <= next_state;
-end
+
+    else begin
+        case(cur_state)
+
+            Idle_or_Compare_Tag:begin
+                
+                if(mem_valid_req_i == 1'b1) begin
+
+                    if(hit == 1'b1)begin   //write hit or read hit
+
+                        cur_state <= Idle_or_Compare_Tag;
+                        Dcache_ready_o <= 1'b1;                //ready
+
+                        case(mem_rw_i)
+                            1'b0:begin  //write hit. 1.replace 2.dirty
+                                if(Dcache_Tag_Hit[0] == 1'b1) begin //way0
 
 
-always @(cur_state,Dcache_Index,mem_valid_req_i,ram_ready_i)begin   //the key judge conditions
-    //avoid latch
-    //to Wb
-    Dcache_ready_o = 1'b0;
-    Dcache_data_o  = 32'h0;
+                                    Dcache_Tag_Array[Dcache_Index << 1][Replace] <= 1'b0;
+                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] <= 1'b1;
 
-    //to fc
-    Dcache_pipe_stall_o = 1'b0;
-    //to Ram
-    Dcache_rd_req_o  = 1'b0;
-    Dcache_rd_addr_o = 32'h0;
+                                    Dcache_Tag_Array[Dcache_Index << 1][Dirty] <= 1'b1;
 
-    Dcache_wb_req_o = 1'b0;
+
+                                    case(Dcache_Block_Off)
+                                        2'b00:begin
+                                            case(mem_wrwidth_i)  //how many byte need to write
+                                                2'd1:begin
+                                                    case(Dcache_Byte_Off)
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][7:0] <= mem_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][15:8] <= mem_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][23:16] <= mem_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][31:24] <= mem_data_i[7:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd2:begin
+                                                    case(Dcache_Byte_Off)   //有对齐要求
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][15:0] <= mem_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][31:16] <= mem_data_i[15:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][31:0] <= mem_data_i;
+
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'b01:begin
+                                            case(mem_wrwidth_i)  //how many byte need to write
+                                                2'd1:begin
+                                                    case(Dcache_Byte_Off)
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][39:32] <= mem_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][47:40] <= mem_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][55:48] <= mem_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][63:56] <= mem_data_i[7:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd2:begin
+                                                    case(Dcache_Byte_Off)   //有对齐要求
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][47:32] <= mem_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][63:48] <= mem_data_i[15:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][63:32] <= mem_data_i;
+
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'b10:begin
+                                            case(mem_wrwidth_i)  //how many byte need to write
+                                                2'd1:begin
+                                                    case(Dcache_Byte_Off)
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][71:64] <= mem_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][79:72] <= mem_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][87:80] <= mem_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][95:88] <= mem_data_i[7:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd2:begin
+                                                    case(Dcache_Byte_Off)   //有对齐要求
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][79:64] <= mem_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][95:80] <= mem_data_i[15:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][95:64] <= mem_data_i;
+
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'b11:begin
+                                            case(mem_wrwidth_i)  //how many byte need to write
+                                                2'd1:begin
+                                                    case(Dcache_Byte_Off)
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][103:96] <= mem_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][111:104] <= mem_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][119:112] <= mem_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][127:120] <= mem_data_i[7:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd2:begin
+                                                    case(Dcache_Byte_Off)   //有对齐要求
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][111:96] <= mem_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][127:112] <= mem_data_i[15:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][127:96] <= mem_data_i;
+
+                                                default:;
+                                            endcase
+                                        end
+
+                                        default:;
+                                    endcase
+                                end
+
+                                else begin   //way1
+
+
+                                    Dcache_Tag_Array[Dcache_Index << 1][Replace] <= 1'b1;
+                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] <= 1'b0;
+
+                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Dirty] <= 1'b1;
+
+
+                                    case(Dcache_Block_Off)
+                                        2'b00:begin
+                                            case(mem_wrwidth_i)  //how many byte need to write
+                                                2'd1:begin
+                                                    case(Dcache_Byte_Off)
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][7:0] <= mem_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][15:8] <= mem_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][23:16] <= mem_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:24] <= mem_data_i[7:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd2:begin
+                                                    case(Dcache_Byte_Off)   //有对齐要求
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][15:0] <= mem_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:16] <= mem_data_i[15:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:0] <= mem_data_i;
+
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'b01:begin
+                                            case(mem_wrwidth_i)  //how many byte need to write
+                                                2'd1:begin
+                                                    case(Dcache_Byte_Off)
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][39:32] <= mem_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][47:40] <= mem_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][55:48] <= mem_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:56] <= mem_data_i[7:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd2:begin
+                                                    case(Dcache_Byte_Off)   //有对齐要求
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][47:32] <= mem_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:48] <= mem_data_i[15:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:32] <= mem_data_i;
+
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'b10:begin
+                                            case(mem_wrwidth_i)  //how many byte need to write
+                                                2'd1:begin
+                                                    case(Dcache_Byte_Off)
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][71:64] <= mem_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][79:72] <= mem_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][87:80] <= mem_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:88] <= mem_data_i[7:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd2:begin
+                                                    case(Dcache_Byte_Off)   //有对齐要求
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][79:64] <= mem_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:80] <= mem_data_i[15:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:64] <= mem_data_i;
+
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'b11:begin
+                                            case(mem_wrwidth_i)  //how many byte need to write
+                                                2'd1:begin
+                                                    case(Dcache_Byte_Off)
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][103:96] <= mem_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][111:104] <= mem_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][119:112] <= mem_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:120] <= mem_data_i[7:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd2:begin
+                                                    case(Dcache_Byte_Off)   //有对齐要求
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][111:96] <= mem_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:112] <= mem_data_i[15:0];
+                                                        default:;
+                                                    endcase
+                                                end
+
+                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:96] <= mem_data_i;
+
+                                                default:;
+                                            endcase
+                                        end
+
+                                        default:;
+                                    endcase
+
+                                end
+                            end
+
+                            1'b1:begin //read hit. 1.replace
+                                if(Dcache_Tag_Hit[0] == 1'b1) begin //way0
+                                    case(Dcache_Block_Off)
+                                        2'b00:Dcache_data_o <= Dcache_Data_Block[Dcache_Index << 1][31:0];
+                                        2'b01:Dcache_data_o <= Dcache_Data_Block[Dcache_Index << 1][63:32];
+                                        2'b10:Dcache_data_o <= Dcache_Data_Block[Dcache_Index << 1][95:64];
+                                        2'b11:Dcache_data_o <= Dcache_Data_Block[Dcache_Index << 1][127:96];
+                                        default:Dcache_data_o <= 32'h0;
+                                    endcase
+
+                               
+                                    Dcache_Tag_Array[Dcache_Index << 1][Replace] <= 1'b0;
+                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] <= 1'b1;
+                                end
+
+                                else begin  //way1
+                                    case(Dcache_Block_Off)
+                                        2'b00:Dcache_data_o <= Dcache_Data_Block[(Dcache_Index << 1) + 1][31:0];
+                                        2'b01:Dcache_data_o <= Dcache_Data_Block[(Dcache_Index << 1) + 1][63:32];
+                                        2'b10:Dcache_data_o <= Dcache_Data_Block[(Dcache_Index << 1) + 1][95:64];
+                                        2'b11:Dcache_data_o <= Dcache_Data_Block[(Dcache_Index << 1) + 1][127:96];
+                                        default:Dcache_data_o <= 32'h0;
+                                    endcase
+
+                                
+                                    Dcache_Tag_Array[Dcache_Index << 1][Replace] <= 1'b1;
+                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] <= 1'b0;
+                                end
+
+                            end
+
+                            default:;
+
+                        endcase
+
+                    end
+
+                    else begin   //miss --need to choose a victim according to replace,clean prior
+                        Dcache_ready_o <= 1'b0;
+
+                        Tag_Buffer <= Dcache_Tag;
+                        Index_Buffer <= Dcache_Index;
+                        Block_Off_Buffer <= Dcache_Block_Off;
+                        Byte_Off_Buffer <= Dcache_Byte_Off;
+                        rw_Buffer <= mem_rw_i;
+
+                        
+                        //no matter write or read
+
+                        case( {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Dirty], Dcache_Tag_Array[Dcache_Index << 1][Dirty]} )
+                        
+                            2'b00:begin //all clean --choose way0
+
+                                cur_state <= Read_from_Mem;
+
+                                Dcache_rd_req_o <= 1'b1;
+                                Dcache_rd_addr_o <= (mem_addr_i >> 4) << 4;
+
+                                
+
+
+                                
+                            end
+                        
+                        
+                        
+                        
+                        
+                        endcase
+
+
+
+                    end
+
+                    
+                    
+                    
+                    end
+                
+                
+                end
+            
+            
+            end
+        
+        
+        
+        endcase
+
+
+    end
 
     
 
