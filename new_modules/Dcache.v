@@ -102,6 +102,7 @@ reg [3:0]   Index_Buffer;
 reg [1:0]   Block_Off_Buffer;
 reg [1:0]   Byte_Off_Buffer;
 reg         rw_Buffer;
+reg [31:0]  Mem_Data_Buffer;
 
 
 //hit  2ways
@@ -172,6 +173,9 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
 
                         cur_state <= Idle_or_Compare_Tag;
                         Dcache_ready_o <= 1'b1;                //ready
+
+                        Dcache_wb_req_o <= 1'b0;
+                        Dcache_rd_req_o <= 1'b0;
 
                         case(mem_rw_i)
                             1'b0:begin  //write hit. 1.replace 2.dirty
@@ -453,11 +457,13 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                     else begin   //miss --need to choose a victim according to replace,clean prior
                         Dcache_ready_o <= 1'b0;
 
+                        //for Read_from_Ram
                         Tag_Buffer <= Dcache_Tag;
                         Index_Buffer <= Dcache_Index;
                         Block_Off_Buffer <= Dcache_Block_Off;
                         Byte_Off_Buffer <= Dcache_Byte_Off;
-                        rw_Buffer <= mem_rw_i;
+                        rw_Buffer <= mem_rw_i;      
+                        Mem_Data_Buffer <= mem_data_i;             
 
                         
                         //no matter write or read
@@ -466,36 +472,291 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                         
                             2'b00:begin //all clean --choose way0
 
-                                cur_state <= Read_from_Mem;
+                                cur_state <= Read_from_Ram;
+                                victim_number <= 1'b0;
 
                                 Dcache_rd_req_o <= 1'b1;
                                 Dcache_rd_addr_o <= (mem_addr_i >> 4) << 4;
 
-                                
+                                Dcache_wb_req_o <= 1'b0;
 
+                            end
 
+                            2'b01:begin
+                                cur_state <= Read_from_Ram;
+                                victim_number <= 1'b1;
+
+                                Dcache_rd_req_o <= 1'b1;
+                                Dcache_rd_addr_o <= (mem_addr_i >> 4) << 4;
+
+                                Dcache_wb_req_o <= 1'b0;
+
+                            end
+
+                            2'b10:begin
+                                cur_state <= Read_from_Ram;
+                                victim_number <= 1'b0;
+
+                                Dcache_rd_req_o <= 1'b1;
+                                Dcache_rd_addr_o <= (mem_addr_i >> 4) << 4;
+
+                                Dcache_wb_req_o <= 1'b0;
                                 
                             end
-                        
-                        
-                        
+
+                            2'b11:begin
+                                cur_state <= Write_Back;
+
+                                Dcache_rd_req_o <= 1'b0;
+                                Dcache_rd_addr_o <= (mem_addr_i >> 4) << 4;
+                                
+                                Dcache_wb_req_o <= 1'b1;
+
+                                case( {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace],Dcache_Tag_Array[Dcache_Index << 1][Replace]} )
+                                            
+                                    //repalce :00 -> 10, write 0
+                                    2'b00:begin
+                                        victim_number = 0;
+
+                                        Dcache_wb_addr_o = {Dcache_Tag_Array[Dcache_Index << 1][Tag_Width:0], 
+                                                Dcache_Index[2:0], {4{1'b0}}  };
+                                    end
+
+                                    2'b01:begin
+                                        victim_number = 0;
+
+                                        Dcache_wb_addr_o = {Dcache_Tag_Array[Dcache_Index << 1][Tag_Width:0], 
+                                                Dcache_Index[2:0], {4{1'b0}}  };
+                                    end
+
+                                    2'b10:begin
+                                        victim_number = 1;
+
+                                        Dcache_wb_addr_o = {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Tag_Width:0], 
+                                                Dcache_Index[2:0], {4{1'b0}}  };
+                                    end
+
+                                    default:begin
+                                        victim_number = 0;
+                                        Dcache_wb_addr_o =32'h0;
+                                    end
+
+                                endcase  
+
+                            end
                         
                         
                         endcase
 
 
-
                     end
 
                     
-                    
-                    
-                    end
+                end
                 
+                else begin        
+                    Dcache_ready_o <= 1'b0;
+
+                    Dcache_rd_req_o <= 1'b0;
+                    Dcache_wb_req_o <= 1'b0;
+        
+                    cur_state <= Idle_or_Compare_Tag;
+                end
+                
+            end
+
+            Write_Back:begin
+                Dcache_ready_o <= 1'b0;
+                Dcache_wb_req_o <= 1'b0;
+                
+                if(ram_ready_i == 1'b1) begin
+                    cur_state <= Read_from_Ram;
+
+                    Dcache_rd_req_o <= 1'b1;
+                    Dcache_rd_addr_o <= { Tag_Buffer, Index_Buffer, {4{1'b0}} };
+                end
+                else begin
+                    cur_state <= Write_Back;
+                end
+            end
+
+            Read_from_Ram:begin
+
+                Dcache_rd_req_o <= 1'b0;
+
+                if(ram_ready_i == 1'b1) begin //change Valid, Dirty, Replace, AND Tag
+
+                    Dcache_Data_Block[(Index_Buffer << 1) + victim_number] = ram_data_i;
+                    Dcache_Tag_Array[(Index_Buffer << 1) + victim_number][Valid] = 1'b1;
+
+                    Dcache_ready_o <= 1'b1;
+
+                    cur_state <= Idle_or_Compare_Tag;
+
+                    if(victim_number == 1'b0) begin
+                        Dcache_Tag_Array[Index_Buffer << 1][Replace] <= 1'b0;
+                        Dcache_Tag_Array[(Index_Buffer << 1) + 1][Replace] <= 1'b1;
+
+                        Dcache_Tag_Array[Index_Buffer << 1][Tag_Width:0] <= Tag_Buffer;
+                    end
+                    else begin
+                        Dcache_Tag_Array[Index_Buffer << 1][Replace] <= 1'b1;
+                        Dcache_Tag_Array[(Index_Buffer << 1) + 1][Replace] <= 1'b0;
+
+                        Dcache_Tag_Array[(Index_Buffer << 1) + 1][Tag_Width:0] <= Tag_Buffer;
+                    end
+
+                    case(rw_Buffer) 
+                        1'b0:begin //write cache
+
+                            Dcache_Tag_Array[(Index_Buffer << 1) + victim_number][Dirty] = 1'b1;
+
+
+                            case(Dcache_Block_Off)
+                                2'b00:begin
+                                    case(rw_Buffer)  //how many byte need to write
+                                        2'd1:begin
+                                            case(Dcache_Byte_Off)
+                                                2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][7:0] = Mem_Data_Buffer[7:0];
+                                                2'b01:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][15:8] = Mem_Data_Buffer[7:0];
+                                                2'b10:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][23:16] = Mem_Data_Buffer[7:0];
+                                                2'b11:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][31:24] = Mem_Data_Buffer[7:0];
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'd2:begin
+                                            case(Dcache_Byte_Off)   //有对齐要求
+                                                2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][15:0] = Mem_Data_Buffer[15:0];
+                                                2'b10:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][31:16] = Mem_Data_Buffer[15:0];
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'd3:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][31:0] = Mem_Data_Buffer;
+
+                                        default:;
+                                    endcase
+                                end
+
+                                2'b01:begin
+                                    case(mem_wrwidth_i)  //how many byte need to write
+                                        2'd1:begin
+                                            case(Dcache_Byte_Off)
+                                                2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][39:32] = Mem_Data_Buffer[7:0];
+                                                2'b01:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][47:40] = Mem_Data_Buffer[7:0];
+                                                2'b10:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][55:48] = Mem_Data_Buffer[7:0];
+                                                2'b11:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][63:56] = Mem_Data_Buffer[7:0];
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'd2:begin
+                                            case(Dcache_Byte_Off)   //有对齐要求
+                                                2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][47:32] = Mem_Data_Buffer[15:0];
+                                                2'b10:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][63:48] = Mem_Data_Buffer[15:0];
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'd3:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][63:32] = Mem_Data_Buffer;
+
+                                        default:;
+                                    endcase
+                                end
+
+                                2'b10:begin
+                                    case(mem_wrwidth_i)  //how many byte need to write
+                                        2'd1:begin
+                                            case(Dcache_Byte_Off)
+                                                2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][71:64] = Mem_Data_Buffer[7:0];
+                                                2'b01:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][79:72] = Mem_Data_Buffer[7:0];
+                                                2'b10:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][87:80] = Mem_Data_Buffer[7:0];
+                                                2'b11:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][95:88] = Mem_Data_Buffer[7:0];
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'd2:begin
+                                            case(Dcache_Byte_Off)   //有对齐要求
+                                                2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][79:64] = Mem_Data_Buffer[15:0];
+                                                2'b10:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][95:80] = Mem_Data_Buffer[15:0];
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'd3:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][95:64] = Mem_Data_Buffer;
+
+                                        default:;
+                                    endcase
+                                end
+
+                                2'b11:begin
+                                    case(mem_wrwidth_i)  //how many byte need to write
+                                        2'd1:begin
+                                            case(Dcache_Byte_Off)
+                                                2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][103:96] = Mem_Data_Buffer[7:0];
+                                                2'b01:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][111:104] = Mem_Data_Buffer[7:0];
+                                                2'b10:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][119:112] = Mem_Data_Buffer[7:0];
+                                                2'b11:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][127:120] = Mem_Data_Buffer[7:0];
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'd2:begin
+                                            case(Dcache_Byte_Off)   //有对齐要求
+                                                2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][111:96] = Mem_Data_Buffer[15:0];
+                                                2'b10:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][127:112] = Mem_Data_Buffer[15:0];
+                                                default:;
+                                            endcase
+                                        end
+
+                                        2'd3:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][127:96] = Mem_Data_Buffer;
+
+                                        default:;
+                                    endcase
+                                end
+
+                                default:;
+                            endcase
+
+                        end
+
+                        1'b1:begin//read cache
+                            
+                            Dcache_Tag_Array[(Index_Buffer << 1) + victim_number][Dirty] = 1'b0;
+
+                            case(Block_Off_Buffer)
+                                2'b00:Dcache_data_o <= ram_data_i[31:0];
+                                2'b01:Dcache_data_o <= ram_data_i[63:32];
+                                2'b10:Dcache_data_o <= ram_data_i[95:64];
+                                2'b11:Dcache_data_o <= ram_data_i[127:96];
+                                default:Dcache_data_o <= 32'h0;
+                            endcase
+                        end
+
+                        default:;
+                    endcase
+
+                end
+
+                else begin
+
+                    Dcache_ready_o <= 1'b0;
+                    cur_state <= Read_from_Ram;
                 
                 end
-            
-            
+         
+            end
+
+            default:begin
+                cur_state <= Idle_or_Compare_Tag;
+                
+                Dcache_ready_o <= 1'b0;
+                Dcache_rd_req_o <= 1'b0;
+                Dcache_wb_req_o <= 1'b0;
+
+                victim_number <= 1'b0;
             end
         
         
@@ -505,733 +766,8 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
 
     end
 
-    
-
-
-    case(cur_state)
-        Idle_or_Compare_Tag:begin
-            if(mem_valid_req_i == 1'b1)begin    //valid才会有机会进入其他状态，每次stall都不是valid
-                Dcache_ready_o = hit;
-
-                if(Dcache_ready_o == 1'b1)begin //hit
-                    victim_number = victim_number;
-
-                    next_state = Idle_or_Compare_Tag;
-
-                    case(mem_rw_i) 
-                        1'b0:begin //write hit:1.Replace bit 2.Dirty bit            //accurate to byte
-
-                            if(Dcache_Tag_Hit[0] == 1'b1) begin //way0
-
-
-                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-
-                                Dcache_Tag_Array[Dcache_Index << 1][Dirty] = 1'b1;
-
-
-                                case(Dcache_Block_Off)
-                                    2'b00:begin
-                                        case(mem_wrwidth_i)  //how many byte need to write
-                                            2'd1:begin
-                                                case(Dcache_Byte_Off)
-                                                    2'b00:Dcache_Data_Block[Dcache_Index << 1][7:0] = mem_data_i[7:0];
-                                                    2'b01:Dcache_Data_Block[Dcache_Index << 1][15:8] = mem_data_i[7:0];
-                                                    2'b10:Dcache_Data_Block[Dcache_Index << 1][23:16] = mem_data_i[7:0];
-                                                    2'b11:Dcache_Data_Block[Dcache_Index << 1][31:24] = mem_data_i[7:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd2:begin
-                                                case(Dcache_Byte_Off)   //有对齐要求
-                                                    2'b00:Dcache_Data_Block[Dcache_Index << 1][15:0] = mem_data_i[15:0];
-                                                    2'b10:Dcache_Data_Block[Dcache_Index << 1][31:16] = mem_data_i[15:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd3:Dcache_Data_Block[Dcache_Index << 1][31:0] = mem_data_i;
-
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'b01:begin
-                                        case(mem_wrwidth_i)  //how many byte need to write
-                                            2'd1:begin
-                                                case(Dcache_Byte_Off)
-                                                    2'b00:Dcache_Data_Block[Dcache_Index << 1][39:32] = mem_data_i[7:0];
-                                                    2'b01:Dcache_Data_Block[Dcache_Index << 1][47:40] = mem_data_i[7:0];
-                                                    2'b10:Dcache_Data_Block[Dcache_Index << 1][55:48] = mem_data_i[7:0];
-                                                    2'b11:Dcache_Data_Block[Dcache_Index << 1][63:56] = mem_data_i[7:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd2:begin
-                                                case(Dcache_Byte_Off)   //有对齐要求
-                                                    2'b00:Dcache_Data_Block[Dcache_Index << 1][47:32] = mem_data_i[15:0];
-                                                    2'b10:Dcache_Data_Block[Dcache_Index << 1][63:48] = mem_data_i[15:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd3:Dcache_Data_Block[Dcache_Index << 1][63:32] = mem_data_i;
-
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'b10:begin
-                                        case(mem_wrwidth_i)  //how many byte need to write
-                                            2'd1:begin
-                                                case(Dcache_Byte_Off)
-                                                    2'b00:Dcache_Data_Block[Dcache_Index << 1][71:64] = mem_data_i[7:0];
-                                                    2'b01:Dcache_Data_Block[Dcache_Index << 1][79:72] = mem_data_i[7:0];
-                                                    2'b10:Dcache_Data_Block[Dcache_Index << 1][87:80] = mem_data_i[7:0];
-                                                    2'b11:Dcache_Data_Block[Dcache_Index << 1][95:88] = mem_data_i[7:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd2:begin
-                                                case(Dcache_Byte_Off)   //有对齐要求
-                                                    2'b00:Dcache_Data_Block[Dcache_Index << 1][79:64] = mem_data_i[15:0];
-                                                    2'b10:Dcache_Data_Block[Dcache_Index << 1][95:80] = mem_data_i[15:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd3:Dcache_Data_Block[Dcache_Index << 1][95:64] = mem_data_i;
-
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'b11:begin
-                                        case(mem_wrwidth_i)  //how many byte need to write
-                                            2'd1:begin
-                                                case(Dcache_Byte_Off)
-                                                    2'b00:Dcache_Data_Block[Dcache_Index << 1][103:96] = mem_data_i[7:0];
-                                                    2'b01:Dcache_Data_Block[Dcache_Index << 1][111:104] = mem_data_i[7:0];
-                                                    2'b10:Dcache_Data_Block[Dcache_Index << 1][119:112] = mem_data_i[7:0];
-                                                    2'b11:Dcache_Data_Block[Dcache_Index << 1][127:120] = mem_data_i[7:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd2:begin
-                                                case(Dcache_Byte_Off)   //有对齐要求
-                                                    2'b00:Dcache_Data_Block[Dcache_Index << 1][111:96] = mem_data_i[15:0];
-                                                    2'b10:Dcache_Data_Block[Dcache_Index << 1][127:112] = mem_data_i[15:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd3:Dcache_Data_Block[Dcache_Index << 1][127:96] = mem_data_i;
-
-                                            default:;
-                                        endcase
-                                    end
-
-                                    default:;
-                                endcase
-                            end
-
-                            else begin   //way1
-
-
-                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-
-                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Dirty] = 1'b1;
-
-
-                                case(Dcache_Block_Off)
-                                    2'b00:begin
-                                        case(mem_wrwidth_i)  //how many byte need to write
-                                            2'd1:begin
-                                                case(Dcache_Byte_Off)
-                                                    2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][7:0] = mem_data_i[7:0];
-                                                    2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][15:8] = mem_data_i[7:0];
-                                                    2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][23:16] = mem_data_i[7:0];
-                                                    2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:24] = mem_data_i[7:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd2:begin
-                                                case(Dcache_Byte_Off)   //有对齐要求
-                                                    2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][15:0] = mem_data_i[15:0];
-                                                    2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:16] = mem_data_i[15:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:0] = mem_data_i;
-
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'b01:begin
-                                        case(mem_wrwidth_i)  //how many byte need to write
-                                            2'd1:begin
-                                                case(Dcache_Byte_Off)
-                                                    2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][39:32] = mem_data_i[7:0];
-                                                    2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][47:40] = mem_data_i[7:0];
-                                                    2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][55:48] = mem_data_i[7:0];
-                                                    2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:56] = mem_data_i[7:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd2:begin
-                                                case(Dcache_Byte_Off)   //有对齐要求
-                                                    2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][47:32] = mem_data_i[15:0];
-                                                    2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:48] = mem_data_i[15:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:32] = mem_data_i;
-
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'b10:begin
-                                        case(mem_wrwidth_i)  //how many byte need to write
-                                            2'd1:begin
-                                                case(Dcache_Byte_Off)
-                                                    2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][71:64] = mem_data_i[7:0];
-                                                    2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][79:72] = mem_data_i[7:0];
-                                                    2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][87:80] = mem_data_i[7:0];
-                                                    2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:88] = mem_data_i[7:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd2:begin
-                                                case(Dcache_Byte_Off)   //有对齐要求
-                                                    2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][79:64] = mem_data_i[15:0];
-                                                    2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:80] = mem_data_i[15:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:64] = mem_data_i;
-
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'b11:begin
-                                        case(mem_wrwidth_i)  //how many byte need to write
-                                            2'd1:begin
-                                                case(Dcache_Byte_Off)
-                                                    2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][103:96] = mem_data_i[7:0];
-                                                    2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][111:104] = mem_data_i[7:0];
-                                                    2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][119:112] = mem_data_i[7:0];
-                                                    2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:120] = mem_data_i[7:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd2:begin
-                                                case(Dcache_Byte_Off)   //有对齐要求
-                                                    2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][111:96] = mem_data_i[15:0];
-                                                    2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:112] = mem_data_i[15:0];
-                                                    default:;
-                                                endcase
-                                            end
-
-                                            2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:96] = mem_data_i;
-
-                                            default:;
-                                        endcase
-                                    end
-
-                                    default:;
-                                endcase
-
-                                
-                            end
-                        end
-
-
-                        1'b1:begin //read hit:1.Replace bit
-
-
-                            //data_o and replace
-                            if(Dcache_Tag_Hit[0] == 1'b1) begin //way0
-                                case(Dcache_Block_Off)
-                                    2'b00:Dcache_data_o = Dcache_Data_Block[Dcache_Index << 1][31:0];
-                                    2'b01:Dcache_data_o = Dcache_Data_Block[Dcache_Index << 1][63:32];
-                                    2'b10:Dcache_data_o = Dcache_Data_Block[Dcache_Index << 1][95:64];
-                                    2'b11:Dcache_data_o = Dcache_Data_Block[Dcache_Index << 1][127:96];
-                                    default:Dcache_data_o = 32'h0;
-                                endcase
-
-                               
-                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-            
-                            end
-
-                            else begin  //way1
-                                case(Dcache_Block_Off)
-                                    2'b00:Dcache_data_o = Dcache_Data_Block[(Dcache_Index << 1) + 1][31:0];
-                                    2'b01:Dcache_data_o = Dcache_Data_Block[(Dcache_Index << 1) + 1][63:32];
-                                    2'b10:Dcache_data_o = Dcache_Data_Block[(Dcache_Index << 1) + 1][95:64];
-                                    2'b11:Dcache_data_o = Dcache_Data_Block[(Dcache_Index << 1) + 1][127:96];
-                                    default:Dcache_data_o = 32'h0;
-                                endcase
-
-                                
-                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-
-                            end
-                        end
-                        
-                    
-                        default:;
-                    endcase
-                end
-            
-                else begin //miss   --need to choose a victim to replace out, dirty prior
-
-                    Dcache_pipe_stall_o = 1'b1;                //在下一周期core就能stall
-
-                    //Dcache_rd_addr_o = (mem_addr_i >> 4) << 4;
-
-                    case(mem_rw_i)
-                        1'b0:begin     //write miss
-
-                            case( {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Dirty], Dcache_Tag_Array[Dcache_Index << 1][Dirty]} )
-
-
-
-                                2'b00:begin  //all clean   --need to change dirty bit
-
-                                    next_state = Read_from_Ram;
-
-                                    case( {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace],Dcache_Tag_Array[Dcache_Index << 1][Replace]} )
-                                            
-                                        //repalce :00 -> 10, write 0
-                                        2'b00:begin
-                                            Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                            Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                            victim_number = 0;
-
-                                            Dcache_Tag_Array[Dcache_Index << 1][Dirty] = 1'b1;
-                                        end
-
-                                        2'b01:begin
-                                            Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                            Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                            victim_number = 0;
-
-                                            Dcache_Tag_Array[(Dcache_Index << 1) + 1][Dirty] = 1'b1;
-                                        end
-
-                                        2'b10:begin
-                                            Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                            Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                            victim_number = 1;
-
-                                            Dcache_Tag_Array[Dcache_Index << 1][Dirty] = 1'b1;
-                                        end
-
-                                        default:begin
-                                            Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                            Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                            victim_number = 1;
-                                        end
-
-                                    endcase  
-
-                                end
-
-
-                                2'b01:begin  //1clean 0dirty   --need to change 1 to dirty bit   //no need to analyse replace bits, dirty is prior
-
-                                    next_state = Read_from_Ram;
-
-                                    Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                    victim_number = 1;
-
-                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Dirty] = 1'b1;
- 
-                                end
-
-                                2'b10:begin  //1dirty 0clean   --need to change 0 to dirty bit
-
-                                    next_state = Read_from_Ram;
-
-                                    Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                    victim_number = 0;
-
-                                    Dcache_Tag_Array[Dcache_Index << 1][Dirty] = 1'b1;
- 
-                                end
-
-
-                                2'b11:begin  ////all dirty   --no need to change dirty bit
-
-                                    next_state = Write_Back;
-                                    
-                                    case( {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace],Dcache_Tag_Array[Dcache_Index << 1][Replace]} )
-                                            
-                                            //repalce :00 -> 10, write 0
-                                            2'b00:begin
-                                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                                victim_number = 0;
-
-                                                Dcache_wb_addr_o = {Dcache_Tag_Array[Dcache_Index << 1][Tag_Width:0], 
-                                                        Dcache_Index[2:0], {4{1'b0}}  };
-                                            end
-
-                                            2'b01:begin
-                                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                                victim_number = 0;
-
-                                                Dcache_wb_addr_o = {Dcache_Tag_Array[Dcache_Index << 1][Tag_Width:0], 
-                                                        Dcache_Index[2:0], {4{1'b0}}  };
-                                            end
-
-                                            2'b10:begin
-                                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                                victim_number = 1;
-
-                                                Dcache_wb_addr_o = {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Tag_Width:0], 
-                                                        Dcache_Index[2:0], {4{1'b0}}  };
-                                            end
-
-                                            default:begin
-                                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                                victim_number = 1;
-
-                                                Dcache_wb_addr_o = {Dcache_Tag_Array[Dcache_Index << 1][Tag_Width:0], 
-                                                        Dcache_Index[2:0], {4{1'b0}}  };
-                                            end
-
-                                        endcase  
-
-                                end
-                                
-                                
-                                default:;
-                            endcase
-
-
-                        end
-
-                        1'b1:begin     //read miss, no need to change dirty bit
-
-
-                        
-                            case( {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Dirty], Dcache_Tag_Array[Dcache_Index << 1][Dirty]} )
-
-
-                                2'b00:begin  //all clean   --need to change dirty bit
-
-                                    next_state = Read_from_Ram;
-
-                                    case( {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace],Dcache_Tag_Array[Dcache_Index << 1][Replace]} )
-                                            
-                                        //repalce :00 -> 10, write 0
-                                        2'b00:begin
-                                            Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                            Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                            victim_number = 0;
-                                        end
-
-                                        2'b01:begin
-                                            Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                            Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                            victim_number = 0;
-                                        end
-
-                                        2'b10:begin
-                                            Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                            Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                            victim_number = 1;
-                                        end
-
-                                        default:begin
-                                            Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                            Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                            victim_number = 1;
-                                        end
-
-                                    endcase  
-
-                                end
-
-
-                                2'b01:begin  //1clean 0dirty   --need to change 1 to dirty bit   //no need to analyse replace bits, dirty is prior
-
-                                    next_state = Read_from_Ram;
-
-                                    Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                    victim_number = 1;
- 
-                                end
-
-                                2'b10:begin  //1dirty 0clean   --need to change 0 to dirty bit
-
-                                    next_state = Read_from_Ram;
-
-                                    Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                    Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                    victim_number = 0;
-                                end
-
-
-                                2'b11:begin  ////all dirty   --no need to change dirty bit
-
-                                    next_state = Write_Back;
-
-                                    case( {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace],Dcache_Tag_Array[Dcache_Index << 1][Replace]} )
-                                            
-                                            //repalce :00 -> 10, write 0
-                                            2'b00:begin
-                                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                                victim_number = 0;
-
-                                                Dcache_Tag_Array[Dcache_Index << 1][Dirty] = 1'b0;
-
-                                                Dcache_wb_addr_o = {Dcache_Tag_Array[Dcache_Index << 1][Tag_Width:0], 
-                                                        Dcache_Index[2:0], {4{1'b0}}  };
-                                            end
-
-                                            2'b01:begin
-                                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b0;
-                                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b1;
-                                                victim_number = 0;
-
-                                                Dcache_Tag_Array[Dcache_Index << 1][Dirty] = 1'b0;
-
-                                                Dcache_wb_addr_o = {Dcache_Tag_Array[Dcache_Index << 1][Tag_Width:0], 
-                                                        Dcache_Index[2:0], {4{1'b0}}  };
-                                            end
-
-                                            2'b10:begin
-                                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                                victim_number = 1;
-
-                                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Dirty] = 1'b0;
-
-                                                Dcache_wb_addr_o = {Dcache_Tag_Array[(Dcache_Index << 1) + 1][Tag_Width:0], 
-                                                        Dcache_Index[2:0], {4{1'b0}}  };
-                                            end
-
-                                            default:begin
-                                                Dcache_Tag_Array[Dcache_Index << 1][Replace] = 1'b1;
-                                                Dcache_Tag_Array[(Dcache_Index << 1) + 1][Replace] = 1'b0;
-                                                victim_number = 1;
-                                            end
-
-                                        endcase  
-
-                                end
-                                
-                                
-                                default:;
-                            endcase
-
-
-
-
-                        end
-
-                        default:;
-
-                    endcase
-
-                end 
-            end
-            else begin
-                next_state = Idle_or_Compare_Tag;
-                victim_number = victim_number;   // need to keep, so in every state need to have a value to set up
-            end
-        end
-
-        Write_Back:begin   //keep one cycle
-            Dcache_pipe_stall_o = 1'b1;
-
-            Dcache_wb_req_o = 1'b1;
-            
-            Dcache_data_ram_o = Dcache_Data_Block[(Dcache_Index << 1) + victim_number];
-
-            next_state = Read_from_Ram;
-        end
-
-        Read_from_Ram:begin
-            Dcache_pipe_stall_o = 1'b1;
-
-            Dcache_rd_addr_o = (mem_addr_i >> 4) << 4;    //对齐
-            Dcache_rd_req_o = 1'b1;
-
-            if(ram_ready_i == 1'b1)begin
-                Dcache_Data_Block[(Dcache_Index << 1) + victim_number] = ram_data_i;
-                Dcache_Tag_Array[(Dcache_Index << 1) + victim_number][Valid] = 1'b1;
-
-                Dcache_ready_o = 1'b1;
-                Dcache_pipe_stall_o = 1'b0;
-
-                next_state = Idle_or_Compare_Tag;
-
-                case(mem_rw_i)
-                    1'b0:begin //write cache
-
-                        case(Dcache_Block_Off)
-                            2'b00:begin
-                                case(mem_wrwidth_i)  //how many byte need to write
-                                    2'd1:begin
-                                        case(Dcache_Byte_Off)
-                                            2'b00:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][7:0] = mem_data_i[7:0];
-                                            2'b01:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][15:8] = mem_data_i[7:0];
-                                            2'b10:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][23:16] = mem_data_i[7:0];
-                                            2'b11:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][31:24] = mem_data_i[7:0];
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'd2:begin
-                                        case(Dcache_Byte_Off)   //有对齐要求
-                                            2'b00:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][15:0] = mem_data_i[15:0];
-                                            2'b10:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][31:16] = mem_data_i[15:0];
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'd3:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][31:0] = mem_data_i;
-
-                                    default:;
-                                endcase
-                            end
-
-                            2'b01:begin
-                                case(mem_wrwidth_i)  //how many byte need to write
-                                    2'd1:begin
-                                        case(Dcache_Byte_Off)
-                                            2'b00:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][39:32] = mem_data_i[7:0];
-                                            2'b01:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][47:40] = mem_data_i[7:0];
-                                            2'b10:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][55:48] = mem_data_i[7:0];
-                                            2'b11:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][63:56] = mem_data_i[7:0];
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'd2:begin
-                                        case(Dcache_Byte_Off)   //有对齐要求
-                                            2'b00:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][47:32] = mem_data_i[15:0];
-                                            2'b10:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][63:48] = mem_data_i[15:0];
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'd3:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][63:32] = mem_data_i;
-
-                                    default:;
-                                endcase
-                            end
-
-                            2'b10:begin
-                                case(mem_wrwidth_i)  //how many byte need to write
-                                    2'd1:begin
-                                        case(Dcache_Byte_Off)
-                                            2'b00:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][71:64] = mem_data_i[7:0];
-                                            2'b01:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][79:72] = mem_data_i[7:0];
-                                            2'b10:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][87:80] = mem_data_i[7:0];
-                                            2'b11:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][95:88] = mem_data_i[7:0];
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'd2:begin
-                                        case(Dcache_Byte_Off)   //有对齐要求
-                                            2'b00:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][79:64] = mem_data_i[15:0];
-                                            2'b10:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][95:80] = mem_data_i[15:0];
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'd3:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][95:64] = mem_data_i;
-
-                                    default:;
-                                endcase
-                            end
-
-                            2'b11:begin
-                                case(mem_wrwidth_i)  //how many byte need to write
-                                    2'd1:begin
-                                        case(Dcache_Byte_Off)
-                                            2'b00:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][103:96] = mem_data_i[7:0];
-                                            2'b01:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][111:104] = mem_data_i[7:0];
-                                            2'b10:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][119:112] = mem_data_i[7:0];
-                                            2'b11:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][127:120] = mem_data_i[7:0];
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'd2:begin
-                                        case(Dcache_Byte_Off)   //有对齐要求
-                                            2'b00:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][111:96] = mem_data_i[15:0];
-                                            2'b10:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][127:112] = mem_data_i[15:0];
-                                            default:;
-                                        endcase
-                                    end
-
-                                    2'd3:Dcache_Data_Block[(Dcache_Index << 1) + victim_number][127:96] = mem_data_i;
-
-                                    default:;
-                                endcase
-                            end
-
-                            default:;
-                        endcase
-                    end
-
-                    1'b1:begin  //read cache
-
-                        case(Dcache_Block_Off)
-                            2'b00:Dcache_data_o = Dcache_Data_Block[(Dcache_Index << 1) + victim_number][31:0];
-                            2'b01:Dcache_data_o = Dcache_Data_Block[(Dcache_Index << 1) + victim_number][63:32];
-                            2'b10:Dcache_data_o = Dcache_Data_Block[(Dcache_Index << 1) + victim_number][95:64];
-                            2'b11:Dcache_data_o = Dcache_Data_Block[(Dcache_Index << 1) + victim_number][127:96];
-                            default:Dcache_data_o = 32'h0;
-                        endcase
-                    end
-
-                endcase
-
-            
-            
-            end
-
-            else begin
-                next_state = Read_from_Ram;
-                Dcache_ready_o = 1'b0;
-            end
-        end
-
-        default:next_state = Idle_or_Compare_Tag;
-    endcase
 end
+
 
 endmodule
 
