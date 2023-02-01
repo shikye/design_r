@@ -9,7 +9,7 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     input   wire                    id_jump_flag_i,    
     //from Icache
     input   wire                    Icache_ready_i,   //Icache miss stall
-    input   wire                    hit,
+    input   wire                    Icache_hit_i,
     //to Icache
     output  wire                    fc_jump_stop_Icache_o,
 
@@ -31,7 +31,12 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     output  wire                    fc_Icache_data_valid_o,
 
     //from mem
-    input   wire                    rom_ready_i
+    input   wire                    rom_ready_i,
+
+
+    //from Dcache
+    input   wire                    Dcache_ready_i,
+    input   wire                    Dcache_hit_i
 
 );
 
@@ -65,7 +70,7 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     end 
 
     always@(*) begin
-        if( (rom_ready_buffer == 1'b0 && rom_ready_i == 1'b1) || (fc_jump_stop_Icache_o == 1'b1 && hit == 1'b1))
+        if( (rom_ready_buffer == 1'b0 && rom_ready_i == 1'b1) || (fc_jump_stop_Icache_o == 1'b1 && Icache_hit_i == 1'b1))
             fc_Icache_stall_flag_o = 1'b0;
         else if(if_valid_req_i == 1'b1 && Icache_ready_i == 1'b0)  // one open condition
             fc_Icache_stall_flag_o = 1'b1;

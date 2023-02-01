@@ -21,6 +21,14 @@ module id_stage (
 
     output  wire                    id_btype_flag_o,
     output  wire            [31:0]  id_btype_jump_pc_o,
+
+
+    output  wire                    id_mtype_o,  //load/store type
+    output  wire                    id_mem_rw_o,  //0--wr, 1--rd
+    output  wire            [1:0]   id_mem_width_o, //0--byte, 1--hw, 2--word
+    output  wire            [31:0]  id_mem_wr_data_o,
+    output  wire                    id_mem_rdtype_o,   //signed --0, unsigned --1
+
     //from dhnf
     input   wire                    dhnf_harzard_sel1_i,
     input   wire                    dhnf_harzard_sel2_i,
@@ -104,6 +112,9 @@ module id_stage (
                         cu_op_b_sel_o ? eximm_eximm_i :
                         rd2_after_hazard; 
 
+    
+    assign id_mem_wr_data_o = rd2_after_hazard; //Stype
+
 
     // assign id_op_b_o = dhnf_harzard_sel2_i ? dhnf_forward_data2_i :  //from reg or imm
     //     (opcode == `Jtype_J) ? if_id_reg_pc_i + 32'd4 :
@@ -125,6 +136,12 @@ module id_stage (
         .cu_ALUctrl_o(id_ALUctrl_o),
         .cu_reg_we_o(id_reg_we_o),
         .cu_op_b_sel_o(cu_op_b_sel_o),
+
+        .cu_mtype_o(id_mtype_o),
+        .cu_mem_rw_o(id_mem_rw_o),
+        .cu_mem_width_o(id_mem_width_o),
+        .cu_mem_rdtype_o(id_mem_rdtype_o),
+
         .cu_reg1_RE_o(id_reg1_RE_o),
         .cu_reg2_RE_o(id_reg2_RE_o)
     );

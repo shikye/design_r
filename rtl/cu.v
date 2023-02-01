@@ -6,11 +6,15 @@ module cu (
     input   wire            [6:0]   id_opcode_i,
     input   wire            [2:0]   id_func3_i,
     input   wire            [6:0]   id_func7_i,
-    //to id_ex_reg
-    output  reg             [4:0]   cu_ALUctrl_o,
-    output  reg                     cu_reg_we_o,
     //to id
     output  reg                     cu_op_b_sel_o,
+    output  reg             [4:0]   cu_ALUctrl_o,
+    output  reg                     cu_reg_we_o,
+
+    output  reg                     cu_mtype_o,
+    output  reg                     cu_mem_rw_o,
+    output  reg             [1:0]   cu_mem_width_o,
+    output  reg                     cu_mem_rdtype_o,
     //to dhnf
     output  reg                     cu_reg1_RE_o,
     output  reg                     cu_reg2_RE_o
@@ -180,8 +184,65 @@ wire [6:0]  func7   = id_func7_i;
         endcase
     end
 
+//mem type inst, load/store
 
+    always @(*) begin
+        case(op_code)
 
+            `Itype_L:begin
+                id_mtype_o = 1'b1;
+                id_mem_rw_o = 1'b1;
+                
+                case(func3)
+                    `I_LB:begin
+                        cu_mem_width_o = 2'd0;
+                        cu_mem_rdtype_o = 1'b0;
+                    end
+                    `I_LH:begin
+                        cu_mem_width_o = 2'd1;
+                        cu_mem_rdtype_o = 1'b0;
+                    end
+                    `I_LW:begin
+                        cu_mem_width_o = 2'd2;
+                        cu_mem_rdtype_o = 1'b0;
+                    end
+                    `I_LBU:begin
+                        cu_mem_width_o = 2'd0;
+                        cu_mem_rdtype_o = 1'b1;
+                    end
+                    `I_LHU:begin
+                        cu_mem_width_o = 2'd1;
+                        cu_mem_rdtype_o = 1'b1;
+                    end
+
+                    default:begin
+                        cu_mem_width_o = 2'd0;
+                        cu_mem_rdtype_o = 1'b0;
+                    end
+                endcase
+            end
+
+            `Stype:begin
+                cu_mtype_o = 1'b1;
+                cu_mem_rw_o = 1'b0;
+                cu_mem_rdtype_o = 1'b0;
+                
+                case(func3)
+                    `S_SB:cu_mem_width_o = 2'd0;
+                    `S_SH:cu_mem_width_o = 2'd1;
+                    `S_SW:cu_mem_width_o = 2'd2;
+                    default:cu_mem_width_o = 2'd0;
+                endcase
+            end
+            
+            default:begin
+                cu_mtype_o = 1'b0;
+                cu_mem_rw_o = 1'b0;
+                cu_mem_rdtype_o = 1'b0;
+                cu_mem_width_o = 2'd0;
+            end
+        endcase
+    end
 
 
 endmodule
