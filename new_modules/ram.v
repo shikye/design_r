@@ -60,6 +60,8 @@ module ram (
                 ram_mem[Dcache_wb_addr_i+13]    <=  Dcache_data_ram_i[111:104];
                 ram_mem[Dcache_wb_addr_i+14]    <=  Dcache_data_ram_i[119:112];
                 ram_mem[Dcache_wb_addr_i+15]    <=  Dcache_data_ram_i[127:120];
+            
+                ram_ready_o <= 1'b1;
             end
             else begin
                 ram_data_o <= 128'h0;
