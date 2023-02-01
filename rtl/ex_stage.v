@@ -11,10 +11,23 @@ module ex_stage (
 
     input   wire                    id_ex_reg_btype_flag_i,
     input   wire            [31:0]  id_ex_reg_btype_jump_pc_i,
+
+    input   wire                    id_ex_reg_mtype_i,  
+    input   wire                    id_ex_reg_mem_rw_i, 
+    input   wire            [1:0]   id_ex_reg_mem_width_i,
+    input   wire            [31:0]  id_ex_reg_mem_wr_data_i,
+    input   wire                    id_ex_reg_mem_rdtype_i,   
     //to ex_mem_reg
     output  reg             [31:0]  ex_op_c_o,
     output  wire            [4:0]   ex_reg_waddr_o,
     output  wire                    ex_reg_we_o,
+
+    output  wire                    ex_mtype_o,  
+    output  wire                    ex_mem_rw_o, 
+    output  wire            [1:0]   ex_mem_width_o,
+    output  wire            [31:0]  ex_mem_wr_data_o,
+    output  wire                    ex_mem_rdtype_o,
+    output  wire            [31:0]  ex_mem_addr_o,
     //to fc
     output  wire                    ex_branch_flag_o,
     output  wire            [31:0]  ex_jump_pc_o
@@ -53,6 +66,15 @@ module ex_stage (
     assign ex_ins_flush_o = ex_op_c_o && id_ex_reg_btype_flag_i; 
 
     assign ex_jump_pc_o = id_ex_reg_btype_jump_pc_i;
+
+    //mtype
+    assign ex_mtype_o = id_ex_reg_mtype_i;
+    assign ex_mem_rw_o = id_ex_reg_mem_rw_i;
+    assign ex_mem_width_o = id_ex_reg_mem_width_i;
+    assign ex_mem_wr_data_o = id_ex_reg_mem_wr_data_i;
+    assign ex_mem_rdtype_o = id_ex_reg_mem_rdtype_i;
+    
+    assign ex_mem_addr_o = ex_op_c_o;
     
     
 
