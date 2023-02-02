@@ -190,8 +190,8 @@ wire [6:0]  func7   = id_func7_i;
         case(op_code)
 
             `Itype_L:begin
-                id_mtype_o = 1'b1;
-                id_mem_rw_o = 1'b1;
+                cu_mtype_o = 1'b1;
+                cu_mem_rw_o = 1'b1;
                 
                 case(func3)
                     `I_LB:begin

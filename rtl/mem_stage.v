@@ -11,7 +11,7 @@ module mem_stage (
     input   wire            [1:0]   ex_mem_reg_mem_width_i,      
     input   wire            [31:0]  ex_mem_reg_mem_wr_data_i, 
     input   wire                    ex_mem_reg_mem_rdtype_i,    
-    input   wire            [31:0]  ex_mem_reg_mem_addr_i   
+    input   wire            [31:0]  ex_mem_reg_mem_addr_i,
     //to mem_wb_reg
     output  wire            [31:0]  mem_op_c_o,
     output  wire            [4:0]   mem_reg_waddr_o,

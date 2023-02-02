@@ -11,7 +11,6 @@ module Data_Hazard_N_Forward(
     input   wire                    ex_reg_we_i,
     //from mem
     input   wire            [4:0]   mem_reg_waddr_i,
-    //input   wire            [31:0]  mem_mem_rdata_i,
     input   wire            [31:0]  mem_op_c_i,
     input   wire                    mem_reg_we_i,
     //from wb

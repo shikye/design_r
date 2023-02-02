@@ -83,6 +83,9 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     end 
 
     always@(*) begin
+        if(rst_n == 1'b0) begin
+            fc_Icache_stall_flag_o = 1'b0;
+        end
         if( (rom_ready_buffer == 1'b0 && rom_ready_i == 1'b1) || (fc_jump_stop_Icache_o == 1'b1 && Icache_hit_i == 1'b1))
             fc_Icache_stall_flag_o = 1'b0;
         else if(if_valid_req_i == 1'b1 && Icache_ready_i == 1'b0)  // one open condition
@@ -111,17 +114,19 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
             ram_ready_buffer <= 1'b0;
         end
         else begin
-            ram_ready_buffer <= rom_ready_i;
+            ram_ready_buffer <= ram_ready_i;
         end
     end 
 
 
 
     always@(*) begin
-        if(mem_req_buffer == 1'b1 && Dcache_ready_i == 1'b0)
+        if(rst_n == 1'b0)
+            fc_Dcache_stall_flag_o = 1'b0;
+        else if(mem_req_buffer == 1'b1 && Dcache_ready_i == 1'b0)
             fc_Dcache_stall_flag_o = 1'b1;
-        else if(ram_ready_buffer == 1'b0 && rom_ready_i == 1'b1)  // one open condition
-            fc_Dcache_stall_flag_o = 1'b1;
+        else if(ram_ready_buffer == 1'b0 && ram_ready_i == 1'b1)  // one open condition
+            fc_Dcache_stall_flag_o = 1'b0;
     end
 
 

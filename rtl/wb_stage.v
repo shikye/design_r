@@ -25,14 +25,14 @@ module wb_stage (
     always @(*) begin
         if(mem_wb_reg_mtype_i == 1'b1) begin
             case(mem_wb_reg_width_i)
-                2'b01: wb_op_c_o = { {24{Dcache_data_i[7]}}, Dcache_data_i[7:0] };
-                2'b10: wb_op_c_o = { {16{Dcache_data_i[15]}}, Dcache_data_i[15:0] };
-                2'b11: wb_op_c_o = Dcache_data_i;
+                2'b00: wb_op_c_o = { {24{Dcache_data_i[7]}}, Dcache_data_i[7:0] };
+                2'b01: wb_op_c_o = { {16{Dcache_data_i[15]}}, Dcache_data_i[15:0] };
+                2'b10: wb_op_c_o = Dcache_data_i;
                 default: wb_op_c_o = 32'h0;
             endcase
         end
         else
-            wb_reg_we_o = mem_wb_reg_op_c_i;
+            wb_op_c_o = mem_wb_reg_op_c_i;
     end
 
 

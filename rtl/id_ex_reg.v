@@ -28,11 +28,11 @@ module id_ex_reg (
     output  reg                     id_ex_reg_btype_flag_o,
     output  reg             [31:0]  id_ex_reg_btype_jump_pc_o,
 
-    output  reg                     id_ex_mtype_o,       
-    output  reg                     id_ex_mem_rw_o,        
-    output  reg             [1:0]   id_ex_mem_width_o,     
-    output  reg             [31:0]  id_ex_mem_wr_data_o,  
-    output  reg                     id_ex_mem_rdtype_o,  
+    output  reg                     id_ex_reg_mtype_o,          
+    output  reg                     id_ex_reg_mem_rw_o,          
+    output  reg             [1:0]   id_ex_reg_mem_width_o,      
+    output  reg             [31:0]  id_ex_reg_mem_wr_data_o,   
+    output  reg                     id_ex_reg_mem_rdtype_o,    
 
 
 
@@ -46,32 +46,32 @@ module id_ex_reg (
 
     always @(posedge clk or negedge rst_n)begin
         if(rst_n == 1'b0)begin
-            id_ex_mtype_o       <= 1'b0;    
-            id_ex_mem_rw_o      <= 1'b0;
-            id_ex_mem_width_o   <= 2'd0;
-            id_ex_mem_wr_data_o <= 32'h0;
-            id_ex_mem_rdtype_o  <= 1'b0;
+            id_ex_reg_mtype_o       <= 1'b0;    
+            id_ex_reg_mem_rw_o      <= 1'b0;
+            id_ex_reg_mem_width_o   <= 2'd0;
+            id_ex_reg_mem_wr_data_o <= 32'h0;
+            id_ex_reg_mem_rdtype_o  <= 1'b0;
         end
         else if(fc_flush_btype_flag_i == 1'b1) begin
-            id_ex_mtype_o       <= 1'b0;    
-            id_ex_mem_rw_o      <= 1'b0;
-            id_ex_mem_width_o   <= 2'd0;
-            id_ex_mem_wr_data_o <= 32'h0;
-            id_ex_mem_rdtype_o  <= 1'b0;
+            id_ex_reg_mtype_o       <= 1'b0;    
+            id_ex_reg_mem_rw_o      <= 1'b0;
+            id_ex_reg_mem_width_o   <= 2'd0;
+            id_ex_reg_mem_wr_data_o <= 32'h0;
+            id_ex_reg_mem_rdtype_o  <= 1'b0;
         end
         else if(fc_Dcache_stall_flag_i == 1'b1)begin
-            id_ex_mtype_o       <= id_ex_mtype_o;          
-            id_ex_mem_rw_o      <= id_ex_mem_rw_o;     
-            id_ex_mem_width_o   <= id_ex_mem_width_o;  
-            id_ex_mem_wr_data_o <= id_ex_mem_wr_data_o;
-            id_ex_mem_rdtype_o  <= id_ex_mem_rdtype_o; 
+            id_ex_reg_mtype_o       <= id_ex_reg_mtype_o;          
+            id_ex_reg_mem_rw_o      <= id_ex_reg_mem_rw_o;     
+            id_ex_reg_mem_width_o   <= id_ex_reg_mem_width_o;  
+            id_ex_reg_mem_wr_data_o <= id_ex_reg_mem_wr_data_o;
+            id_ex_reg_mem_rdtype_o  <= id_ex_reg_mem_rdtype_o; 
         end
         else begin
-            id_ex_mtype_o       <= id_mtype_i;    
-            id_ex_mem_rw_o      <= id_mem_rw_i;
-            id_ex_mem_width_o   <= id_mem_width_i;
-            id_ex_mem_wr_data_o <= id_mem_wr_data_i;
-            id_ex_mem_rdtype_o  <= id_mem_rdtype_i;
+            id_ex_reg_mtype_o       <= id_mtype_i;    
+            id_ex_reg_mem_rw_o      <= id_mem_rw_i;
+            id_ex_reg_mem_width_o   <= id_mem_width_i;
+            id_ex_reg_mem_wr_data_o <= id_mem_wr_data_i;
+            id_ex_reg_mem_rdtype_o  <= id_mem_rdtype_i;
         end
     end
 

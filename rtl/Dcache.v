@@ -24,7 +24,7 @@ module Dcache(
                                                    //    0               1                            2                            3                                 
                                                    //  none     31:8--0 7:0--valid data      31:16--0 15:0--valid data      31:0--valid data       
     
-    input   wire            [31:0]  mem_data_i,       //write:1,2,4byte
+    input   wire            [31:0]  mem_wr_data_i,       //write:1,2,4byte
     
     //to mem
     output  reg             [31:0]  Dcache_data_o,   //read:4byte each time
@@ -193,23 +193,23 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                             case(mem_wrwidth_i)  //how many byte need to write
                                                 2'd1:begin
                                                     case(Dcache_Byte_Off)
-                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][7:0] <= mem_data_i[7:0];
-                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][15:8] <= mem_data_i[7:0];
-                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][23:16] <= mem_data_i[7:0];
-                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][31:24] <= mem_data_i[7:0];
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][7:0] <= mem_wr_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][15:8] <= mem_wr_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][23:16] <= mem_wr_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][31:24] <= mem_wr_data_i[7:0];
                                                         default:;
                                                     endcase
                                                 end
 
                                                 2'd2:begin
                                                     case(Dcache_Byte_Off)   //有对齐要求
-                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][15:0] <= mem_data_i[15:0];
-                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][31:16] <= mem_data_i[15:0];
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][15:0] <= mem_wr_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][31:16] <= mem_wr_data_i[15:0];
                                                         default:;
                                                     endcase
                                                 end
 
-                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][31:0] <= mem_data_i;
+                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][31:0] <= mem_wr_data_i;
 
                                                 default:;
                                             endcase
@@ -219,23 +219,23 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                             case(mem_wrwidth_i)  //how many byte need to write
                                                 2'd1:begin
                                                     case(Dcache_Byte_Off)
-                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][39:32] <= mem_data_i[7:0];
-                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][47:40] <= mem_data_i[7:0];
-                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][55:48] <= mem_data_i[7:0];
-                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][63:56] <= mem_data_i[7:0];
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][39:32] <= mem_wr_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][47:40] <= mem_wr_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][55:48] <= mem_wr_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][63:56] <= mem_wr_data_i[7:0];
                                                         default:;
                                                     endcase
                                                 end
 
                                                 2'd2:begin
                                                     case(Dcache_Byte_Off)   //有对齐要求
-                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][47:32] <= mem_data_i[15:0];
-                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][63:48] <= mem_data_i[15:0];
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][47:32] <= mem_wr_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][63:48] <= mem_wr_data_i[15:0];
                                                         default:;
                                                     endcase
                                                 end
 
-                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][63:32] <= mem_data_i;
+                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][63:32] <= mem_wr_data_i;
 
                                                 default:;
                                             endcase
@@ -245,23 +245,23 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                             case(mem_wrwidth_i)  //how many byte need to write
                                                 2'd1:begin
                                                     case(Dcache_Byte_Off)
-                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][71:64] <= mem_data_i[7:0];
-                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][79:72] <= mem_data_i[7:0];
-                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][87:80] <= mem_data_i[7:0];
-                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][95:88] <= mem_data_i[7:0];
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][71:64] <= mem_wr_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][79:72] <= mem_wr_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][87:80] <= mem_wr_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][95:88] <= mem_wr_data_i[7:0];
                                                         default:;
                                                     endcase
                                                 end
 
                                                 2'd2:begin
                                                     case(Dcache_Byte_Off)   //有对齐要求
-                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][79:64] <= mem_data_i[15:0];
-                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][95:80] <= mem_data_i[15:0];
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][79:64] <= mem_wr_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][95:80] <= mem_wr_data_i[15:0];
                                                         default:;
                                                     endcase
                                                 end
 
-                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][95:64] <= mem_data_i;
+                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][95:64] <= mem_wr_data_i;
 
                                                 default:;
                                             endcase
@@ -271,23 +271,23 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                             case(mem_wrwidth_i)  //how many byte need to write
                                                 2'd1:begin
                                                     case(Dcache_Byte_Off)
-                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][103:96] <= mem_data_i[7:0];
-                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][111:104] <= mem_data_i[7:0];
-                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][119:112] <= mem_data_i[7:0];
-                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][127:120] <= mem_data_i[7:0];
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][103:96] <= mem_wr_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[Dcache_Index << 1][111:104] <= mem_wr_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][119:112] <= mem_wr_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[Dcache_Index << 1][127:120] <= mem_wr_data_i[7:0];
                                                         default:;
                                                     endcase
                                                 end
 
                                                 2'd2:begin
                                                     case(Dcache_Byte_Off)   //有对齐要求
-                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][111:96] <= mem_data_i[15:0];
-                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][127:112] <= mem_data_i[15:0];
+                                                        2'b00:Dcache_Data_Block[Dcache_Index << 1][111:96] <= mem_wr_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[Dcache_Index << 1][127:112] <= mem_wr_data_i[15:0];
                                                         default:;
                                                     endcase
                                                 end
 
-                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][127:96] <= mem_data_i;
+                                                2'd3:Dcache_Data_Block[Dcache_Index << 1][127:96] <= mem_wr_data_i;
 
                                                 default:;
                                             endcase
@@ -311,23 +311,23 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                             case(mem_wrwidth_i)  //how many byte need to write
                                                 2'd1:begin
                                                     case(Dcache_Byte_Off)
-                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][7:0] <= mem_data_i[7:0];
-                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][15:8] <= mem_data_i[7:0];
-                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][23:16] <= mem_data_i[7:0];
-                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:24] <= mem_data_i[7:0];
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][7:0] <= mem_wr_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][15:8] <= mem_wr_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][23:16] <= mem_wr_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:24] <= mem_wr_data_i[7:0];
                                                         default:;
                                                     endcase
                                                 end
 
                                                 2'd2:begin
                                                     case(Dcache_Byte_Off)   //有对齐要求
-                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][15:0] <= mem_data_i[15:0];
-                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:16] <= mem_data_i[15:0];
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][15:0] <= mem_wr_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:16] <= mem_wr_data_i[15:0];
                                                         default:;
                                                     endcase
                                                 end
 
-                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:0] <= mem_data_i;
+                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][31:0] <= mem_wr_data_i;
 
                                                 default:;
                                             endcase
@@ -337,23 +337,23 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                             case(mem_wrwidth_i)  //how many byte need to write
                                                 2'd1:begin
                                                     case(Dcache_Byte_Off)
-                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][39:32] <= mem_data_i[7:0];
-                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][47:40] <= mem_data_i[7:0];
-                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][55:48] <= mem_data_i[7:0];
-                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:56] <= mem_data_i[7:0];
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][39:32] <= mem_wr_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][47:40] <= mem_wr_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][55:48] <= mem_wr_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:56] <= mem_wr_data_i[7:0];
                                                         default:;
                                                     endcase
                                                 end
 
                                                 2'd2:begin
                                                     case(Dcache_Byte_Off)   //有对齐要求
-                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][47:32] <= mem_data_i[15:0];
-                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:48] <= mem_data_i[15:0];
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][47:32] <= mem_wr_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:48] <= mem_wr_data_i[15:0];
                                                         default:;
                                                     endcase
                                                 end
 
-                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:32] <= mem_data_i;
+                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][63:32] <= mem_wr_data_i;
 
                                                 default:;
                                             endcase
@@ -363,23 +363,23 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                             case(mem_wrwidth_i)  //how many byte need to write
                                                 2'd1:begin
                                                     case(Dcache_Byte_Off)
-                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][71:64] <= mem_data_i[7:0];
-                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][79:72] <= mem_data_i[7:0];
-                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][87:80] <= mem_data_i[7:0];
-                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:88] <= mem_data_i[7:0];
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][71:64] <= mem_wr_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][79:72] <= mem_wr_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][87:80] <= mem_wr_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:88] <= mem_wr_data_i[7:0];
                                                         default:;
                                                     endcase
                                                 end
 
                                                 2'd2:begin
                                                     case(Dcache_Byte_Off)   //有对齐要求
-                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][79:64] <= mem_data_i[15:0];
-                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:80] <= mem_data_i[15:0];
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][79:64] <= mem_wr_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:80] <= mem_wr_data_i[15:0];
                                                         default:;
                                                     endcase
                                                 end
 
-                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:64] <= mem_data_i;
+                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][95:64] <= mem_wr_data_i;
 
                                                 default:;
                                             endcase
@@ -389,23 +389,23 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                             case(mem_wrwidth_i)  //how many byte need to write
                                                 2'd1:begin
                                                     case(Dcache_Byte_Off)
-                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][103:96] <= mem_data_i[7:0];
-                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][111:104] <= mem_data_i[7:0];
-                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][119:112] <= mem_data_i[7:0];
-                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:120] <= mem_data_i[7:0];
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][103:96] <= mem_wr_data_i[7:0];
+                                                        2'b01:Dcache_Data_Block[(Dcache_Index << 1) + 1][111:104] <= mem_wr_data_i[7:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][119:112] <= mem_wr_data_i[7:0];
+                                                        2'b11:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:120] <= mem_wr_data_i[7:0];
                                                         default:;
                                                     endcase
                                                 end
 
                                                 2'd2:begin
                                                     case(Dcache_Byte_Off)   //有对齐要求
-                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][111:96] <= mem_data_i[15:0];
-                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:112] <= mem_data_i[15:0];
+                                                        2'b00:Dcache_Data_Block[(Dcache_Index << 1) + 1][111:96] <= mem_wr_data_i[15:0];
+                                                        2'b10:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:112] <= mem_wr_data_i[15:0];
                                                         default:;
                                                     endcase
                                                 end
 
-                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:96] <= mem_data_i;
+                                                2'd3:Dcache_Data_Block[(Dcache_Index << 1) + 1][127:96] <= mem_wr_data_i;
 
                                                 default:;
                                             endcase
@@ -463,7 +463,7 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                         Block_Off_Buffer <= Dcache_Block_Off;
                         Byte_Off_Buffer <= Dcache_Byte_Off;
                         rw_Buffer <= mem_rw_i;      
-                        Mem_Data_Buffer <= mem_data_i;             
+                        Mem_Data_Buffer <= mem_wr_data_i;             
 
                         
                         //no matter write or read
