@@ -30,13 +30,26 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
 
     output  wire                    fc_Icache_data_valid_o,
 
-    //from mem
+    //from rom
     input   wire                    rom_ready_i,
+
+    //from ram
+    input   wire                    ram_ready_i,
+
+    //from mem
+    input   wire                    mem_valid_req_i,
 
 
     //from Dcache
     input   wire                    Dcache_ready_i,
-    input   wire                    Dcache_hit_i
+    input   wire                    Dcache_hit_i,
+
+
+    //to if_pc/Icache_inst_buffer/id_ex_reg/ex_mem_reg/mem_wb_reg
+    output  reg                     fc_Dcache_stall_flag_o,
+
+    //to wb
+    output  wire                    fc_Dcache_data_valid_o              
 
 );
 
@@ -77,5 +90,42 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     end
 
 
+
+
+    //---------------- for Dcache pipe---------------
+    reg mem_req_buffer;
+
+    always@(posedge clk or negedge rst_n) begin  //lap one cycle to find up edge
+        if(rst_n == 1'b0) begin
+            mem_req_buffer <= 1'b0;
+        end
+        else begin
+            mem_req_buffer <= mem_valid_req_i;
+        end
+    end 
+
+    reg ram_ready_buffer;
+
+    always@(posedge clk or negedge rst_n) begin  //lap one cycle to find up edge,for proper cycle
+        if(rst_n == 1'b0) begin
+            ram_ready_buffer <= 1'b0;
+        end
+        else begin
+            ram_ready_buffer <= rom_ready_i;
+        end
+    end 
+
+
+
+    always@(*) begin
+        if(mem_req_buffer == 1'b1 && Dcache_ready_i == 1'b0)
+            fc_Dcache_stall_flag_o = 1'b1;
+        else if(ram_ready_buffer == 1'b0 && rom_ready_i == 1'b1)  // one open condition
+            fc_Dcache_stall_flag_o = 1'b1;
+    end
+
+
+
+    assign fc_Dcache_data_valid_o = Dcache_ready_i;
 
 endmodule

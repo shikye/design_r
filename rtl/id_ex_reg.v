@@ -38,7 +38,9 @@ module id_ex_reg (
 
     //from fc
     input   wire                    fc_flush_btype_flag_i,
-    input   wire                    fc_flush_jtype_flag_i
+    input   wire                    fc_flush_jtype_flag_i,
+
+    input   wire                    fc_Dcache_stall_flag_i
 
 );
 
@@ -56,6 +58,13 @@ module id_ex_reg (
             id_ex_mem_width_o   <= 2'd0;
             id_ex_mem_wr_data_o <= 32'h0;
             id_ex_mem_rdtype_o  <= 1'b0;
+        end
+        else if(fc_Dcache_stall_flag_i == 1'b1)begin
+            id_ex_mtype_o       <= id_ex_mtype_o;          
+            id_ex_mem_rw_o      <= id_ex_mem_rw_o;     
+            id_ex_mem_width_o   <= id_ex_mem_width_o;  
+            id_ex_mem_wr_data_o <= id_ex_mem_wr_data_o;
+            id_ex_mem_rdtype_o  <= id_ex_mem_rdtype_o; 
         end
         else begin
             id_ex_mtype_o       <= id_mtype_i;    
@@ -77,6 +86,9 @@ module id_ex_reg (
         else if(fc_flush_btype_flag_i == 1'b1) begin
             id_ex_reg_btype_flag_o <= 1'b0;
         end
+        else if(fc_Dcache_stall_flag_i == 1'b1)begin
+            id_ex_reg_btype_flag_o <= id_ex_reg_btype_flag_o;
+        end
         else begin
             id_ex_reg_btype_flag_o <= id_btype_flag_i;
         end
@@ -88,6 +100,9 @@ module id_ex_reg (
         end
         else if(fc_flush_btype_flag_i == 1'b1) begin
             id_ex_reg_btype_jump_pc_o <= 32'h0;
+        end
+        else if(fc_Dcache_stall_flag_i == 1'b1)begin
+            id_ex_reg_btype_jump_pc_o <= id_ex_reg_btype_jump_pc_o;
         end
         else begin
             id_ex_reg_btype_jump_pc_o <= id_btype_jump_pc_i;
@@ -106,6 +121,10 @@ module id_ex_reg (
             id_ex_reg_op_a_o <= 32'h0;
             id_ex_reg_op_b_o <= 32'h0;
         end
+        else if(fc_Dcache_stall_flag_i == 1'b1)begin
+            id_ex_reg_op_a_o <= id_ex_reg_op_a_o;
+            id_ex_reg_op_b_o <= id_ex_reg_op_b_o;
+        end
         else begin
             id_ex_reg_op_a_o <= id_op_a_i;
             id_ex_reg_op_b_o <= id_op_b_i;
@@ -120,6 +139,9 @@ module id_ex_reg (
         else if(fc_flush_btype_flag_i == 1'b1) begin
             id_ex_reg_ALUctrl_o <= `NO_OP;
         end
+        else if(fc_Dcache_stall_flag_i == 1'b1)begin
+            id_ex_reg_ALUctrl_o <= id_ex_reg_ALUctrl_o;
+        end
         else begin
             id_ex_reg_ALUctrl_o <= cu_ALUctrl_i;
         end
@@ -133,6 +155,9 @@ module id_ex_reg (
         else if(fc_flush_btype_flag_i == 1'b1) begin
             id_ex_reg_reg_waddr_o <= 5'h0;
         end
+        else if(fc_Dcache_stall_flag_i == 1'b1)begin
+            id_ex_reg_reg_waddr_o <= id_ex_reg_reg_waddr_o;
+        end
         else begin
             id_ex_reg_reg_waddr_o <= id_reg_waddr_i;
         end
@@ -144,6 +169,9 @@ module id_ex_reg (
         end
         else if(fc_flush_btype_flag_i == 1'b1) begin
             id_ex_reg_reg_we_o <= 1'b0;
+        end
+        else if(fc_Dcache_stall_flag_i == 1'b1)begin
+            id_ex_reg_reg_we_o <= id_ex_reg_reg_we_o;
         end
         else begin
             id_ex_reg_reg_we_o <= id_reg_we_i;

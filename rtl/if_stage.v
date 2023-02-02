@@ -8,6 +8,7 @@ module if_stage (
     output  reg                     if_valid_req_o,
     //from fc
     input   wire                    fc_Icache_stall_flag_i,
+    input   wire                    fc_Dcache_stall_flag_i,
 
     input   wire            [31:0]  fc_jump_pc_i,
     input   wire                    fc_jump_flag_i,
@@ -46,6 +47,12 @@ module if_stage (
         else if(fc_Icache_stall_flag_i == 1'b1) begin
             if_pc_o <= pc_before_stall;
             if_valid_req_o <= 1'b0;          //if stall, no more req    
+
+            if_jump_stop_Icache_o <= 1'b0;
+        end
+        else if(fc_Dcache_stall_flag_i == 1'b1) begin
+            if_pc_o <= if_pc_o;
+            if_valid_req_o <= 1'b0;           
 
             if_jump_stop_Icache_o <= 1'b0;
         end

@@ -25,7 +25,7 @@ module ICache (
 
     //to fc
     output  reg                     Icache_ready_o,
-    output  wire                    hit,
+    output  wire                    Icache_hit_o,
 
     //from fc
     input   wire                    fc_jump_stop_Icache_i,
@@ -73,7 +73,7 @@ wire [1:0] ICache_Tag_hit;
 assign ICache_Tag_hit[0] = ( (Icache_tag == ICache_Tag_Array[Icache_index << 1][Tag_Width:0]) && ICache_Tag_Array[Icache_index << 1][Valid] == 1'b1 );
 assign ICache_Tag_hit[1] = ( (Icache_tag == ICache_Tag_Array[(Icache_index << 1) + 1][Tag_Width:0]) && ICache_Tag_Array[(Icache_index << 1) + 1][Valid] == 1'b1 );
 
-assign hit              = (ICache_Tag_hit != 2'b00);
+assign Icache_hit_o              = (ICache_Tag_hit != 2'b00);
 
 
 
@@ -127,7 +127,7 @@ always @(posedge clk or negedge rst_n) begin
 
                 if(if_valid_req_i == 1'b1)begin
 
-                    if(hit == 1'b1)begin   //read hit then change Replace
+                    if(Icache_hit_o == 1'b1)begin   //read hit then change Replace
 
                         cur_state <= Idle_or_Compare_Tag;
                         Icache_valid_req_o <= 1'b0;
@@ -211,7 +211,7 @@ always @(posedge clk or negedge rst_n) begin
 
             if(fc_jump_stop_Icache_i == 1'b1) begin  //btype or jtype  --need to change to jump pc
 
-                if(hit == 1'b1)begin   //read hit then change Replace
+                if(Icache_hit_o == 1'b1)begin   //read hit then change Replace
 
                         cur_state <= Idle_or_Compare_Tag;
                         Icache_valid_req_o <= 1'b0;

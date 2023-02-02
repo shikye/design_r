@@ -31,7 +31,7 @@ module Dcache(
 
     //to fc
     output  reg                     Dcache_ready_o,   //read out valid or write over
-    output  wire                    hit,
+    output  wire                    Dcache_hit_o,
 
     //to ram
     output  reg                     Dcache_rd_req_o, 
@@ -112,7 +112,7 @@ assign Dcache_Tag_Hit[0] = ( (Dcache_Tag == Dcache_Tag_Array[Dcache_Index << 1][
 assign Dcache_Tag_Hit[1] = ( (Dcache_Tag == Dcache_Tag_Array[(Dcache_Index << 1) + 1][Tag_Width:0]) 
                         && Dcache_Tag_Array[(Dcache_Index << 1) + 1][Valid] == 1'b1 );
 
-assign hit               = (Dcache_Tag_Hit != 2'b00);
+assign Dcache_hit_o               = (Dcache_Tag_Hit != 2'b00);
 
 //replace number
 reg    victim_number;
@@ -169,7 +169,7 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                 
                 if(mem_valid_req_i == 1'b1) begin
 
-                    if(hit == 1'b1)begin   //write hit or read hit
+                    if(Dcache_hit_o == 1'b1)begin   //write hit or read hit
 
                         cur_state <= Idle_or_Compare_Tag;
                         Dcache_ready_o <= 1'b1;                //ready

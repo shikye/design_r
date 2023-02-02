@@ -42,15 +42,29 @@ module id_stage (
     //from fc
     input   wire                    fc_jump_flag_i,
     input   wire                    fc_Icache_data_valid_i,
+
+    input   wire                    fc_Dcache_stall_flag_i,
     //to fc
     output  wire                    id_jump_flag_o,
     output  wire            [31:0]  id_jump_pc_o
 );
 
+    //-----------for Dcache pipe
+    reg [31:0] inst_buffer;
+
+    always @(posedge clk or negedge rst_n) begin
+        if(rst_n == 1'b0)
+            inst_buffer <= 32'b0;
+        else
+            inst_buffer <= inst;
+    end
+
+    //--------
+
 
     wire [31:0] Icache_inst_buffer_from_Icache = fc_Icache_data_valid_i ? Icache_inst_i : 32'h0;
 
-    wire [31:0] inst = delay_flag ? 32'h0 : Icache_inst_buffer_from_Icache;
+    wire [31:0] inst = fc_Dcache_stall_flag_i ? inst_buffer : delay_flag ? 32'h0 : Icache_inst_buffer_from_Icache;
 
     reg delay_flag;
 
