@@ -59,7 +59,7 @@ module soc(
 
     ram ram_ins(
         .clk(clk),
-        .rst_n(clk),
+        .rst_n(rst_n),
         .Dcache_rd_req_i(rv32core_Dcache_rd_req_o),
         .Dcache_rd_addr_i(Dcache_rd_addr_i),
         .Dcache_wb_req_i(rv32core_Dcache_wb_req_o),

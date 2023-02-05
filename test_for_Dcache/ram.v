@@ -16,7 +16,7 @@ module ram (
 
     reg [7:0]   ram_mem[0:4095];
 
-    always@(posedge clk or rst_n) begin
+    always@(posedge clk or negedge rst_n) begin
         if(rst_n == 1'b0) begin
             ram_data_o <= 128'h0;
             ram_ready_o <= 1'b0;

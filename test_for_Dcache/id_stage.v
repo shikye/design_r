@@ -25,7 +25,7 @@ module id_stage (
 
     output  wire                    id_mtype_o,  //load/store type
     output  wire                    id_mem_rw_o,  //0--wr, 1--rd
-    output  wire            [1:0]   id_mem_width_o, //0--byte, 1--hw, 2--word
+    output  wire            [1:0]   id_mem_width_o, //1--byte, 2--hw, 3--word
     output  wire            [31:0]  id_mem_wr_data_o,
     output  wire                    id_mem_rdtype_o,   //signed --0, unsigned --1
 

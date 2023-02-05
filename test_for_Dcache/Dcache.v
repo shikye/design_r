@@ -101,6 +101,7 @@ reg [24:0]  Tag_Buffer;
 reg [3:0]   Index_Buffer;
 reg [1:0]   Block_Off_Buffer;
 reg [1:0]   Byte_Off_Buffer;
+reg [1:0]   Rd_Width_Buffer;
 reg         rw_Buffer;
 reg [31:0]  Mem_Data_Buffer;
 
@@ -614,7 +615,7 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
 
                             case(Dcache_Block_Off)
                                 2'b00:begin
-                                    case(rw_Buffer)  //how many byte need to write
+                                    case(Rd_Width_Buffer)  //how many byte need to write
                                         2'd1:begin
                                             case(Dcache_Byte_Off)
                                                 2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][7:0] = Mem_Data_Buffer[7:0];
@@ -640,7 +641,7 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                 end
 
                                 2'b01:begin
-                                    case(mem_wrwidth_i)  //how many byte need to write
+                                    case(Rd_Width_Buffer)  //how many byte need to write
                                         2'd1:begin
                                             case(Dcache_Byte_Off)
                                                 2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][39:32] = Mem_Data_Buffer[7:0];
@@ -666,7 +667,7 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                 end
 
                                 2'b10:begin
-                                    case(mem_wrwidth_i)  //how many byte need to write
+                                    case(Rd_Width_Buffer)  //how many byte need to write
                                         2'd1:begin
                                             case(Dcache_Byte_Off)
                                                 2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][71:64] = Mem_Data_Buffer[7:0];
@@ -692,7 +693,7 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
                                 end
 
                                 2'b11:begin
-                                    case(mem_wrwidth_i)  //how many byte need to write
+                                    case(Rd_Width_Buffer)  //how many byte need to write
                                         2'd1:begin
                                             case(Dcache_Byte_Off)
                                                 2'b00:Dcache_Data_Block[(Index_Buffer << 1) + victim_number][103:96] = Mem_Data_Buffer[7:0];
