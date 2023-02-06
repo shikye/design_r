@@ -15,6 +15,7 @@ module tb;
 
     initial begin
         $readmemh("../sim/inst",tb.soc_ins.rom_ins.rom_mem);
+        $readmemh("../sim/data_for_ram",tb.soc_ins.ram_ins.ram_mem);
     end
 
 

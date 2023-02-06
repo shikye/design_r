@@ -369,6 +369,11 @@ module rv32core(
         .mem_op_c_i(mem_op_c_o),
         .mem_reg_waddr_i(mem_reg_waddr_o),
         .mem_reg_we_i(mem_reg_we_o),
+
+        .mem_mtype_i(mem_mtype_o),
+        .mem_width_i(mem_width_o),
+
+
         .mem_wb_reg_op_c_o(mem_wb_reg_op_c_o),
         .mem_wb_reg_reg_waddr_o(mem_wb_reg_reg_waddr_o),
         .mem_wb_reg_reg_we_o(mem_wb_reg_reg_we_o),
