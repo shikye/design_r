@@ -37,7 +37,7 @@ module EX (
     wire [31:0] op_b = idex_op_b_i;
 
     always @(*) begin
-        case(id_ex_reg_ALUctrl_i)
+        case(idex_ALUctrl_i)
             `ADD:   ex_op_c_o = op_a + op_b;
             `SUB:   ex_op_c_o = op_a - op_b;
             `EQU:   ex_op_c_o = ((op_a ^ op_b) == 32'h0) ? 32'b1 : 32'b0;

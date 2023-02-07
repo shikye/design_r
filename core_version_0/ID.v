@@ -104,6 +104,7 @@ module ID (
 
 //-----------------------------------------
 
+    reg [31:0] inst;
 
     always@(*)begin
         case( {fc_bk_id_i, Icache_in_Buffer} )
@@ -143,7 +144,6 @@ module ID (
                     inst = 32'h0;
                 else
                     inst = Inst_Buffer;
-                end
 
             end
 
@@ -166,6 +166,8 @@ module ID (
 
 
 //-----------decode
+
+
     wire [6:0]  opcode = inst[6:0];
     wire [4:0]  rd     = inst[11:7];
     wire [2:0]  func3  = inst[14:12];
@@ -179,17 +181,17 @@ module ID (
 
 //---------------control unit
 
-    wire cu_ALUctrl_o;
-    wire cu_reg_we_o;
-    wire cu_op_b_sel_o;
+    wire [4:0] cu_ALUctrl_o;
+    wire       cu_reg_we_o;
+    wire       cu_op_b_sel_o;
 
-    wire cu_reg1_RE_o;
-    wire cu_reg2_RE_o;
+    wire       cu_reg1_RE_o;
+    wire       cu_reg2_RE_o;
 
-    wire cu_mtype_o;
-    wire cu_mem_rw_o;
-    wire cu_mem_width_o;
-    wire cu_mem_rdtype_o;
+    wire       cu_mtype_o;
+    wire       cu_mem_rw_o;
+    wire [1:0] cu_mem_width_o;
+    wire       cu_mem_rdtype_o;
 
 
     cu cu_ins(

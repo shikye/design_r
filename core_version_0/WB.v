@@ -1,4 +1,4 @@
-module wb_stage (
+module WB (
     input   wire                    clk,
     input   wire                    rst_n,
     //from mem_wb_reg
@@ -6,7 +6,7 @@ module wb_stage (
     input   wire            [4:0]   memwb_reg_waddr_i,
     input   wire                    memwb_reg_we_i,
     input   wire                    memwb_mtype_i,
-    input   wire            [1:0]   memwb_mem_width_i,
+    input   wire            [1:0]   memwb_width_o,
     //to regs
     output  reg             [31:0]  wb_op_c_o,
     output  wire            [4:0]   wb_reg_waddr_o,

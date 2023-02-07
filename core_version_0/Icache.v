@@ -8,7 +8,7 @@
 
 
 //read sy
-module ICache (
+module Icache (
     input   wire                    clk,
     input   wire                    rst_n,
 

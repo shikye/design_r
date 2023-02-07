@@ -9,7 +9,7 @@ module id_ex_reg (
     input   wire            [4:0]   id_reg_waddr_i,
     input   wire                    id_reg_we_i,
 
-    input   wire                    id_ALUctrl_i,
+    input   wire            [4:0]   id_ALUctrl_i,
     input   wire                    id_btype_flag_i,
     input   wire            [31:0]  id_btype_jump_pc_i,
 
@@ -149,20 +149,20 @@ module id_ex_reg (
             Mem_Rdtype_Buffer <= 1'b0;
         end
         else begin
-            idex_op_a_o <= idex_op_a_i;
-            idex_op_b_o <= idex_op_b_i;
-            idex_reg_waddr_o <= idex_reg_waddr_i;
-            idex_reg_we_o <= idex_reg_we_i;
+            idex_op_a_o <= id_op_a_i;
+            idex_op_b_o <= id_op_b_i;
+            idex_reg_waddr_o <= id_reg_waddr_i;
+            idex_reg_we_o <= id_reg_we_i;
 
-            idex_ALUctrl_o <= idex_ALUctrl_i;
-            idex_btype_flag_o <= idex_btype_flag_i;
-            idex_btype_jump_pc_o <= idex_btype_jump_pc_i;
+            idex_ALUctrl_o <= id_ALUctrl_i;
+            idex_btype_flag_o <= id_btype_flag_i;
+            idex_btype_jump_pc_o <= id_btype_jump_pc_i;
 
-            idex_mtype_o <= idex_mtype_i;
-            idex_mem_rw_o <= idex_mem_rw_i;
-            idex_mem_width_o <= idex_mem_width_i;
-            idex_mem_wr_data_o <= idex_mem_wr_data_i;
-            idex_mem_rdtype_o <= idex_mem_rdtype_i;
+            idex_mtype_o <= id_mtype_i;
+            idex_mem_rw_o <= id_mem_rw_i;
+            idex_mem_width_o <= id_mem_width_i;
+            idex_mem_wr_data_o <= id_mem_wr_data_i;
+            idex_mem_rdtype_o <= id_mem_rdtype_i;
 
 
             Op_A_Buffer <= idex_op_a_o;
@@ -176,7 +176,7 @@ module id_ex_reg (
             Mem_Rw_Buffer <= idex_mem_rw_o;
             Mem_Width_Buffer <= idex_mem_width_o;
             Mem_Wr_Data_Buffer <= idex_mem_wr_data_o;
-            Mem_Rdtype_Buffer <= 1idex_mem_rdtype_o;
+            Mem_Rdtype_Buffer <= idex_mem_rdtype_o;
         end
 
     end

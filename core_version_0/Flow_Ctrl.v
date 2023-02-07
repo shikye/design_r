@@ -48,6 +48,8 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     
     output  reg                     fc_flush_ifid_o,
     output  reg                     fc_flush_idex_o,
+    output  reg                     fc_flush_exmem_o,
+    output  reg                     fc_flush_memwb_o,
     output  reg                     fc_flush_id_o,
 
 
@@ -167,6 +169,8 @@ always@(*)begin
 
     fc_flush_ifid_o = 1'b0;
     fc_flush_idex_o = 1'b0;
+    fc_flush_exmem_o = 1'b0;
+    fc_flush_memwb_o = 1'b0;
     fc_flush_id_o = 1'b0; 
 
     if(id_jump_flag_i == 1'b1)begin  //jtype
