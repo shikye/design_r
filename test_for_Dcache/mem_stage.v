@@ -31,6 +31,11 @@ module mem_stage (
 );
 
     //mem inst
+    assign mem_op_c_o = ex_mem_reg_op_c_i;
+    assign mem_reg_waddr_o = ex_mem_reg_reg_waddr_i;
+    assign mem_reg_we_o = ex_mem_reg_reg_we_i;
+
+
     assign mem_mtype_o = ex_mem_reg_mtype_i;
     assign mem_width_o = ex_mem_reg_mem_width_i;
 
@@ -40,11 +45,6 @@ module mem_stage (
     assign mem_wrwidth_o = ex_mem_reg_mem_width_i;
     assign mem_wr_data_o = ex_mem_reg_mem_wr_data_i;
 
-    
-
-    assign mem_op_c_o = ex_mem_reg_op_c_i;
-    assign mem_reg_waddr_o = ex_mem_reg_reg_waddr_i;
-    assign mem_reg_we_o = ex_mem_reg_reg_we_i;
 
 
 

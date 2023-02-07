@@ -110,9 +110,14 @@ module ID (
             2'b00:begin
                 if(delay_flag == 1'b1)
                     inst = 32'h0;
-                else
-                    inst = Icache_inst_i;
+                else begin
+                    if(fc_Icache_data_valid_i == 1'b1)
+                        inst = Icache_inst_i;
+                    else 
+                        inst = 32'h0;
+                end
             end
+
 
             2'b01:begin   //Dcache complete
 
@@ -120,7 +125,7 @@ module ID (
                     inst = 32'h0;
                 else
                     inst = Inst_Buffer;
-            
+                    
             end
             
             2'b10:begin
@@ -138,6 +143,7 @@ module ID (
                     inst = 32'h0;
                 else
                     inst = Inst_Buffer;
+                end
 
             end
 
