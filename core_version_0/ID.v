@@ -104,54 +104,11 @@ module ID (
 
 //-----------------------------------------
 
-    reg [31:0] inst;
+    wire [31:0] inst;
 
-    always@(*)begin
-        case( {fc_bk_id_i, Icache_in_Buffer} )
-            2'b00:begin
-                if(delay_flag == 1'b1)
-                    inst = 32'h0;
-                else begin
-                    if(fc_Icache_data_valid_i == 1'b1)
-                        inst = Icache_inst_i;
-                    else 
-                        inst = 32'h0;
-                end
-            end
+    assign inst = delay_flag ? 32'h0 : fc_Icache_data_valid_i ? Icache_inst_i : 32'h0; //之后再改
 
-
-            2'b01:begin   //Dcache complete
-
-                if(delay_flag == 1'b1)
-                    inst = 32'h0;
-                else
-                    inst = Inst_Buffer;
-                    
-            end
-            
-            2'b10:begin
-
-                if(delay_flag == 1'b1)
-                    inst = 32'h0;
-                else
-                    inst = Inst_Buffer;
-                
-            end
-
-            2'b11:begin
-
-                if(delay_flag == 1'b1)
-                    inst = 32'h0;
-                else
-                    inst = Inst_Buffer;
-
-            end
-
-            default:;
-        
-        endcase
-        
-    end
+    
 
 
 

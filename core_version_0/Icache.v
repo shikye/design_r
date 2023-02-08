@@ -8,6 +8,7 @@
 
 
 //read sy
+//!!!!!!!write and read sy, but hit can be get instantly
 module Icache (
     input   wire                    clk,
     input   wire                    rst_n,
@@ -25,7 +26,7 @@ module Icache (
     output  wire                    Icache_hit_o,
 
     //from fc
-    input   wire                    fc_jump_stop_Icache_i,
+    input   wire                    fc_jump_flag_Icache_i,
     
     //to mem
     output  reg             [31:0]  Icache_addr_o,
@@ -206,7 +207,7 @@ always @(posedge clk or negedge rst_n) begin
             // Icache_addr_o = (if_pc_i >> 4) << 4;
             Icache_valid_req_o <= 1'b0; //valid for one cycle
 
-            if(fc_jump_stop_Icache_i == 1'b1) begin  //btype or jtype  --need to change to jump pc
+            if(fc_jump_flag_Icache_i == 1'b1) begin  //btype or jtype  --need to change to jump pc
 
                 if(Icache_hit_o == 1'b1)begin   //read hit then change Replace
 

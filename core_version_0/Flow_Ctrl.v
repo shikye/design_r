@@ -51,6 +51,7 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     output  reg                     fc_flush_exmem_o,
     output  reg                     fc_flush_memwb_o,
     output  reg                     fc_flush_id_o,
+    output  reg                     fc_flush_wb_o,
 
 
     output  wire            [31:0]  fc_jump_pc_if_o,
@@ -65,6 +66,7 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
 
     output  reg                     fc_bk_if_o,
     output  reg                     fc_bk_id_o,
+    output  reg                     fc_bk_wb_o,
 
     output  reg                     fc_bk_ifid_o,
     output  reg                     fc_bk_idex_o,
@@ -94,10 +96,19 @@ reg Icache_stall_flag;
         if(rst_n == 1'b0) begin
             Icache_stall_flag = 1'b0;
         end
-        if( (rom_ready_buffer == 1'b0 && rom_ready_i == 1'b1) || (if_jump_Icache_i == 1'b1 && Icache_hit_i == 1'b1))
+
+        else if(if_req_Icache_i == 1'b1 && Icache_hit_i == 1'b0) begin // hit can be get instantly    ---------------------------------！！！！！！！no delay， so no need to back
+            Icache_stall_flag = 1'b1;                                   //notice: has a first and second sequence in a time
+        end                                                     //priority is higher than next branch
+
+
+        else if( (rom_ready_buffer == 1'b0 && rom_ready_i == 1'b1) || (if_jump_Icache_i == 1'b1 && Icache_hit_i == 1'b1) ||              //最后一个分支是重点！！！！！！！
+                (if_req_Icache_i == 1'b1 && Icache_hit_i == 1'b1) ) begin
             Icache_stall_flag = 1'b0;
-        else if(if_req_Icache_i == 1'b1 && Icache_hit_i == 1'b0)  // hit can be get instantly
-            Icache_stall_flag = 1'b1;
+        end
+        
+        else 
+            Icache_stall_flag = Icache_stall_flag;
     end
 
 assign fc_Icache_data_valid_o = Icache_ready_i;
@@ -133,6 +144,7 @@ assign fc_Dcache_data_valid_o = Dcache_ready_i;
 always@(*)begin
     fc_bk_if_o = 1'b0;
     fc_bk_id_o = 1'b0;
+    fc_bk_wb_o = 1'b0;
 
     fc_bk_ifid_o = 1'b0;
     fc_bk_idex_o = 1'b0;
@@ -163,7 +175,12 @@ end
 
 
 
-//------------------- for flush
+//------------------- for flush\
+
+assign fc_jump_flag_if_o = ex_branch_flag_i | id_jump_flag_i;
+assign fc_jump_pc_if_o = ex_branch_flag_i ? ex_branch_pc_i : 
+                            id_jump_flag_i ? id_jump_pc_i : 32'h0;
+
 
 always@(*)begin
 
@@ -172,6 +189,7 @@ always@(*)begin
     fc_flush_exmem_o = 1'b0;
     fc_flush_memwb_o = 1'b0;
     fc_flush_id_o = 1'b0; 
+    fc_flush_wb_o = 1'b0;
 
     if(id_jump_flag_i == 1'b1)begin  //jtype
         fc_flush_ifid_o = 1'b1;

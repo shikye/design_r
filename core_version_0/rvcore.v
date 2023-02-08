@@ -11,16 +11,26 @@ module rvcore(
     input   wire            [127:0] ram_data_i,
 
     //to rom
-    output  reg                     rvcore_req_rom_o,
-    output  reg             [31:0]  rvcore_addr_rom_o,
+    output  wire                    rvcore_req_rom_o,
+    output  wire            [31:0]  rvcore_addr_rom_o,
 
     //to ram
-    output  reg                     rvcore_Dcache_rd_req_o,
-    output  reg             [31:0]  rvcore_Dcache_rd_addr_o,
-    output  reg                     rvcore_Dcache_wb_req_o,
-    output  reg             [31:0]  rvcore_Dcache_wb_addr_o,
-    output  reg             [127:0] rvcore_Dcache_wb_data_o
+    output  wire                    rvcore_Dcache_rd_req_o,
+    output  wire            [31:0]  rvcore_Dcache_rd_addr_o,
+    output  wire                    rvcore_Dcache_wb_req_o,
+    output  wire            [31:0]  rvcore_Dcache_wb_addr_o,
+    output  wire            [127:0] rvcore_Dcache_wb_data_o
 );
+
+
+    assign rvcore_req_rom_o = Icache_valid_req_o;
+    assign rvcore_addr_rom_o = Icache_addr_o;
+    assign rvcore_Dcache_rd_req_o = Dcache_rd_req_o;
+    assign rvcore_Dcache_rd_addr_o = Dcache_rd_addr_o;
+    assign rvcore_Dcache_wb_req_o = Dcache_wb_req_o;
+    assign rvcore_Dcache_wb_addr_o = Dcache_wb_addr_o;
+    assign rvcore_Dcache_wb_data_o = Dcache_wb_data_o;
+
 
     //source 
     //IF
@@ -152,8 +162,9 @@ module rvcore(
     wire             Dcache_hit_o;
     wire             Dcache_rd_req_o; 
     wire     [31:0]  Dcache_rd_addr_o;
+    wire             Dcache_wb_req_o;
     wire     [31:0]  Dcache_wb_addr_o;
-    wire     [127:0] Dcache_data_ram_o;
+    wire     [127:0] Dcache_wb_data_o;
 
     //FC
     wire             fc_Icache_data_valid_o;
@@ -164,6 +175,7 @@ module rvcore(
     wire             fc_flush_exmem_o;
     wire             fc_flush_memwb_o;
     wire             fc_flush_id_o;
+    wire             fc_flush_wb_o;
     
     wire     [31:0]  fc_jump_pc_if_o;
     wire             fc_jump_flag_if_o;
@@ -171,13 +183,11 @@ module rvcore(
     
     wire             fc_bk_if_o;
     wire             fc_bk_id_o;
+    wire             fc_bk_wb_o;
     wire             fc_bk_ifid_o;
     wire             fc_bk_idex_o;
     wire             fc_bk_exmem_o;
     wire             fc_bk_memwb_o;
-
-
-
 
 
 
@@ -478,13 +488,13 @@ module rvcore(
         .Icache_ready_o(Icache_ready_o),
         .Icache_hit_o(Icache_hit_o),
 
-        .fc_jump_stop_Icache_i(fc_jump_stop_Icache_o),
+        .fc_jump_flag_Icache_i(fc_jump_flag_Icache_o),
 
         .Icache_addr_o(Icache_addr_o),
         .Icache_valid_req_o(Icache_valid_req_o),
 
-        .mem_ready_i(mem_ready_o),
-        .mem_data_i(mem_data_o)
+        .mem_ready_i(rom_ready_i),
+        .mem_data_i(rom_data_i)
     );
 
     Dcache Dcache_ins(
@@ -492,7 +502,7 @@ module rvcore(
         .rst_n(rst_n),
 
         .mem_rw_i(mem_rw_o), 
-        .mem_valid_req_i(mem_valid_req_o), 
+        .mem_req_Dcache_i(mem_req_Dcache_o), 
 
         .mem_addr_i(mem_addr_o), 
         .mem_wrwidth_i(mem_wrwidth_o), 
@@ -508,10 +518,10 @@ module rvcore(
 
         .Dcache_wb_req_o(Dcache_wb_req_o),  
         .Dcache_wb_addr_o(Dcache_wb_addr_o),
-        .Dcache_data_ram_o(Dcache_data_ram_o),
+        .Dcache_wb_data_o(Dcache_wb_data_o),
 
-        .ram_data_i(ram_data_o),
-        .ram_ready_i(ram_ready_o)
+        .ram_data_i(ram_data_i),
+        .ram_ready_i(ram_ready_i)
     );
 
     Flow_Ctrl fc_ins(
@@ -537,8 +547,8 @@ module rvcore(
 
         .fc_Dcache_data_valid_o(fc_Dcache_data_valid_o),
 
-        .rom_ready_i(rom_ready_o),
-        .ram_ready_i(ram_ready_o),
+        .rom_ready_i(rom_ready_i),
+        .ram_ready_i(ram_ready_i),
 
         .mem_req_Dcache_i(mem_req_Dcache_o),
 
@@ -547,6 +557,7 @@ module rvcore(
         .fc_flush_exmem_o(fc_flush_exmem_o),
         .fc_flush_memwb_o(fc_flush_memwb_o),
         .fc_flush_id_o(fc_flush_id_o),
+        .fc_flush_wb_o(fc_flush_wb_o),
 
         .fc_jump_pc_if_o(fc_jump_pc_if_o),
         .fc_jump_flag_if_o(fc_jump_flag_if_o),
@@ -554,6 +565,7 @@ module rvcore(
 
         .fc_bk_if_o(fc_bk_if_o),
         .fc_bk_id_o(fc_bk_id_o),
+        .fc_bk_wb_o(fc_bk_wb_o),
         .fc_bk_ifid_o(fc_bk_ifid_o),
         .fc_bk_idex_o(fc_bk_idex_o),
         .fc_bk_exmem_o(fc_bk_exmem_o),

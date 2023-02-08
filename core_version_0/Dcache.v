@@ -17,7 +17,7 @@ module Dcache(
 
     //from mem
     input   wire                    mem_rw_i, //0-w,1-r
-    input   wire                    mem_valid_req_i,  //include read and write req
+    input   wire                    mem_req_Dcache_i,  //include read and write req
 
     input   wire            [31:0]  mem_addr_i,  //include read addr and write addr
     input   wire            [1:0]   mem_wrwidth_i, //write width
@@ -40,7 +40,7 @@ module Dcache(
     
     output  reg                     Dcache_wb_req_o,  //write back
     output  reg             [31:0]  Dcache_wb_addr_o,
-    output  reg             [127:0] Dcache_data_ram_o,
+    output  reg             [127:0] Dcache_wb_data_o,
 
 
     //from ram
@@ -157,7 +157,7 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
 
         Dcache_wb_req_o <= 1'b0;
         Dcache_wb_addr_o <= 32'h0;
-        Dcache_data_ram_o <= 128'h0;   
+        Dcache_wb_data_o <= 128'h0;   
 
 
         cur_state <= Idle_or_Compare_Tag;
@@ -168,7 +168,7 @@ always @ (posedge clk or negedge rst_n)begin   //the key judge conditions
 
             Idle_or_Compare_Tag:begin
                 
-                if(mem_valid_req_i == 1'b1) begin
+                if(mem_req_Dcache_i == 1'b1) begin
 
                     if(Dcache_hit_o == 1'b1)begin   //write hit or read hit
 

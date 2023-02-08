@@ -19,42 +19,38 @@ module IF(
 
     reg start_flag; //need a start state
 
-    reg [31:0]  PC_Buffer;  //for back_and_keep
 
     always@(posedge clk or negedge rst_n)begin
         if(rst_n == 1'b0)begin      //start state
             if_pc_o <= 32'h0;
             if_req_Icache_o <= 1'b0;
             start_flag <= 1'b1;
-            PC_Buffer <= 32'h0;
             if_jump_Icache_o <= 1'b0;
         end
         else if(start_flag == 1'b1)begin
             if_pc_o <= 32'h0;
             if_req_Icache_o <= 1'b1;
             start_flag <= 1'b0;
-            PC_Buffer <= if_pc_o;
             if_jump_Icache_o <= 1'b0;
         end
-        else if(fc_bk_if_i == 1'b1)begin
-            if_pc_o <= PC_Buffer;       //back
-            if_req_Icache_o <= 1'b0;
-            start_flag <= 1'b0;
-            PC_Buffer <= PC_Buffer;    //to keep
-            if_jump_Icache_o <= 1'b0;
-        end
-        else if(fc_jump_flag_if_i == 1'b1)begin
-            if_pc_o <= fc_jump_pc_if_i;
-            if_req_Icache_o <= 1'b1;
-            start_flag <= 1'b0;
-            PC_Buffer <= if_pc_o;
+        else if(fc_jump_flag_if_i == 1'b1)begin  //priority of jump is higher than bk
+            if_pc_o <= fc_jump_pc_if_i;             //when present inst need to bk
+            if_req_Icache_o <= 1'b1;                //but last inst is a jump
+            start_flag <= 1'b0;                     //present inst don't need to excute
             if_jump_Icache_o <= 1'b1;
         end
+
+        else if(fc_bk_if_i == 1'b1)begin
+            if_pc_o <= if_pc_o;       
+            if_req_Icache_o <= 1'b0;
+            start_flag <= 1'b0;
+            if_jump_Icache_o <= 1'b0;
+        end
+        
         else begin
             if_pc_o <= if_pc_o + 32'd4;
             if_req_Icache_o <= 1'b1;
             start_flag <= 1'b0;
-            PC_Buffer <= if_pc_o;
             if_jump_Icache_o <= 1'b0;
         end
     end

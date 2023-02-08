@@ -7,7 +7,7 @@ module ram (
     
     input   wire                    Dcache_wb_req_i,
     input   wire            [31:0]  Dcache_wb_addr_i,
-    input   wire            [127:0] Dcache_data_ram_i,
+    input   wire            [127:0] Dcache_wb_data_i,
     //to Dcache
     output  reg             [127:0] ram_data_o,
     output  reg                     ram_ready_o
@@ -44,22 +44,22 @@ module ram (
                 ram_ready_o <= 1'b1;
             end
             else if (Dcache_wb_req_i == 1'b1) begin
-                ram_mem[Dcache_wb_addr_i]       <=  Dcache_data_ram_i[7:0];
-                ram_mem[Dcache_wb_addr_i+1]     <=  Dcache_data_ram_i[15:8];
-                ram_mem[Dcache_wb_addr_i+2]     <=  Dcache_data_ram_i[23:16];
-                ram_mem[Dcache_wb_addr_i+3]     <=  Dcache_data_ram_i[31:24];
-                ram_mem[Dcache_wb_addr_i+4]     <=  Dcache_data_ram_i[39:32];
-                ram_mem[Dcache_wb_addr_i+5]     <=  Dcache_data_ram_i[47:40];
-                ram_mem[Dcache_wb_addr_i+6]     <=  Dcache_data_ram_i[55:48];
-                ram_mem[Dcache_wb_addr_i+7]     <=  Dcache_data_ram_i[63:56];
-                ram_mem[Dcache_wb_addr_i+8]     <=  Dcache_data_ram_i[71:64];
-                ram_mem[Dcache_wb_addr_i+9]     <=  Dcache_data_ram_i[79:72];
-                ram_mem[Dcache_wb_addr_i+10]    <=  Dcache_data_ram_i[87:80];
-                ram_mem[Dcache_wb_addr_i+11]    <=  Dcache_data_ram_i[95:88];
-                ram_mem[Dcache_wb_addr_i+12]    <=  Dcache_data_ram_i[103:96];
-                ram_mem[Dcache_wb_addr_i+13]    <=  Dcache_data_ram_i[111:104];
-                ram_mem[Dcache_wb_addr_i+14]    <=  Dcache_data_ram_i[119:112];
-                ram_mem[Dcache_wb_addr_i+15]    <=  Dcache_data_ram_i[127:120];
+                ram_mem[Dcache_wb_addr_i]       <=  Dcache_wb_data_i[7:0];
+                ram_mem[Dcache_wb_addr_i+1]     <=  Dcache_wb_data_i[15:8];
+                ram_mem[Dcache_wb_addr_i+2]     <=  Dcache_wb_data_i[23:16];
+                ram_mem[Dcache_wb_addr_i+3]     <=  Dcache_wb_data_i[31:24];
+                ram_mem[Dcache_wb_addr_i+4]     <=  Dcache_wb_data_i[39:32];
+                ram_mem[Dcache_wb_addr_i+5]     <=  Dcache_wb_data_i[47:40];
+                ram_mem[Dcache_wb_addr_i+6]     <=  Dcache_wb_data_i[55:48];
+                ram_mem[Dcache_wb_addr_i+7]     <=  Dcache_wb_data_i[63:56];
+                ram_mem[Dcache_wb_addr_i+8]     <=  Dcache_wb_data_i[71:64];
+                ram_mem[Dcache_wb_addr_i+9]     <=  Dcache_wb_data_i[79:72];
+                ram_mem[Dcache_wb_addr_i+10]    <=  Dcache_wb_data_i[87:80];
+                ram_mem[Dcache_wb_addr_i+11]    <=  Dcache_wb_data_i[95:88];
+                ram_mem[Dcache_wb_addr_i+12]    <=  Dcache_wb_data_i[103:96];
+                ram_mem[Dcache_wb_addr_i+13]    <=  Dcache_wb_data_i[111:104];
+                ram_mem[Dcache_wb_addr_i+14]    <=  Dcache_wb_data_i[119:112];
+                ram_mem[Dcache_wb_addr_i+15]    <=  Dcache_wb_data_i[127:120];
             
                 ram_ready_o <= 1'b1;
             end
