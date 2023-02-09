@@ -56,27 +56,15 @@ module WB (
 
 
     always @(*)begin
-        if(memwb_mtype_i == 1'b1)begin   //access to Dcache
-            if(fc_bk_wb_i == 1'b1)begin
-                wb_op_c_o = Data_Buffer;
-            end
-            else if(fc_flush_wb_i == 1'b1) begin
-                wb_op_c_o = 32'h0;
-            end
-            else begin
-                if(fc_Dcache_data_valid_i == 1'b1) begin
-                    case(memwb_width_i)
-                        2'b01: wb_op_c_o = { {24{Dcache_data_i[7]}}, Dcache_data_i[7:0] };
-                        2'b10: wb_op_c_o = { {16{Dcache_data_i[15]}}, Dcache_data_i[15:0] };
-                        2'b11: wb_op_c_o = Dcache_data_i;
-                        default: wb_op_c_o = 32'h0;
-                    endcase
-                end
-                else begin
-                    wb_op_c_o = 32'h0;
-                end
-            end
+        if(fc_Dcache_data_valid_i == 1'b1) begin
+            case(memwb_width_i)
+                2'b01: wb_op_c_o = { {24{Dcache_data_i[7]}}, Dcache_data_i[7:0] };
+                2'b10: wb_op_c_o = { {16{Dcache_data_i[15]}}, Dcache_data_i[15:0] };
+                2'b11: wb_op_c_o = Dcache_data_i;
+                default: wb_op_c_o = 32'h0;
+            endcase
         end
+
         else begin
             if(fc_bk_wb_i == 1'b1)begin
                 wb_op_c_o = Data_Buffer;
@@ -92,22 +80,11 @@ module WB (
     end
 
     always @(*)begin
-        if(memwb_mtype_i == 1'b1)begin   //access to Dcache
-            if(fc_bk_wb_i == 1'b1)begin
-                wb_reg_we_o = 1'b0;
-            end
-            else if(fc_flush_wb_i == 1'b1) begin
-                wb_reg_we_o = 1'b0;
-            end
-            else begin
-                if(fc_Dcache_data_valid_i == 1'b1) begin
-                    wb_reg_we_o = memwb_reg_we_i;
-                end
-                else begin
-                    wb_reg_we_o = 32'h0;
-                end
-            end
+
+        if(fc_Dcache_data_valid_i == 1'b1) begin
+            wb_reg_we_o = memwb_reg_we_i;
         end
+        
         else begin
             if(fc_bk_wb_i == 1'b1)begin
                 wb_reg_we_o = 1'b0;

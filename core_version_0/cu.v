@@ -195,23 +195,23 @@ wire [6:0]  func7   = id_func7_i;
                 
                 case(func3)
                     `I_LB:begin
-                        cu_mem_width_o = 2'd0;
+                        cu_mem_width_o = 2'd1;
                         cu_mem_rdtype_o = 1'b0;
                     end
                     `I_LH:begin
-                        cu_mem_width_o = 2'd1;
-                        cu_mem_rdtype_o = 1'b0;
-                    end
-                    `I_LW:begin
                         cu_mem_width_o = 2'd2;
                         cu_mem_rdtype_o = 1'b0;
                     end
+                    `I_LW:begin
+                        cu_mem_width_o = 2'd3;
+                        cu_mem_rdtype_o = 1'b0;
+                    end
                     `I_LBU:begin
-                        cu_mem_width_o = 2'd0;
+                        cu_mem_width_o = 2'd1;
                         cu_mem_rdtype_o = 1'b1;
                     end
                     `I_LHU:begin
-                        cu_mem_width_o = 2'd1;
+                        cu_mem_width_o = 2'd2;
                         cu_mem_rdtype_o = 1'b1;
                     end
 
@@ -228,9 +228,9 @@ wire [6:0]  func7   = id_func7_i;
                 cu_mem_rdtype_o = 1'b0;
                 
                 case(func3)
-                    `S_SB:cu_mem_width_o = 2'd0;
-                    `S_SH:cu_mem_width_o = 2'd1;
-                    `S_SW:cu_mem_width_o = 2'd2;
+                    `S_SB:cu_mem_width_o = 2'd1;
+                    `S_SH:cu_mem_width_o = 2'd2;
+                    `S_SW:cu_mem_width_o = 2'd3;
                     default:cu_mem_width_o = 2'd0;
                 endcase
             end

@@ -25,7 +25,7 @@ module MEM (
 
     output  wire            [31:0]  mem_addr_o,
     output  wire            [1:0]   mem_wrwidth_o,
-    output  wire            [31:0]  mem_wr_data_o
+    output  wire            [31:0]  mem_wr_data_o    
 );
 
 

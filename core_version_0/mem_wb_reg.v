@@ -19,12 +19,6 @@ module mem_wb_reg (
     input   wire                    fc_bk_memwb_i
 );
 
-    reg [31:0]  Op_C_Buffer;
-    reg [4:0]   Reg_Waddr_Buffer;
-    reg         Reg_We_Buffer;
-    reg         Mtype_Buffer;
-    reg [1:0]   Mem_Width_Buffer;
-
 
 
     always@(posedge clk or negedge rst_n)begin
@@ -36,28 +30,14 @@ module mem_wb_reg (
 
             memwb_mtype_o <= 1'b0;
             memwb_width_o <= 2'b0;
-
-            Op_C_Buffer <= 32'h0;
-            Reg_Waddr_Buffer <= 5'h0;
-            Reg_We_Buffer <= 1'b0;
-
-            Mtype_Buffer <= 1'b0;
-            Mem_Width_Buffer <= 2'b0;
         end
         else if(fc_bk_memwb_i == 1'b1)begin
-            memwb_op_c_o <= Op_C_Buffer;
-            memwb_reg_waddr_o <= Reg_Waddr_Buffer;
-            memwb_reg_we_o <= Reg_We_Buffer;
+            memwb_op_c_o <= memwb_op_c_o;
+            memwb_reg_waddr_o <= memwb_reg_waddr_o;
+            memwb_reg_we_o <= memwb_reg_we_o;
 
-            memwb_mtype_o <= Mtype_Buffer;
-            memwb_width_o <= Mem_Width_Buffer;
-
-            Op_C_Buffer <= Op_C_Buffer;
-            Reg_Waddr_Buffer <= Reg_Waddr_Buffer;
-            Reg_We_Buffer <= Reg_We_Buffer;
-
-            Mtype_Buffer <= Mtype_Buffer;
-            Mem_Width_Buffer <= Mem_Width_Buffer;
+            memwb_mtype_o <= memwb_mtype_o;
+            memwb_width_o <= memwb_width_o;
         end
         else if(fc_flush_memwb_i == 1'b1)begin
             memwb_op_c_o <= 32'h0;
@@ -66,13 +46,6 @@ module mem_wb_reg (
 
             memwb_mtype_o <= 1'b0;
             memwb_width_o <= 2'b0;
-
-            Op_C_Buffer <= 32'h0;
-            Reg_Waddr_Buffer <= 5'h0;
-            Reg_We_Buffer <= 1'b0;
-
-            Mtype_Buffer <= 1'b0;
-            Mem_Width_Buffer <= 2'b0;
         end
         else begin
             memwb_op_c_o <= mem_op_c_i;
@@ -81,15 +54,7 @@ module mem_wb_reg (
 
             memwb_mtype_o <= mem_mtype_i;
             memwb_width_o <= mem_width_i;
-
-            Op_C_Buffer <= memwb_op_c_o;
-            Reg_Waddr_Buffer <= memwb_reg_waddr_o;
-            Reg_We_Buffer <= memwb_reg_we_o;
-
-            Mtype_Buffer <= memwb_mtype_o;
-            Mem_Width_Buffer <= memwb_width_o;
         end
-
     end
     
 

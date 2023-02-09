@@ -184,6 +184,7 @@ module rvcore(
     wire             fc_bk_if_o;
     wire             fc_bk_id_o;
     wire             fc_bk_wb_o;
+    wire             fc_bk_mem_o;
     wire             fc_bk_ifid_o;
     wire             fc_bk_idex_o;
     wire             fc_bk_exmem_o;
@@ -565,6 +566,7 @@ module rvcore(
 
         .fc_bk_if_o(fc_bk_if_o),
         .fc_bk_id_o(fc_bk_id_o),
+        .fc_bk_mem_o(fc_bk_mem_o),
         .fc_bk_wb_o(fc_bk_wb_o),
         .fc_bk_ifid_o(fc_bk_ifid_o),
         .fc_bk_idex_o(fc_bk_idex_o),

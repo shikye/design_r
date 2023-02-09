@@ -14,7 +14,8 @@ module tb;
     end
 
     initial begin
-        $readmemh("./inst",tb.soc_ins.rom_ins.rom_mem);
+        $readmemh("./rom.mem",tb.soc_ins.rom_ins.rom_mem);
+        $readmemh("./ram.mem",tb.soc_ins.ram_ins.ram_mem);
     end
 
 

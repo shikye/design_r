@@ -71,7 +71,7 @@ module ID (
 
 
 
-//-----for back_and_keep------
+//-----for other keep and Icache_inst need to store------
     reg [31:0]  Inst_Buffer;
     reg         Icache_in_Buffer;
 
@@ -98,7 +98,6 @@ module ID (
             
             if(Icache_in_Buffer == 1'b1)
                 Icache_in_Buffer <= 1'b0;
-
         end
     end
 
@@ -106,13 +105,19 @@ module ID (
 
     wire [31:0] inst;
 
-    assign inst = delay_flag ? 32'h0 : fc_Icache_data_valid_i ? Icache_inst_i : 32'h0; //之后再改
+    reg Dcache_stall_end;
 
+    assign inst = Dcache_stall_end ? Inst_Buffer : (fc_bk_id_i == 1'b1) ? 32'h0 : delay_flag ? 32'h0 : fc_Icache_data_valid_i ? Icache_inst_i : 32'h0;
+
+    always@(posedge clk or negedge rst_n)begin
+        if(rst_n == 1'b0)
+            Dcache_stall_end <= 1'b0;
+        else if((fc_bk_id_i == 1'b0) && Icache_in_Buffer == 1'b1)
+            Dcache_stall_end <= 1'b1;
+        else 
+            Dcache_stall_end <= 1'b0;
     
-
-
-
-
+    end
 
 //  wire [31:0] inst = fc_bk_id_i ? Inst_Buffer : delay_flag ? 32'h0 : Icache_inst;
 //                                    back           flush

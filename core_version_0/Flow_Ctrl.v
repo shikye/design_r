@@ -66,6 +66,7 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
 
     output  reg                     fc_bk_if_o,
     output  reg                     fc_bk_id_o,
+    output  reg                     fc_bk_mem_o,
     output  reg                     fc_bk_wb_o,
 
     output  reg                     fc_bk_ifid_o,
@@ -132,7 +133,7 @@ always@(*) begin
         Dcache_stall_flag = 1'b0;
     else if(mem_req_Dcache_i == 1'b1 && Dcache_hit_i == 1'b0)
         Dcache_stall_flag = 1'b1;
-    else if(ram_ready_buffer == 1'b0 && ram_ready_i == 1'b1)  // one open condition
+    else if(ram_ready_buffer == 1'b0 && ram_ready_i == 1'b1 || (mem_req_Dcache_i == 1'b1 && Dcache_hit_i == 1'b1) )  // one open condition
         Dcache_stall_flag = 1'b0;
 end
 
@@ -144,6 +145,7 @@ assign fc_Dcache_data_valid_o = Dcache_ready_i;
 always@(*)begin
     fc_bk_if_o = 1'b0;
     fc_bk_id_o = 1'b0;
+    fc_bk_mem_o = 1'b0;
     fc_bk_wb_o = 1'b0;
 
     fc_bk_ifid_o = 1'b0;
@@ -153,14 +155,13 @@ always@(*)begin
 
     if(Icache_stall_flag == 1'b1)begin
         fc_bk_if_o = 1'b1;
-        fc_bk_id_o = 1'b1;
-
-        fc_bk_ifid_o = 1'b1;
     end
 
     if(Dcache_stall_flag == 1'b1)begin
         fc_bk_if_o = 1'b1;
         fc_bk_id_o = 1'b1;
+        fc_bk_mem_o = 1'b1;
+        fc_bk_wb_o = 1'b1;
 
         fc_bk_ifid_o = 1'b1;
         fc_bk_idex_o = 1'b1;
@@ -175,7 +176,7 @@ end
 
 
 
-//------------------- for flush\
+//------------------- for flush
 
 assign fc_jump_flag_if_o = ex_branch_flag_i | id_jump_flag_i;
 assign fc_jump_pc_if_o = ex_branch_flag_i ? ex_branch_pc_i : 
