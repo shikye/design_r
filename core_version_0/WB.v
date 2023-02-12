@@ -10,7 +10,7 @@ module WB (
     //to regs
     output  reg             [31:0]  wb_op_c_o,
     output  wire            [4:0]   wb_reg_waddr_o,
-    output  reg                     wb_reg_we_o,
+    output  wire                    wb_reg_we_o,
     //from Dcache
     input   wire            [31:0]  Dcache_data_i,
     //from fc
@@ -43,9 +43,6 @@ module WB (
         else if(fc_flush_wb_i == 1'b1)begin
             Data_Buffer <= 32'h0;
         end
-        else if(fc_Dcache_data_valid_i == 1'b1) begin
-            Data_Buffer <= Dcache_data_i;
-        end
         else begin
             Data_Buffer <= memwb_op_c_i;
             
@@ -53,51 +50,35 @@ module WB (
                 Dcache_in_Buffer <= 1'b0;
         end
     end
+    
 
 
-    always @(*)begin
-        if(fc_Dcache_data_valid_i == 1'b1) begin
-            case(memwb_width_i)
-                2'b01: wb_op_c_o = { {24{Dcache_data_i[7]}}, Dcache_data_i[7:0] };
-                2'b10: wb_op_c_o = { {16{Dcache_data_i[15]}}, Dcache_data_i[15:0] };
-                2'b11: wb_op_c_o = Dcache_data_i;
-                default: wb_op_c_o = 32'h0;
-            endcase
-        end
-
-        else begin
-            if(fc_bk_wb_i == 1'b1)begin
-                wb_op_c_o = Data_Buffer;
-            end
-            else if(fc_flush_wb_i == 1'b1) begin
-                wb_op_c_o = 32'h0;
+    always @(*) begin
+        if(memwb_mtype_i == 1'b1)begin
+            if(fc_Dcache_data_valid_i == 1'b1)begin
+                case(memwb_width_i)
+                    2'b01: wb_op_c_o = { {24{Dcache_data_i[7]}}, Dcache_data_i[7:0] };
+                    2'b10: wb_op_c_o = { {16{Dcache_data_i[15]}}, Dcache_data_i[15:0] };
+                    2'b11: wb_op_c_o = Dcache_data_i;
+                    default: wb_op_c_o = 32'h0;
+                endcase
             end
             else begin
-                wb_op_c_o = memwb_op_c_i;
+                case(memwb_width_i)
+                    2'b01: wb_op_c_o = { {24{Data_Buffer[7]}}, Data_Buffer[7:0] };
+                    2'b10: wb_op_c_o = { {16{Data_Buffer[15]}}, Data_Buffer[15:0] };
+                    2'b11: wb_op_c_o = Data_Buffer;
+                    default: wb_op_c_o = 32'h0;
+                endcase
             end
         end
-    
-    end
-
-    always @(*)begin
-
-        if(fc_Dcache_data_valid_i == 1'b1) begin
-            wb_reg_we_o = memwb_reg_we_i;
-        end
-        
         else begin
-            if(fc_bk_wb_i == 1'b1)begin
-                wb_reg_we_o = 1'b0;
-            end
-            else if(fc_flush_wb_i == 1'b1) begin
-                wb_reg_we_o = 1'b0;
-            end
-            else begin
-                wb_reg_we_o = memwb_reg_we_i;
-            end
+            wb_op_c_o = memwb_op_c_i;
         end
-    
     end
+
+    
+    assign wb_reg_we_o = memwb_reg_we_i;
 
 
 

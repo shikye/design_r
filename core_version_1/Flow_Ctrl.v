@@ -8,6 +8,9 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     //from id
     input   wire                    id_jump_flag_i,
     input   wire            [31:0]  id_jump_pc_i,
+
+
+    input   wire                    id_load_use_flag_i,  //load_use
     //from ex
     input   wire                    ex_branch_flag_i,
     input   wire            [31:0]  ex_branch_pc_i,
@@ -39,7 +42,7 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     input   wire                    ram_ready_i,
 
     //from mem
-    input   wire                    mem_req_Dcache_i,
+    input   wire                    ex_req_Dcache_i,
 
 
 //-------Flush: Jal,Jalr,Btype ------- to if_id_reg, id_ex_reg, 
@@ -51,7 +54,8 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
     output  reg                     fc_flush_exmem_o,
     output  reg                     fc_flush_memwb_o,
     output  reg                     fc_flush_id_o,
-    output  reg                     fc_flush_wb_o,
+    output  reg                     fc_flush_ex_o,
+    output  reg                     fc_flush_mem_o,
 
 
     output  wire            [31:0]  fc_jump_pc_if_o,
@@ -66,6 +70,7 @@ module Flow_Ctrl(                  //Flush, Stall, Jump
 
     output  reg                     fc_bk_if_o,
     output  reg                     fc_bk_id_o,
+    output  reg                     fc_bk_ex_o,
     output  reg                     fc_bk_mem_o,
     output  reg                     fc_bk_wb_o,
 
@@ -134,9 +139,9 @@ end
 always@(*) begin
     if(rst_n == 1'b0)
         Dcache_stall_flag = 1'b0;
-    else if(mem_req_Dcache_i == 1'b1 && Dcache_hit_i == 1'b0)
+    else if(ex_req_Dcache_i == 1'b1 && Dcache_hit_i == 1'b0)
         Dcache_stall_flag = 1'b1;
-    else if(ram_ready_buffer == 1'b0 && ram_ready_i == 1'b1 || (mem_req_Dcache_i == 1'b1 && Dcache_hit_i == 1'b1) )  // one open condition
+    else if(ram_ready_buffer == 1'b0 && ram_ready_i == 1'b1 || (ex_req_Dcache_i == 1'b1 && Dcache_hit_i == 1'b1) )  // one open condition
         Dcache_stall_flag = 1'b0;
 end
 
@@ -148,6 +153,7 @@ assign fc_Dcache_data_valid_o = Dcache_ready_i;
 always@(*)begin
     fc_bk_if_o = 1'b0;
     fc_bk_id_o = 1'b0;
+    fc_bk_ex_o = 1'b0;
     fc_bk_mem_o = 1'b0;
     fc_bk_wb_o = 1'b0;
 
@@ -165,6 +171,7 @@ always@(*)begin
     if(Dcache_stall_flag == 1'b1)begin
         fc_bk_if_o = 1'b1;
         fc_bk_id_o = 1'b1;
+        fc_bk_ex_o = 1'b1;
         fc_bk_mem_o = 1'b1;
         fc_bk_wb_o = 1'b1;
 
@@ -174,6 +181,11 @@ always@(*)begin
         fc_bk_memwb_o = 1'b1;
 
         fc_bk_Icache_o = 1'b1;
+    end
+
+    else if(id_load_use_flag_i == 1'b1)begin
+        fc_bk_if_o = 1'b1;
+        fc_bk_ifid_o = 1'b1;
     end
 
 end
@@ -197,7 +209,8 @@ always@(*)begin
     fc_flush_exmem_o = 1'b0;
     fc_flush_memwb_o = 1'b0;
     fc_flush_id_o = 1'b0; 
-    fc_flush_wb_o = 1'b0;
+    fc_flush_ex_o = 1'b0; 
+    fc_flush_mem_o = 1'b0; 
 
     if(id_jump_flag_i == 1'b1)begin  //jtype
         fc_flush_ifid_o = 1'b1;
@@ -208,6 +221,10 @@ always@(*)begin
         fc_flush_idex_o = 1'b1;
         fc_flush_id_o = 1'b1; 
     end
+    else if(id_load_use_flag_i == 1'b1) begin
+        fc_flush_idex_o = 1'b1;  // 推出一条pop指令
+    end
+    
     
 end
 

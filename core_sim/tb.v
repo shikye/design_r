@@ -41,9 +41,10 @@ module tb;
             end
             else begin
                 $display("FAIL");
-                $display("gp = %d",tb.soc_ins.rvcore_ins.regs_ins.regs[3]);
-                $display("t4 = %d",tb.soc_ins.rvcore_ins.regs_ins.regs[29]);
-                $display("t5 = %d",tb.soc_ins.rvcore_ins.regs_ins.regs[30]);
+                $display("ra = 0x%x",tb.soc_ins.rvcore_ins.regs_ins.regs[1]);
+                $display("t0 = 0x%x",tb.soc_ins.rvcore_ins.regs_ins.regs[5]);
+                $display("t1 = 0x%x",tb.soc_ins.rvcore_ins.regs_ins.regs[6]);
+                $display("t2 = 0x%x",tb.soc_ins.rvcore_ins.regs_ins.regs[7]);
             end
             $finish;
         end
@@ -52,9 +53,10 @@ module tb;
     end
 
     always@(posedge clk) begin
-        $display("pc = %x",tb.soc_ins.rvcore_ins.IF_ins.if_pc_o);
-        $display("t4 = %d",tb.soc_ins.rvcore_ins.regs_ins.regs[29]);
-        $display("t5 = %d",tb.soc_ins.rvcore_ins.regs_ins.regs[30]);
+        $display("ra = 0x%x",tb.soc_ins.rvcore_ins.regs_ins.regs[1]);
+        $display("t0 = 0x%x",tb.soc_ins.rvcore_ins.regs_ins.regs[5]);
+        $display("t1 = 0x%x",tb.soc_ins.rvcore_ins.regs_ins.regs[6]);
+        $display("t2 = 0x%x",tb.soc_ins.rvcore_ins.regs_ins.regs[7]);
         $display("--------------------------------------------------");
     end
 

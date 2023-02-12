@@ -49,7 +49,9 @@ module ID (
     input   wire                    fc_bk_id_i,
     //to fc
     output  wire                    id_jump_flag_o,
-    output  wire            [31:0]  id_jump_pc_o
+    output  wire            [31:0]  id_jump_pc_o,
+
+    output  wire                    id_load_use_flag_o
 );
 
 
@@ -107,7 +109,7 @@ module ID (
 
     reg Dcache_stall_end;
 
-    assign inst = Dcache_stall_end ? Inst_Buffer : (fc_bk_id_i == 1'b1) ? 32'h0 : delay_flag ? 32'h0 : fc_Icache_data_valid_i ? Icache_inst_i : 32'h0;
+    assign inst = recover_flag ? Inst_Buffer : Dcache_stall_end ? Inst_Buffer : (fc_bk_id_i == 1'b1) ? 32'h0 : delay_flag ? 32'h0 : fc_Icache_data_valid_i ? Icache_inst_i : 32'h0;
 
     always@(*)begin
         if(rst_n == 1'b0)
@@ -119,11 +121,59 @@ module ID (
     
     end
 
-//  wire [31:0] inst = fc_bk_id_i ? Inst_Buffer : delay_flag ? 32'h0 : Icache_inst;
-//                                    back           flush
-    
 
-//----------------------------------------------
+//--------------------for load_use
+    reg [31:0] inst_load_use;   //store the lb inst
+    reg [4:0]  reg_load_use;
+
+    reg        load_use_flag;
+    reg        recover_flag;
+
+    assign id_load_use_flag_o = load_use_flag;
+
+   
+
+
+    always @(*) begin  
+
+        if(( rs1 == reg_load_use || rs2 == reg_load_use ) && reg_load_use != 5'd0)
+            load_use_flag = 1'b1;
+        else 
+            load_use_flag = 1'b0;
+    end
+
+    always@(posedge clk or negedge rst_n) begin
+        if(rst_n == 1'b0)
+            recover_flag <= 1'b0;
+        else if(load_use_flag == 1'b1)
+            recover_flag <= 1'b1;
+        else 
+            recover_flag <= 1'b0;
+    end
+    
+    always@(posedge clk or negedge rst_n)begin
+        if(rst_n == 1'b0) begin
+            inst_load_use <= 32'h0;
+            reg_load_use <= 5'd0;
+        end
+        else begin
+            if(opcode == `Itype_L || opcode == `Stype) begin
+                inst_load_use <= inst;
+                reg_load_use <= rd;
+            end
+            else if(opcode == `Notype) begin
+                inst_load_use <= inst_load_use;
+                reg_load_use <= reg_load_use;
+            end
+            else begin
+                inst_load_use <= 32'h0;
+                reg_load_use <= 5'd0;
+        
+            end
+        end
+    end
+
+
 
 
 

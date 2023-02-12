@@ -9,9 +9,6 @@ module ex_mem_reg (
     input   wire                    ex_mtype_i,  
     input   wire                    ex_mem_rw_i, 
     input   wire            [1:0]   ex_mem_width_i,
-    input   wire            [31:0]  ex_mem_wr_data_i,
-    input   wire                    ex_mem_rdtype_i,
-    input   wire            [31:0]  ex_mem_addr_i,
 
     //to mem
     output  reg             [31:0]  exmem_op_c_o,
@@ -21,12 +18,7 @@ module ex_mem_reg (
 
     output  reg                     exmem_mtype_o,          
     output  reg                     exmem_mem_rw_o,        
-    output  reg             [1:0]   exmem_mem_width_o,      
-    output  reg             [31:0]  exmem_mem_wr_data_o, 
-    output  reg                     exmem_mem_rdtype_o,    
-    output  reg             [31:0]  exmem_mem_addr_o,
-
-    output  reg                     exmem_req_Dcache_o,
+    output  reg             [1:0]   exmem_mem_width_o, 
 
     //from fc
     input   wire                    fc_flush_exmem_i,
@@ -45,11 +37,6 @@ module ex_mem_reg (
             exmem_mtype_o <= 1'b0;
             exmem_mem_rw_o <= 1'b0;
             exmem_mem_width_o <= 2'b0;
-            exmem_mem_wr_data_o <= 32'h0;
-            exmem_mem_rdtype_o <= 1'b0;
-            exmem_mem_addr_o <= 32'h0;
-
-            exmem_req_Dcache_o <= 1'b0;
         end
         else if(fc_bk_exmem_i == 1'b1)begin
             exmem_op_c_o <= exmem_op_c_o;
@@ -59,12 +46,6 @@ module ex_mem_reg (
             exmem_mtype_o <= exmem_mtype_o;
             exmem_mem_rw_o <= exmem_mem_rw_o;
             exmem_mem_width_o <= exmem_mem_width_o;
-            exmem_mem_wr_data_o <= exmem_mem_wr_data_o;
-            exmem_mem_rdtype_o <= exmem_mem_rdtype_o;
-            exmem_mem_addr_o <= exmem_mem_addr_o;
-
-            exmem_req_Dcache_o <= 1'b0;
-
 
         end
         else if(fc_flush_exmem_i == 1'b1)begin
@@ -75,11 +56,6 @@ module ex_mem_reg (
             exmem_mtype_o <= 1'b0;
             exmem_mem_rw_o <= 1'b0;
             exmem_mem_width_o <= 2'b0;
-            exmem_mem_wr_data_o <= 32'h0;
-            exmem_mem_rdtype_o <= 1'b0;
-            exmem_mem_addr_o <= 32'h0;
-
-            exmem_req_Dcache_o <= 1'b0;
         end
         else begin
             exmem_op_c_o <= ex_op_c_i;
@@ -89,14 +65,6 @@ module ex_mem_reg (
             exmem_mtype_o <= ex_mtype_i;
             exmem_mem_rw_o <= ex_mem_rw_i;
             exmem_mem_width_o <= ex_mem_width_i;
-            exmem_mem_wr_data_o <= ex_mem_wr_data_i;
-            exmem_mem_rdtype_o <= ex_mem_rdtype_i;
-            exmem_mem_addr_o <= ex_mem_addr_i;
-
-            if(ex_mtype_i == 1'b1)
-                exmem_req_Dcache_o <= 1'b1;
-            else 
-                exmem_req_Dcache_o <= 1'b0;
                 
         end
         

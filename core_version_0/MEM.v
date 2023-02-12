@@ -12,6 +12,8 @@ module MEM (
     input   wire            [31:0]  exmem_mem_wr_data_i, 
     input   wire                    exmem_mem_rdtype_i,    
     input   wire            [31:0]  exmem_mem_addr_i,
+
+    input   wire                    exmem_req_Dcache_i,
     //to mem_wb_reg
     output  wire            [31:0]  mem_op_c_o,
     output  wire            [4:0]   mem_reg_waddr_o,
@@ -32,7 +34,7 @@ module MEM (
     assign mem_mtype_o = exmem_mtype_i;
     assign mem_width_o = exmem_mem_width_i;
 
-    assign mem_req_Dcache_o = exmem_mtype_i;
+    assign mem_req_Dcache_o = exmem_req_Dcache_i;
     assign mem_rw_o = exmem_mem_rw_i;
     assign mem_addr_o = exmem_mem_addr_i;
     assign mem_wrwidth_o = exmem_mem_width_i;

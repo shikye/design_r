@@ -212,7 +212,9 @@ always @(posedge clk or negedge rst_n) begin
 
                     else begin    //no valid req
                         cur_state <= Idle_or_Compare_Tag;
+
                         Icache_ready_o <= 1'b0;
+                        Icache_inst_o <= 32'h0;
 
                     end
                 

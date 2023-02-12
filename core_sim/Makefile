@@ -1,5 +1,5 @@
-src = $(wildcard ../core_version_0/*.v)
-rtl_dir = ../core_version_0
+src = $(wildcard ../core_version_1/*.v)
+rtl_dir = ../core_version_1
 tb_dir = .
 
 compile_tb:
